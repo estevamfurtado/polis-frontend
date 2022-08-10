@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400&display=swap');
+
+* {
+  box-sizing: border-box;
+  transition: all ease .1s;
+}
+
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
