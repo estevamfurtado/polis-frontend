@@ -1,5 +1,5 @@
 import { Badge, HStack, Box, Button, Flex, Grid, GridItem, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, Wrap, WrapItem, Image } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext, DataContextValues } from "../../contexts/DataContext";
 import { Party, PartyRecord, Politician, Record } from "../../types";
 import { hexToRgb, rgbaToString } from "../../utils/color";
@@ -11,12 +11,17 @@ import PoliticiansRanking from "./PoliticiansRanking";
 
 export default function RankingPage() {
 
-    const { data: {completeRanking}} = useContext(DataContext)
+    const { data: {completeRanking}, hooks: {getRankingData}} = useContext(DataContext)
     const dataIsLoaded = completeRanking ? true : false;
+
+    useEffect(()=>{
+        if (!dataIsLoaded) {
+            getRankingData();
+        }
+    },[]);
 
     const [showParties, setShowParties] = useState(true);
     const [search, setSearch] = useState(null);
-
     const records = completeRanking ? completeRanking.partyRecords : [];
     const filteredRecords = records.filter(r => r.scoreTotalCount > 0);
 

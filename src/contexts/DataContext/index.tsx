@@ -73,17 +73,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
     const [completeAlbum, setCompleteAlbum] = useState<CompleteAlbum | null>(null)
     const [deck, setDeck] = useState<MyDeck | null>(null)
     
-
     useEffect(()=>{
-        if (!completeRanking) {
-            getRankingData();
-        }
-        if (!completeAlbum) {
-            getAlbumData();
-        }
-        if (!deck) {
-            getDeckData();
-        }
         if (token) {
             getUserData();
         }
@@ -110,8 +100,12 @@ export function DataProvider ({ children }: PropsWithChildren) {
     return <DataContext.Provider value={{data, hooks}}>{children}</DataContext.Provider>
 
     async function getUserData() {
-        const data = await api.getUser();
-        setUser(data.data);
+        try {
+            const data = await api.getUser();
+            setUser(data.data);
+        } catch (error) {
+            setToken(null);
+        }
     }
 
     async function getRankingData() {
