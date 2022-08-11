@@ -1,18 +1,21 @@
-import { VStack, Flex } from "@chakra-ui/react";
+import { VStack, Flex, Wrap, WrapItem } from "@chakra-ui/react";
+import { useContext } from "react";
+import { RankingContext } from "../../../contexts/RankingContext";
 import { Party, PartyRecord, Politician, Record, CompletePartyRecord } from "../../../types";
-import PartyElement from "./Party";
+import GroupElement from "./Group";
 
+export default function PoliticiansRanking () {
 
-export default function PoliticiansRanking ({partyRecords} : {partyRecords: CompletePartyRecord[]}) {
+    const {groups} = useContext(RankingContext)
 
-    const stackElements = partyRecords.map((pr, idx) => {
-        return <PartyElement record={pr} index={idx} key={idx}/>
+    const stackElements = groups.map((gp) => {
+        return <GroupElement group={gp} key={gp.title}/>
     });
 
     return <Flex direction='column' align='center' w='100%' padding={5}>
-            <VStack maxW={'780px'} w={'100%'} align={'flex-start'} >
+        <Wrap maxW={'780px'} w={'100%'} align={'flex-start'} >
             {stackElements}
-        </VStack>
+        </Wrap>
     </Flex>
 
 }

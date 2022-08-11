@@ -191,15 +191,16 @@ export type Person = {
 
 export type CompleteRanking = Ranking & {
     partyRecords: CompletePartyRecord[];
+    records: CompleteRecord[];
 }
 
 export type CompletePartyRecord = (PartyRecord & {
-    records: CompleteRecord[];
     party: Party;
 })
 
 export type CompleteRecord = (Record & {
     politician: Politician;
+    party: Party;
 })
 
 export type CompleteAlbum =  Album & {
@@ -241,4 +242,10 @@ export type Deck = {
             notPasted: number[],
         }
     }
+}
+
+export type RankingGroup = {
+    title : string
+    color: string
+    records: CompleteRecord[]
 }

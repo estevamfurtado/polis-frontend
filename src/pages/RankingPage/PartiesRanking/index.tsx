@@ -7,7 +7,10 @@ import PartyElement from "./Party";
 
 
 
-export default function PartiesRanking ({partyRecords} : {partyRecords: CompletePartyRecord[]}) {
+export default function PartiesRanking () {
+
+    const {data: {completeRanking}} = useContext(DataContext);
+    const partyRecords = completeRanking?.partyRecords ?? [];
 
     const stackElements = partyRecords.map((pr, idx) => {
         return <PartyElement partyRecord={pr} index={idx} key={idx}/>
