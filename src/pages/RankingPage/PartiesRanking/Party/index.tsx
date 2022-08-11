@@ -1,23 +1,16 @@
 import { Badge, HStack, Box, Button, Flex, Grid, GridItem, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, Wrap, WrapItem, Image } from "@chakra-ui/react";
 import { useContext } from "react";
 import { DataContext, DataContextValues } from "../../../../contexts/DataContext";
-import { party, partyRecord, politician, record } from "../../../../types";
+import { Party, PartyRecord, Politician, Record, CompletePartyRecord } from "../../../../types";
 import { hexToRgb, rgbaToString } from "../../../../utils/color";
 
-export type PartyRecord = (partyRecord & party & {
-    scoreTotal: {
-        average: number;
-        count: number;
-    }
-    politicianRecords: PoliticianRecord[]
-})
-export type PoliticianRecord = record & politician & {};
 
-export default function Party({partyRecord, index}: {partyRecord: PartyRecord, index: number}) {
 
-    const mainColor: string = partyRecord.mainColor || '#777777'
-    const avg: number = Math.round((partyRecord.scoreTotal.average || 0.0)*10);
-    const count: number = Math.round((partyRecord.scoreTotal.count || 0));
+export default function PartyElement({partyRecord, index}: {partyRecord: CompletePartyRecord, index: number}) {
+
+    const mainColor: string = partyRecord.party.mainColor || '#777777'
+    const avg: number = Math.round((partyRecord.scoreTotal || 0.0)*10);
+    const count: number = Math.round((partyRecord.scoreTotalCount || 0));
     const abb: string = partyRecord.partyAbbreviation;
 
     const rgb = hexToRgb(mainColor);

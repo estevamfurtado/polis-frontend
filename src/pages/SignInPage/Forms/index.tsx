@@ -85,11 +85,9 @@ export default function Forms () {
     async function submitHandler() {
         
         setLoading(true)
-
         const response = await signIn({...data});
 
         if (response.status === 200) {
-            console.log(response);
             setToken(response.data.token);
             toast({
                 title: 'Bem-vindo!',

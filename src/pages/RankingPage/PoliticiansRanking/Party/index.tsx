@@ -1,22 +1,15 @@
 import { Badge, Flex, Wrap } from "@chakra-ui/react";
-import { party, partyRecord, politician, record } from "../../../../types";
+import { Party, PartyRecord, Politician, Record, CompletePartyRecord } from "../../../../types";
 import { hexToRgb, rgbaToString } from "../../../../utils/color";
-import Politician from "./Politician";
+import PoliticianElement from "./Politician";
 
-export type PartyRecord = (partyRecord & party & {
-    scoreTotal: {
-        average: number;
-        count: number;
-    }
-    politicianRecords: PoliticianRecord[]
-})
-export type PoliticianRecord = record & politician & {};
 
-export default function Party ({record, index} : {record: PartyRecord, index: number}) {
 
-    const mainColor = record.mainColor || '#777777'
-    const avg: number = Math.round((record.scoreTotal.average || 0.0)*10);
-    const count: number = Math.round((record.scoreTotal.count || 0));
+export default function PartyElement ({record, index} : {record: CompletePartyRecord, index: number}) {
+
+    const mainColor = record.party.mainColor || '#777777'
+    const avg: number = Math.round((record.scoreTotal)*10);
+    const count: number = Math.round((record.scoreTotalCount));
     const abb: string = record.partyAbbreviation;
 
     const rgb = hexToRgb(mainColor);
@@ -25,8 +18,8 @@ export default function Party ({record, index} : {record: PartyRecord, index: nu
 
     const resultColor = avg > 70 ? 'green' : (avg > 65 ? 'yellow' : 'red');
 
-    const politiciansElements = record.politicianRecords.map((r, index) => {
-        return <Politician key={index} record={r} />
+    const politiciansElements = record.records.map((r, index) => {
+        return <PoliticianElement key={index} record={r} />
     })
 
     return <Flex gap={4} width={'100%'}>

@@ -8,7 +8,6 @@ export default function useInput(initialValue: any, validator: joi.Schema) : [an
     function setValue (value: any) {
         const {error} = validator.validate(value);
         if (error) {
-            console.log(error.message);
             setError(error.message);
         }
         else {setError('')}

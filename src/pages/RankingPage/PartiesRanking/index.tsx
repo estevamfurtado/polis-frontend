@@ -1,22 +1,16 @@
 import { Badge, HStack, Box, Button, Flex, Grid, GridItem, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, Wrap, WrapItem, Image } from "@chakra-ui/react";
 import { useContext } from "react";
 import { DataContext, DataContextValues } from "../../../contexts/DataContext";
-import { party, partyRecord, politician, record } from "../../../types";
+import { Party, PartyRecord, Politician, Record, CompletePartyRecord } from "../../../types";
 import { hexToRgb, rgbaToString } from "../../../utils/color";
-import Party from "./Party";
+import PartyElement from "./Party";
 
-export type PartyRecordsOrdered = (partyRecord & party & {
-    scoreTotal: {
-        average: number;
-        count: number;
-    }
-    politicianRecords: PoliticianRecord[]
-})[]
-export type PoliticianRecord = record & politician & {};
 
-export default function PartiesRanking ({partyRecords} : {partyRecords: PartyRecordsOrdered}) {
+
+export default function PartiesRanking ({partyRecords} : {partyRecords: CompletePartyRecord[]}) {
+
     const stackElements = partyRecords.map((pr, idx) => {
-        return <Party partyRecord={pr} index={idx} key={idx}/>
+        return <PartyElement partyRecord={pr} index={idx} key={idx}/>
     });
     return <>
         <TableContainer whiteSpace='pre-wrap' overflowX={'hidden'} marginY={5}>

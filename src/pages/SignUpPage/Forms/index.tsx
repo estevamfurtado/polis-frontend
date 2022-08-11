@@ -70,6 +70,9 @@ export default function Forms () {
     
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
+
+
     const validation = validatorSchema.validate({
         name, email, password, cpf, voteStateAbbreviation, phone, birthDate, skinColor, economicClass,
         diplomaticAxis, economicAxis, civilAxis, socialAxis
@@ -272,9 +275,6 @@ export default function Forms () {
 
     async function submitHandler() {
 
-        const navigate = useNavigate();
-
-        console.log('clicou');
         setLoading(true)
 
         const sendData = {} as any;

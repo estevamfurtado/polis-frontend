@@ -1,23 +1,13 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
 import useToken from "../../hooks/useToken"
-import { getAlbum, getDeck, getRanking, getUser } from "../../services/services/reqs"
+import * as api from "../../services/services/reqs"
 
 import {
-    token, card, deck, ranking, politician, candidate, album,
-    party, state, record, partyRecord, cardModel, page, sticker, person
+    token, Person,
+    CompleteRanking, CompleteAlbum,
+    MyDeck
 } from "../../types"
 
-
-type politicians = {[key: number]: politician}
-type candidates = {[key: number]: candidate}
-type parties = {id : {[key: number]: party}, abbreviation: {[key: string]: party}}
-type states = {id : {[key: number]: state}, abbreviation: {[key: string]: state}}
-type records = {[key: number]: record}
-type partyRecords = {[key: number]: partyRecord}
-type cards = {[key: number]: card}
-type stickers = {[key: number]: sticker}
-type pages = {[key: number]: page}
-type cardModels = {[key: number]: cardModel}
 
 
 export type DataContextValues = {data: {
@@ -25,80 +15,51 @@ export type DataContextValues = {data: {
         token: token | null
         setToken: (input: string | null) => void
 
-        user: person | null
-        setUser: (input: person | null) => void
+        user: Person | null
+        setUser: (input: Person | null) => void
     
-        ranking: ranking | null
-        setRanking: (ranking: ranking) => void
+        completeRanking: CompleteRanking | null
+        setCompleteRanking: (input: CompleteRanking | null) => void
 
-        politicians: politicians | null
-        setPoliticians: (politicians: politicians) => void
-        
-        candidates: candidates | null
-        setCandidates: (candidates: candidates) => void
+        completeAlbum: CompleteAlbum | null
+        setCompleteAlbum: (input: CompleteAlbum | null) => void
 
-        parties: parties | null
-        setParties: (parties: parties) => void
-
-        states: states | null
-        setStates: (states: states) => void
-
-        records: records | null
-        setRecords: (records: records) => void
-
-        partyRecords: partyRecords | null
-        setPartyRecords: (partyRecords: partyRecords) => void
-
-        cards: cards | null
-        setCards: (cards: cards) => void
-
-        stickers: stickers | null
-        setStickers: (stickers: stickers) => void
-
-        pages: pages | null
-        setPages: (pages: pages) => void
-        
-        cardModels: cardModels | null
-        setCardModels: (cardModels: cardModels) => void
+        deck: MyDeck | null
+        setDeck: (input: MyDeck | null) => void
     },
     hooks: {
         getUserData: () => void
+        getRankingData: () => void
+        getAlbumData: () => void
+        getDeckData: () => void
         logOut: () => void
+        pasteCard: (cardId: number) => Promise<void>
+        pasteAllCards: () => Promise<void>
     }
 }
 
-export const DataContext = createContext<DataContextValues>({data: {
-        token: null,
+export const DataContext = createContext<DataContextValues>({
+    data: {
+        token: '',
         user: null,
-        ranking: null,
-        cardModels: null,
-        politicians: null,
-        candidates: null,
-        parties: null,
-        states: null,
-        records: null,
-        partyRecords: null,
-        cards: null,
-        stickers: null,
-        pages: null,
+        completeRanking: null,
+        completeAlbum: null,
+        deck: null,
 
-        setToken: () => {},
-        setUser: () => {},
-        setPoliticians: () => {},
-        setCandidates: () => {},
-        setParties: () => {},
-        setStates: () => {},
-        setRecords: () => {},
-        setPartyRecords: () => {},
-        setCards: () => {},
-        setStickers: () => {},
-        setPages: () => {},
-        setCardModels: () => {},
-        setRanking: () => {}
+        setToken: (input: string | null) => {},
+        setUser: (input: Person | null) => {},
+        setCompleteRanking: (input: CompleteRanking | null) => {},
+        setCompleteAlbum: (input: CompleteAlbum | null) => {},
+        setDeck: (input: MyDeck | null) => {}
     },
     hooks: {
         getUserData: () => {},
+        getAlbumData: () => {},
+        getRankingData: () => {},
+        getDeckData: () => {},
         logOut: () => {},
+        pasteCard: async (cardId: number) => {},
+        pasteAllCards: async () => {}
     }
 })
 
@@ -106,103 +67,87 @@ export const DataContext = createContext<DataContextValues>({data: {
 export function DataProvider ({ children }: PropsWithChildren) {
 
     const [token, setToken] = useToken();
-    const [user, setUser] = useState<person | null>(null)
+    const [user, setUser] = useState<Person | null>(null)
     
-    const [ranking, setRanking] = useState<ranking | null>(null)
-    const [politicians, setPoliticians] = useState<politicians | null>(null)
+    const [completeRanking, setCompleteRanking] = useState<CompleteRanking | null>(null)
+    const [completeAlbum, setCompleteAlbum] = useState<CompleteAlbum | null>(null)
+    const [deck, setDeck] = useState<MyDeck | null>(null)
     
-    const [deck, setDeck] = useState<deck | null>(null)
-    const [cards, setCards] = useState<cards | null>(null)
-    const [cardModels, setCardModels] = useState<cardModels | null>(null)
-
-    const [parties, setParties] = useState<parties | null>(null)
-    const [states, setStates] = useState<states | null>(null)
-
-    const [album, setAlbum] = useState<album | null>(null)
-    const [pages, setPages] = useState<pages | null>(null)
-    const [stickers, setStickers] = useState<stickers | null>(null)
-
-    const [candidates, setCandidates] = useState<candidates | null>(null)
-    const [partyRecords, setPartyRecords] = useState<partyRecords | null>(null)
-    const [records, setRecords] = useState<records | null>(null)
 
     useEffect(()=>{
-        if (!ranking) {
+        if (!completeRanking) {
             getRankingData();
+        }
+        if (!completeAlbum) {
+            getAlbumData();
+        }
+        if (!deck) {
+            getDeckData();
         }
         if (token) {
             getUserData();
-            getDeckData()
-            getAlbumData();
         }
     }, [token])
 
     const data = {
         token, setToken,
         user, setUser,
-        ranking, setRanking,
-        politicians, setPoliticians,
-        deck, setDeck,
-        cards, setCards,
-        cardModels, setCardModels,
-        parties, setParties,
-        states, setStates,
-        album, setAlbum,
-        pages, setPages,
-        stickers, setStickers,
-        candidates, setCandidates,
-        partyRecords, setPartyRecords,
-        records, setRecords
+        completeRanking, setCompleteRanking,
+        completeAlbum, setCompleteAlbum,
+        deck, setDeck
     }
 
     const hooks = {
         getUserData,
-        logOut
+        getRankingData,
+        getAlbumData,
+        getDeckData,
+        logOut,
+        pasteCard,
+        pasteAllCards
     }
     
     return <DataContext.Provider value={{data, hooks}}>{children}</DataContext.Provider>
 
     async function getUserData() {
-        const data = await getUser();
+        const data = await api.getUser();
         setUser(data.data);
     }
 
     async function getRankingData() {
-        const res = await getRanking();
+        const res = await api.getRanking();
         const data = res.data;
         
-        console.log(data);
-
-        setRanking(data.ranking);
-        setRecords(data.records);
-        setStates(data.states);
-        setPoliticians(data.politicians);
-        setPartyRecords(data.partyRecords);
-        setParties(data.parties);
-        setCardModels(data.cardModels);
-    }
-
-    async function getDeckData() {
-        const res = await getDeck();
-        const data = res.data;
-        
-        setDeck(data.deck);
+        setCompleteRanking(data.ranking);
     }
 
     async function getAlbumData() {
-        const res = await getAlbum();
+        const res = await api.getAlbum();
         const data = res.data;
         
-        setAlbum(data.album);
-        setPages(data.pages);
-        setStickers(data.stickers);
+        setCompleteAlbum(data.album);
+    }
+
+    async function getDeckData() {
+        const res = await api.getDeck();
+        const data = res.data;
+        setDeck(data);
     }
 
     async function logOut() {
         setToken(null);
-        setDeck(null);
-        setAlbum(null);
-        setPages(null);
-        setStickers(null);
+        setCompleteRanking(null);
+    }
+
+    async function pasteCard(id: number) {
+        console.log('pasteCard', id);
+        await api.pasteCard(id);
+        await getDeckData();
+    }
+
+    async function pasteAllCards() {
+        console.log('pasteAllCards');
+        await api.pasteAll();
+        await getDeckData();
     }
 }

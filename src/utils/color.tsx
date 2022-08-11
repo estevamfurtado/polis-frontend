@@ -25,3 +25,8 @@ export function rgbaToString(r: number, g: number, b: number, a: number, change 
 
     return `rgba(${colors[0]}, ${colors[1]}, ${colors[2]}, ${a})`;
 }
+
+export function calculateContrast ({r, g, b}: {r: number, g: number, b: number}) {
+    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    return luminance > 128 ? 'black' : 'white';
+}

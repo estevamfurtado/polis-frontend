@@ -1,22 +1,15 @@
 import { Badge, Box, Flex, Text, WrapItem, Image } from "@chakra-ui/react";
-import { party, partyRecord, politician, record } from "../../../../../types";
-
-export type PartyRecord = (partyRecord & party & {
-    scoreTotal: {
-        average: number;
-        count: number;
-    }
-    politicianRecords: PoliticianRecord[]
-})
-export type PoliticianRecord = record & politician & {};
+import { Party, PartyRecord, Politician, Record, CompleteRecord } from "../../../../../types";
 
 
-export default function Politician ({record} : {record: PoliticianRecord}) {
+
+
+export default function PoliticianElement ({record} : {record: CompleteRecord}) {
         
-    const name = record.name;
-    const imageUrl = record.imageUrl || '';
+    const name = record.politician.name;
+    const imageUrl = record.politician.imageUrl || '';
     const uf = record.stateAbbreviation || '';
-    const points = Math.round(record.scoreTotal * 10)
+    const points = Math.round((record.scoreTotal || 0) * 10)
 
     const resultColor = points > 70 ? 'green' : (points > 65 ? 'yellow' : 'red');
 
@@ -34,8 +27,8 @@ export default function Politician ({record} : {record: PoliticianRecord}) {
                 <Badge size='sm' colorScheme={'grey'}>{uf}</Badge>
                 <Badge size='sm' colorScheme={resultColor}>{points}</Badge>
             </Flex>
-            <Box overflow='clip' objectFit='cover' bg='gray.300' flex='0 0 auto' height='80px' w='100%'>
-                <Image src={imageUrl} alt={name} boxSize='100px'/>
+            <Box overflow='clip' bg='gray.300' flex='0 0 auto' height='80px' w='100%'>
+                <Image src={imageUrl} alt={name} objectFit='cover'/>
             </Box>
             <Text fontSize='xs' flex='0 0 auto' p='1'>{name}</Text>
         </Flex>

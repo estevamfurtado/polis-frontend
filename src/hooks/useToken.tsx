@@ -8,6 +8,7 @@ export default function useToken() : [string | null, (input: string | null) => v
   useEffect(() => {
     const token = localStorage.getItem(key);
     if (token) {
+      console.log('tentan');
       setTokenState(token);
     }
   }, []);

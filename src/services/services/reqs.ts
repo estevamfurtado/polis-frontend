@@ -9,19 +9,15 @@ const headers = {
 
 
 export async function signUp(data: any) {
-  console.log(data);
   try {
-    console.log('trying to sign in!!!')
     const response = await api.post("/auth/sign-up", data);
     return {...response}
   } catch (error: any) {
-    console.log('erro')
     return {...error}
   }
 }
 
 export async function signIn(data: any) {
-  console.log(data);
   try {
     const response = await api.post("/auth/sign-in", data);
     return {...response}
@@ -69,6 +65,24 @@ export async function getAlbum() {
 export async function getDeck() {
   try {
     const response = await api.get("/deck/", {headers});
+    return {...response}
+  } catch (error: any) {
+    return {...error}
+  }
+}
+
+export async function pasteCard(id: number) {
+  try {
+    const response = await api.post(`/deck/paste/${id}`, {}, {headers});
+    return {...response}
+  } catch (error: any) {
+    return {...error}
+  }
+}
+
+export async function pasteAll() {
+  try {
+    const response = await api.post(`/deck/paste-all`, {}, {headers});
     return {...response}
   } catch (error: any) {
     return {...error}

@@ -12,6 +12,7 @@ import SignUpPage from "./pages/SignUpPage";
 import EditInfoPage from "./pages/EditInfoPage";
 import RankingPage from "./pages/RankingPage";
 import AlbumSection from "./pages/AlbumSection";
+import Pages from "./pages/Pages";
 
 export default function App() {
   return (
@@ -23,12 +24,9 @@ export default function App() {
               <Route index element={<></>}/>
               <Route path="/about" element={<></>}/>
               <Route path="/ranking" element={<RankingPage/>}/>
-              <Route path="/album" element={<AlbumSection/>}>
-                <Route path="/view">
-                  <Route index element={<></>}/>
-                  <Route path="/:pageId" element={<></>}/>
-                </Route>
-              </Route>
+              <Route path="/album" element={<AlbumSection/>}/>
+              <Route path="/album/pages" element={<Pages/>}/>
+              <Route path="/album/deck" element={<></>}/>
               <Route path="/sign-in" element={<SignInPage/>}/>
               <Route path="/sign-up" element={<SignUpPage/>}/>
               <Route path="/user" element={<EditInfoPage/>}/>

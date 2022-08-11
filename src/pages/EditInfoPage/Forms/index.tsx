@@ -281,7 +281,6 @@ export default function Forms () {
 
 
     async function submitHandler() {
-        console.log('clicou');
         setLoading(true)
 
         const sendData = {} as any;
@@ -291,9 +290,7 @@ export default function Forms () {
                 sendData[key] = data[key as keyof typeof data];
             }
         })
-
         const response = await signUp(sendData);
-        console.log(response);
         if (response.status === 201) {
             toast({
                 title: 'Infos salvas!',
