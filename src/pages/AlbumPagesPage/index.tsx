@@ -3,7 +3,7 @@ import { useContext } from "react"
 import { DataContext } from "../../contexts/DataContext"
 import Page from "./Page";
 
-export default function Pages () {
+export default function AlbumPagesPage () {
 
     const {data: {completeAlbum, deck}, hooks} = useContext(DataContext);
     const isLoaded = completeAlbum !== null;

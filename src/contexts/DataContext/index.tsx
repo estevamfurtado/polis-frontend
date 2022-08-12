@@ -35,6 +35,8 @@ export type DataContextValues = {data: {
         logOut: () => void
         pasteCard: (cardId: number) => Promise<void>
         pasteAllCards: () => Promise<void>
+        openPack: () => Promise<void>
+        openPacks: () => Promise<void>
     }
 }
 
@@ -59,7 +61,9 @@ export const DataContext = createContext<DataContextValues>({
         getDeckData: () => {},
         logOut: () => {},
         pasteCard: async (cardId: number) => {},
-        pasteAllCards: async () => {}
+        pasteAllCards: async () => {},
+        openPack: async () => {},
+        openPacks: async () => {}
     }
 })
 
@@ -94,7 +98,9 @@ export function DataProvider ({ children }: PropsWithChildren) {
         getDeckData,
         logOut,
         pasteCard,
-        pasteAllCards
+        pasteAllCards,
+        openPack,
+        openPacks
     }
     
     return <DataContext.Provider value={{data, hooks}}>{children}</DataContext.Provider>
@@ -142,6 +148,19 @@ export function DataProvider ({ children }: PropsWithChildren) {
     async function pasteAllCards() {
         console.log('pasteAllCards');
         await api.pasteAll();
+        await getDeckData();
+    }
+
+    async function openPack() {
+        console.log('calling from context');
+        await api.openOnePack();
+        console.log('api worked')
+        await getDeckData();
+        console.log('gettind data');
+    }
+
+    async function openPacks() {
+        await api.openAllPacks();
         await getDeckData();
     }
 }

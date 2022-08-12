@@ -6,8 +6,12 @@ export type Card = {
     updatedAt: Date
     stickerId: number
     isPasted: boolean
-    isNew: boolean
+    forExchange: boolean
     ownerId: number | null
+}
+
+export type CompleteCard = Card & {
+    sticker: CompleteSticker
 }
 
 export type Ranking = {
@@ -145,6 +149,7 @@ export type Page = {
     id: number
     createdAt: Date
     updatedAt: Date
+    badge: string
     title: string
     description: string
     backgroundColor: string | null

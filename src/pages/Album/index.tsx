@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { DataContext } from "../../contexts/DataContext";
 
-export default function AlbumPage () {
+export default function Album () {
 
     const { data: {deck, completeAlbum, user}, hooks: {getAlbumData, getDeckData} } = useContext(DataContext);
     const download = user && !deck && !completeAlbum;

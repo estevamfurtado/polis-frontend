@@ -88,3 +88,21 @@ export async function pasteAll() {
     return {...error}
   }
 }
+
+export async function openOnePack() {
+  try {
+    const response = await api.post(`/deck/packs/open-one`, {}, {headers});
+    return {...response}
+  } catch (error: any) {
+    return {...error}
+  }
+}
+
+export async function openAllPacks() {
+  try {
+    const response = await api.post(`/deck/packs/open-all`, {}, {headers});
+    return {...response}
+  } catch (error: any) {
+    return {...error}
+  }
+}

@@ -2,7 +2,7 @@ import { VStack, Flex, Wrap, WrapItem } from "@chakra-ui/react";
 import { useContext } from "react";
 import { RankingContext } from "../../../contexts/RankingContext";
 import { Party, PartyRecord, Politician, Record, CompletePartyRecord } from "../../../types";
-import GroupElement from "./Group";
+import GroupElement from "./Party";
 
 export default function PoliticiansRanking () {
 
