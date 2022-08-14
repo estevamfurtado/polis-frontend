@@ -21,7 +21,6 @@ export default function SignInPage() {
         }
     }, [token])
 
-
     return (
         <Flex
             direction={'column'} align={'center'} my={'20'}

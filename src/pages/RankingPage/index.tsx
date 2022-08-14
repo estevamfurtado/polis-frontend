@@ -1,4 +1,5 @@
-import { useContext, useEffect } from "react";
+import { Skeleton } from "@chakra-ui/react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../contexts/DataContext";
 
 import { RankingProvider } from "../../contexts/RankingContext";
@@ -15,10 +16,11 @@ export default function RankingPage() {
         }
     }, [])
     
-    return isLoaded ? (
+    return (
         <RankingProvider>
             <RankingGrid/>
         </RankingProvider>
-    ) : <>Não carregou</>
+    )
 
 }
+

@@ -1,6 +1,8 @@
+import { useToast } from '@chakra-ui/react';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
 import useToken from "../../hooks/useToken"
 import * as api from "../../services/services/reqs"
+
 
 import {
     token, Person,
@@ -77,11 +79,27 @@ export function DataProvider ({ children }: PropsWithChildren) {
     const [completeAlbum, setCompleteAlbum] = useState<CompleteAlbum | null>(null)
     const [deck, setDeck] = useState<MyDeck | null>(null)
     
+    const headers = {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+    };
+
     useEffect(()=>{
         if (token) {
+            console.log('from useeffect');
+            console.log(token);
             getUserData();
         }
     }, [token])
+
+    useEffect(()=>{
+        if (!completeRanking) {
+            getRankingData();
+        }
+    }, [])
+
+
+    const toast = useToast();
 
     const data = {
         token, setToken,
@@ -105,12 +123,15 @@ export function DataProvider ({ children }: PropsWithChildren) {
     
     return <DataContext.Provider value={{data, hooks}}>{children}</DataContext.Provider>
 
+
     async function getUserData() {
         try {
+            console.log('getting user data');
             const data = await api.getUser();
             setUser(data.data);
         } catch (error) {
-            setToken(null);
+            console.log('error getting user data');
+            logOut();
         }
     }
 
@@ -124,7 +145,6 @@ export function DataProvider ({ children }: PropsWithChildren) {
     async function getAlbumData() {
         const res = await api.getAlbum();
         const data = res.data;
-        
         setCompleteAlbum(data.album);
     }
 
@@ -136,31 +156,39 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     async function logOut() {
         setToken(null);
-        setCompleteRanking(null);
+        setDeck(null);
+        setUser(null);
+        setCompleteAlbum(null);
     }
 
     async function pasteCard(id: number) {
-        console.log('pasteCard', id);
         await api.pasteCard(id);
         await getDeckData();
     }
 
     async function pasteAllCards() {
-        console.log('pasteAllCards');
         await api.pasteAll();
         await getDeckData();
     }
 
     async function openPack() {
-        console.log('calling from context');
         await api.openOnePack();
-        console.log('api worked')
         await getDeckData();
-        console.log('gettind data');
     }
 
     async function openPacks() {
         await api.openAllPacks();
         await getDeckData();
     }
+
+
 }
+
+
+
+
+
+
+
+
+

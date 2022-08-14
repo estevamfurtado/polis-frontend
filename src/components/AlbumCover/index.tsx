@@ -1,6 +1,6 @@
 // https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT22FfMdSWirkYEVOdxyj2nN1LpVxP1m6fWOUALDT9Vxfxa_1jpZQjAXIbVhphrbXIflfc&usqp=CAU
 
-import { Box, Image, Text } from "@chakra-ui/react"
+import { Box, Heading, Image, Text } from "@chakra-ui/react"
 
 export default function AlbumCover () {
     return <Box w='300px' h='400px' bg='blue.800' shadow={'2xl'} position='relative'>
@@ -9,21 +9,21 @@ export default function AlbumCover () {
             mixBlendMode='soft-light' opacity={0.3}
         />
 
-        <Image w='40%' src="/whitelogo2.png" alt="" position='absolute' 
-                    
+        <Image w='80%' src="/whitelogo2.png" alt="" position='absolute' 
+                    mixBlendMode='overlay'
                     top='50%'
                     left='50%'
                     transform='translate(-50%, -50%)'
                 />
 
-        <Box w='40%' 
+        <Box w='70%' 
             position='absolute' 
             top='50%'
             left='50%'
             transform='translate(-50%, -50%)'
         >
-            <Text>ÁLBUM DOS POLÍTICOS</Text>
-            <Text>2022</Text>
+            <Heading color='white'>ÁLBUM DOS POLÍTICOS</Heading>
+            <Heading color='white'>2022</Heading>
         </Box>
     </Box>
 }

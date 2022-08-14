@@ -15,7 +15,6 @@ export default function EmptySticker ({sticker} : {sticker: CompleteSticker}) {
         <Text fontSize='sm' textAlign={'center'}>{sticker.title}</Text>
         {pasteButton}
     </Flex>
-    
 
     function canBePasted () {
         const isInDeck = deck?.deck.stickers.byId[sticker.id] !== undefined;

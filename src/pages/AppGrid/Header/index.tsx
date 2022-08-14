@@ -1,4 +1,4 @@
-import { Divider, Flex, Button, Tab, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton } from "@chakra-ui/react";
+import { Divider, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton } from "@chakra-ui/react";
 import { PropsWithChildren, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DataContext } from "../../../contexts/DataContext";
@@ -61,20 +61,25 @@ function RightNotLoggedIn () {
 
 function RightLoggedIn () {
 
-    const {data: {setToken}, hooks: {logOut}} = useContext(DataContext);
+    const {data: {user}, hooks: {logOut}} = useContext(DataContext);
     const navigate = useNavigate();
 
+    if (!user) {
+        return <></>
+    }
 
-    return (
-    <Menu>
-        <MenuButton as={Button}
-            size='sm' variant='ghost' animation='none'
-        >⚙️</MenuButton>
-        <MenuList fontSize={'sm'} shadow={'lg'}>
-            <MenuItem onClick={()=>{goTo('/user')}}>Meus dados</MenuItem>
-            <MenuItem onClick={handleLogOut}>Sair</MenuItem>
-        </MenuList>
-    </Menu>)
+    return (<HStack>
+        <Text>{`Olá, ${user?.name}`}</Text>
+        <Menu>
+            <MenuButton as={Button}
+                size='sm' variant='ghost' animation='none'
+            >⚙️</MenuButton>
+            <MenuList fontSize={'sm'} shadow={'lg'}>
+                <MenuItem onClick={()=>{goTo('/user')}}>Meus dados</MenuItem>
+                <MenuItem onClick={handleLogOut}>Sair</MenuItem>
+            </MenuList>
+        </Menu>
+    </HStack>)
 
     function goTo (path: string) {
         navigate(path);

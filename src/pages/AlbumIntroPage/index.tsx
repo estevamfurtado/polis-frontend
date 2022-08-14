@@ -23,20 +23,22 @@ export default function AlbumIntroPage () {
 
     function AlbumThumb () {
         return (
-            <Flex
+            <VStack
                 onClick={goToPages}
                 cursor='pointer'
             >
                 <AlbumCover/>
-            </Flex>
+                <Text>Meu álbum</Text>
+            </VStack>
         )
     }
     
     function PackThumb () {
         return (
-            <Box onClick={goToDeck} cursor='pointer'>
+            <VStack onClick={goToDeck} cursor='pointer'>
                 <StickerPack/>
-            </Box>
+                <Text>Minhas figurinhas</Text>
+            </VStack>
         )
     }
 }

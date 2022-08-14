@@ -17,6 +17,8 @@ import AlbumPagesPage from "./pages/AlbumPagesPage";
 import Album from "./pages/Album";
 
 import DeckPage from "./pages/DeckPage";
+import PacksPage from "./pages/PacksPage";
+import ExchangePage from "./pages/ExchangePage";
 
 export default function App() {
   return (
@@ -32,6 +34,8 @@ export default function App() {
                 <Route index element={<AlbumIntroPage/>}/>
                 <Route path="pages" element={<AlbumPagesPage/>}/>
                 <Route path="deck" element={<DeckPage/>}/>
+                <Route path="packs" element={<PacksPage/>}/>
+                <Route path="exchange" element={<ExchangePage/>}/>
               </Route>
               <Route path="/sign-in" element={<SignInPage/>}/>
               <Route path="/sign-up" element={<SignUpPage/>}/>
