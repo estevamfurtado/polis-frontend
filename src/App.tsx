@@ -19,6 +19,9 @@ import Album from "./pages/Album";
 import DeckPage from "./pages/DeckPage";
 import PacksPage from "./pages/PacksPage";
 import ExchangePage from "./pages/ExchangePage";
+import About from "./pages/About";
+import ReferralLandingPage from "./pages/ReferralLandingPage";
+
 
 export default function App() {
   return (
@@ -28,7 +31,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<AppGrid />}>
               <Route index element={<></>}/>
-              <Route path="/about" element={<></>}/>
+              <Route path="/about" element={<About/>}/>
               <Route path="/ranking" element={<RankingPage/>}/>
               <Route path='/album' element={<Album/>}>
                 <Route index element={<AlbumIntroPage/>}/>
@@ -40,6 +43,8 @@ export default function App() {
               <Route path="/sign-in" element={<SignInPage/>}/>
               <Route path="/sign-up" element={<SignUpPage/>}/>
               <Route path="/user" element={<EditInfoPage/>}/>
+              
+              <Route path="/referral" element={<ReferralLandingPage/>}/>
             </Route>
           </Routes>
         </Router>

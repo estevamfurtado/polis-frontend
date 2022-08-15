@@ -14,6 +14,7 @@ export default function AppGrid() {
                 gridTemplateColumns={'1fr'}
                 h='100%'
                 overflow='hidden'
+                w='100%'
         >
             <GridItem area={'header'} borderBottom={'1px'} borderColor='gray.200'>
                 <Header/>

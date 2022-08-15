@@ -17,7 +17,7 @@ export default function PoliticiansRanking () {
         return <GroupElement group={gp} key={gp.title}/>
     });
 
-    return <Flex direction='column' align='center' w='100%' padding={5}>
+    return <Flex direction='column' align='center' w='100%' h='100%' padding={5} overflow='scroll'>
         <Skeleton isLoaded={!isLoading}>
             <Wrap maxW={'780px'} w={'100%'} align={'flex-start'} >
                 {stackElements}

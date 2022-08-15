@@ -2,12 +2,13 @@ import { Divider, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels,
 import { PropsWithChildren, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DataContext } from "../../../contexts/DataContext";
+import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import NavTab from "./NavTab";
 
 export default function Header() {
 
     return (
-        <Flex justify={'space-between'} align={'center'} h={'100%'} px={5} py={3} >
+        <Flex justify='space-between' align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
             <Left/>
             <Right/>
         </Flex>
@@ -18,12 +19,30 @@ export default function Header() {
 
 function Left () {
 
+    const windowDimensions = useWindowDimensions();
+
     const location = useLocation();
+    const navigate = useNavigate();
+
+    if (windowDimensions.width < 700) {
+        return <HStack>
+            <Menu>
+                <MenuButton as={Button}
+                    size='sm' variant='ghost' animation='none'
+                >🏛️ Polis</MenuButton>
+                <MenuList fontSize={'sm'} shadow={'lg'}>
+                    <MenuItem onClick={()=>{goTo('/about')}}>Sobre</MenuItem>
+                    <MenuItem onClick={()=>{goTo('/ranking')}}>Ranking</MenuItem>
+                    <MenuItem onClick={()=>{goTo('/album')}}>Álbum</MenuItem>
+                </MenuList>
+            </Menu>
+        </HStack>
+    }
 
     const About = NavTab({label: 'Polis', emoji: '🏛️', isSelected: (location.pathname === '/about') , goTo: '/about'});
     const Ranking = NavTab({label: 'Ranking', emoji: '🏆', isSelected: (location.pathname === '/ranking'), goTo: '/ranking'});
     const Album = NavTab({label: 'Album', emoji: '🃏', isSelected: (location.pathname === '/album'), goTo: '/album'});
-
+    
     return (
         <Flex align={'center'} h={'100%'} gap={3}>
             {About}
@@ -32,6 +51,10 @@ function Left () {
             {Album}
         </Flex>
     )
+
+    function goTo (path: string) {
+        navigate(path);
+    } 
 }
 
 function Right () {
@@ -61,6 +84,8 @@ function RightNotLoggedIn () {
 
 function RightLoggedIn () {
 
+    const windowDimensions = useWindowDimensions();
+
     const {data: {user}, hooks: {logOut}} = useContext(DataContext);
     const navigate = useNavigate();
 
@@ -69,7 +94,7 @@ function RightLoggedIn () {
     }
 
     return (<HStack>
-        <Text>{`Olá, ${user?.name}`}</Text>
+        {windowDimensions.width >= 700 ? <Text>{`Olá, ${user?.name}`}</Text> : <></>}
         <Menu>
             <MenuButton as={Button}
                 size='sm' variant='ghost' animation='none'

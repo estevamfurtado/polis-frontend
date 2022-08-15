@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import Card from '../../../components/Card'
 import { DataContext } from '../../../contexts/DataContext'
 import {CompleteCard} from '../../../types'
-import * as api from '../../../services/services/reqs'
+import * as api from '../../../services/reqs'
 
 
 export default function CardInDeckPage({card}: {card: CompleteCard}) {

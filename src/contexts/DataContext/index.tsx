@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
 import useToken from "../../hooks/useToken"
-import * as api from "../../services/services/reqs"
+import * as api from "../../services/reqs"
 
 
 import {

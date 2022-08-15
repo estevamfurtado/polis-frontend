@@ -4,7 +4,7 @@ import Card from "../../../components/Card";
 import StickerPack from "../../../components/StickerPack";
 import { DataContext } from "../../../contexts/DataContext"
 import { CompleteCard, CompleteSticker } from "../../../types";
-import * as api from "../../../services/services/reqs";
+import * as api from "../../../services/reqs";
 import {CompleteExchangeRequest} from '../../../types';
 
 export default function MyExchanges() {
@@ -23,7 +23,7 @@ export default function MyExchanges() {
     }, [completeAlbum])
 
     if (!deck || !completeAlbum) {
-        return <>nao tem deck ou album</>
+        return <></>
     }
 
     

@@ -7,7 +7,7 @@ import TextInput from '../../../components/Form/TextInput';
 import SliderInput from '../../../components/Form/SliderInput';
 import SelectInput from '../../../components/Form/SelectInput';
 import { DataContext } from '../../../contexts/DataContext';
-import { signUp } from '../../../services/services/reqs';
+import { signUp } from '../../../services/reqs';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -50,6 +50,8 @@ const validatorSchema = joi.object().keys(validator);
 
 
 export default function Forms () {
+
+    const [referralId, setReferralId] = useState(localStorage.getItem('polis_referralId'));
 
     const toast = useToast();
 
@@ -156,7 +158,7 @@ export default function Forms () {
             validator: validator.phone,
             state: phone,
             setState: setPhone,
-            errorMessage: 'Deve ser um telefone válido no formato (xx) xxxxx-xxxx.',
+            errorMessage: 'Deve ser um telefone válido no formato xx xxxxx-xxxx.',
         },
         birthDate: {
             value: birthDate,
@@ -285,7 +287,7 @@ export default function Forms () {
             }
         })
 
-        const response = await signUp(sendData);
+        const response = await signUp(sendData, referralId);
         if (response.status === 201) {
             toast({
                 title: 'Contra criada!',
@@ -294,6 +296,8 @@ export default function Forms () {
                 duration: 3000,
                 isClosable: true,
             })
+
+            localStorage.setItem('polis_referralId', '');
 
             navigate('/sign-in');
         } else {

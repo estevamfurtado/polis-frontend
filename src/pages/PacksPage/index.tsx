@@ -7,7 +7,7 @@ import { CompleteCard, CompleteSticker } from "../../types";
 
 export default function PacksPage() {
 
-    const {data: {deck, completeAlbum}, hooks: {getDeckData, openPack, openPacks, pasteAllCards}} = useContext(DataContext);
+    const {data: {deck, completeAlbum, user}, hooks: {getDeckData, openPack, openPacks, pasteAllCards}} = useContext(DataContext);
 
     useEffect(()=>{
         if (!deck) {
@@ -16,7 +16,7 @@ export default function PacksPage() {
     }, [completeAlbum])
 
     if (!deck || !completeAlbum) {
-        return <>nao tem deck ou album</>
+        return <></>
     }
 
     const hasPacksMessage = <>
@@ -28,7 +28,7 @@ export default function PacksPage() {
     </>
 
     return <Flex w='100%' h='100%' overflowX={'hidden'} direction='column' align='center'>
-        <VStack spacing={4} w='100%' py='10' maxW='750px'>
+        <VStack spacing={4} w='100%' py='10' maxW='750px' align='center'>
             {packsArea()}
         </VStack>
     </Flex>
@@ -42,27 +42,37 @@ export default function PacksPage() {
     }
 
     function packsArea() {
-        return <HStack w='100%' py='5' spacing='10' justify='center'>
-        <HStack pl='5' flex='0 0 auto' spacing='7'>
+        return <VStack w='100%' spacing='10' justify='center' align='center'>
+        <VStack flex='0 0 auto' spacing='7' align='center'>
             <StickerPack/>
 
-            <VStack align='start' spacing='5'>
+            <VStack align='center' spacing='5'>
 
-                <VStack align='start'>
-                {(deck?.packs ?? 0)> 0 ? hasPacksMessage : <></>}
+                <VStack align='center'>
+                {(deck?.packs ?? 0)> 0 ? hasPacksMessage : <Text>Você não tem pacotinhos para abrir :(</Text>}
                 </VStack>
 
-                <VStack align='start'>
+                <VStack align='center'>
                     <Text>{`Ganhe novos pacotes`}</Text>
-                    <HStack align='start'>
-                        <Button size='sm'>DepuTinder</Button>
-                        <Button size='sm'>SuperPolis</Button>
-                    </HStack>
+                    <Wrap align='start' w='80%' justify='center'>
+                        <Button colorScheme='teal' size='sm' onClick={copyAndSendLink} isDisabled={user ? false : true}>Compartilhe seu link </Button>
+                        <Button size='sm' isDisabled={true}>DepuTinder</Button>
+                        <Button size='sm' isDisabled={true}>SuperPolis</Button>
+                    </Wrap>
+                    <Text fontSize={'sm'}>{`ou aguarde - logo logo vc ganha +20`}</Text>
                 </VStack>
-
             </VStack>
-        </HStack>
-    </HStack>
+        </VStack>
+    </VStack>
+    }
+
+    function copyAndSendLink() {
+        console.log('send link')
+        if (user) {
+            const link = `Hey, você já ouviu falar do Álbum dos Políticos? Colecione de graça em ${window.location.origin}/referral?id=${user?.id}`
+            console.log(link)
+            navigator.clipboard.writeText(link);
+        }
     }
 
 }

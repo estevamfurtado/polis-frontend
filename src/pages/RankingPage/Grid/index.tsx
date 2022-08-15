@@ -1,4 +1,17 @@
-import { Badge, HStack, Box, Button, Flex, Grid, GridItem, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr, VStack, Wrap, WrapItem, Image } from "@chakra-ui/react";
+import { 
+    HStack, 
+    Box, 
+    Button, 
+    VStack,
+    useDisclosure,
+    Drawer,
+    DrawerBody,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton
+} from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../../contexts/DataContext";
 
@@ -10,39 +23,52 @@ import { ControlePartidos } from "../ControlePartidos";
 import PartiesRanking from "../PartiesRanking";
 import PoliticiansRanking from "../PoliticiansRanking";
 
+
+
+
 export default function RankingGrid () {
     
     const {showPartyRanking} = useContext(RankingContext);
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const partyRankingSize = showPartyRanking ? "'300px'" : "0px";
 
-    const parties = <GridItem area={'partidos'} borderLeft={'1px'} borderColor='gray.200' overflowY={'scroll'}>
-        <PartiesRanking/>
-    </GridItem>
+    return <>
+        <PartyRankingDrawer isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
+        <VStack spacing='0' w='100%' h='100%' justify='start' align-items='center' overflow='hidden'>
+            <Box h='50px' w='100%' flex='0 0 auto' bg='gray.100'>
+                <ControleRanking/>
+            </Box>
+            <HStack w='100%' flex='1 1 auto' overflow='hidden' justify='flex-start' align='start' spacing='0'>
+                <PoliticiansRanking/>
+            </HStack>
+        </VStack>
+    </>
+}
 
-    return <Grid templateAreas={`
-        "ctrlPartidos ctrlMain"    
-        "partidos main"
-    `} 
-        gridTemplateRows={`50px 1fr`}
-        gridTemplateColumns={`${partyRankingSize} 1fr`}
-        h='100%'
-        overflow='hidden'
-    >
 
-        <GridItem area={'ctrlPartidos'}>
-            <ControlePartidos/>
-        </GridItem>
 
-        <GridItem area={'ctrlMain'}>
-            <ControleRanking/>
-        </GridItem>
-
-        {showPartyRanking ? parties : <></>}
-
-        <GridItem area={'main'} overflowY={'scroll'}>
-            <PoliticiansRanking/>
-        </GridItem>
-    </Grid>
-
+function PartyRankingDrawer({isOpen, onOpen, onClose}: {isOpen: boolean, onOpen: () => void, onClose: () => void}) {
+    return (
+        <Drawer
+            isOpen={isOpen}
+            placement='right'
+            onClose={onClose}
+        >
+            <DrawerOverlay />
+            <DrawerContent>
+                <DrawerCloseButton />
+                <DrawerHeader>Ranking por Partidos</DrawerHeader>
+    
+                <DrawerBody>
+                    <PartiesRanking/>
+                </DrawerBody>
+    
+                <DrawerFooter>
+                    <Button variant='outline' mr={3} onClick={onClose}>
+                        Fechar
+                    </Button>
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer>
+    )
 }

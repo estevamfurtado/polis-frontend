@@ -23,20 +23,22 @@ export default function ExchangePage() {
         return <>nao tem deck ou album</>
     }
 
-    return <VStack w='100%' align='center'>
-        <Tabs w='100%' maxW='750px' variant='enclosed' borderColor='gray.200' size='sm'>
-            <TabList>
-                <Tab fontWeight={'semibold'}>{`Procurar`}</Tab>
+    return <VStack w='100%' align='center' flex='1 1 auto' overflow='scroll'>
+        <Tabs w='100%' maxW='750px' variant='enclosed' borderColor='gray.200' size='sm' pt='5' isLazy>
+            <TabList w='yellow'>
                 <Tab fontWeight={'semibold'}>{`Minhas Trocas`}</Tab>
+                <Tab fontWeight={'semibold'}>{`Procurar`}</Tab>
             </TabList>
 
             <TabPanels w='100%' minH='500px'>
-                <TabPanel w='100%'>
-                    <CreateExchange/>
-                </TabPanel>
+                
                 <TabPanel w='100%'>
                     <MyExchanges/>
                 </TabPanel>
+                <TabPanel w='100%'>
+                    <CreateExchange/>
+                </TabPanel>
+
             </TabPanels>
         </Tabs>
     </VStack>

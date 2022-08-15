@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Password from '../../../components/Form/Password';
 import TextInput from '../../../components/Form/TextInput';
 import { DataContext } from '../../../contexts/DataContext';
-import { signIn } from '../../../services/services/reqs';
+import { signIn } from '../../../services/reqs';
 
 
 

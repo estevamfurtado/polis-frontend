@@ -20,16 +20,19 @@ export default function AlbumPagesPage () {
         return <Page key={p.id} page={p} />;
     })
 
-    const cardsToPaste = (deck?.deck.cards.arrays.notPasted.length ?? 0) > 0;
+    const cardsToPaste = (deck?.deck.stickers.ids.filter (id => {
+        return deck?.deck.stickers.byId[id].pasted.length === 0 
+            && deck?.deck.stickers.byId[id].notPasted.length > 0
+    })) ?? [];
 
-    const button = <Button
+    const button = cardsToPaste.length > 0 ? <Button
         size='sm' colorScheme='blackAlpha'
         position='absolute' top='3' right='5' zIndex={10}
-        onClick={hooks.pasteAllCards}>Colar todas as cartas</Button>;
+        onClick={hooks.pasteAllCards}>Colar todas as cartas</Button> : <></>;
 
     return <Box position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
         <VStack w='100%' h='100%' gap='0' overflowY={'scroll'}>
-            {cardsToPaste ? button : <></>}
+            {button}
             {pages}
         </VStack>
     </Box>

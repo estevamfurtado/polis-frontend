@@ -11,7 +11,6 @@ export default function AlbumIntroPage () {
 
     return <Flex justify='center' align='center' gap='5' h='100%' w='100%'>
         <AlbumThumb/>
-        <PackThumb/>
     </Flex>
 
     function goToPages () {

@@ -1,5 +1,6 @@
 import { Badge, Box, Flex, Text, WrapItem, Image, Skeleton } from "@chakra-ui/react";
 import { useState , useEffect} from "react";
+import variables from "../../../../../services/variables";
 import { CompleteRecord } from "../../../../../types";
 
 
@@ -11,9 +12,12 @@ export default function PoliticianElement ({record} : {record: CompleteRecord}) 
     const name = record.politician.name;
     const imageUrl = record.politician.imageUrl || '';
     const uf = record.stateAbbreviation || '';
-    const points = Math.round((record.scoreTotal || 0) * 10)
+    const position = record.scoreRanking || 0;
 
-    const resultColor = points > 70 ? 'green' : (points > 65 ? 'yellow' : 'red');
+    const resultColor = 
+        (position === 0) ? 'gray' : 
+            (position < variables.values.good ? 'green' : 
+            (position < variables.values.neutral ? 'yellow' : 'red'));
 
     useEffect(() => {
         setIsLoading(false)
@@ -32,7 +36,7 @@ export default function PoliticianElement ({record} : {record: CompleteRecord}) 
             >
                 <Flex justify={'space-between'} width={'100%'} flex='0 0 auto'>
                     <Badge size='sm' colorScheme={'grey'}>{uf}</Badge>
-                    <Badge size='sm' colorScheme={resultColor}>{points}</Badge>
+                    <Badge size='sm' colorScheme={resultColor}>{position ? position : '?'}</Badge>
                 </Flex>
                 <Box overflow='clip' bg='gray.300' flex='0 0 auto' height='80px' w='100%'>
                     <Image src={imageUrl} alt={name} objectFit='cover'/>

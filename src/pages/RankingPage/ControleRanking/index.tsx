@@ -2,8 +2,11 @@ import { StarIcon, CloseIcon, CheckIcon, Search2Icon } from "@chakra-ui/icons";
 import { Flex, IconButton, Input, InputGroup, InputLeftElement, Select, HStack } from "@chakra-ui/react";
 import { useContext } from "react";
 import { RankingContext } from "../../../contexts/RankingContext";
+import useWindowDimensions from "../../../hooks/useWindowDimensions";
 
 export function ControleRanking() {
+
+    const {width} = useWindowDimensions();
 
     const {
         showGood, setShowGood,
@@ -14,7 +17,7 @@ export function ControleRanking() {
         showState, setShowState,
     } = useContext(RankingContext);
 
-    const searchBar = searchBarBuilder();
+    const searchBar = width > 700 ? searchBarBuilder() : <></>
     
     const showGoodButton = showTypeButtonBuilder('Show good', 'green', showGood, setShowGood, <StarIcon/>);
     const showNeutralButton = showTypeButtonBuilder('Show neutral', 'purple', showNeutral, setShowNeutral, <CheckIcon/>);
@@ -24,12 +27,9 @@ export function ControleRanking() {
 
     const showStateSelect = showStateSelectBuilder();
 
-    return <Flex h='100%' align='center' justify='center' px='5'>
+    return <Flex h='100%' align='center' justify='center' px='5' w='100%'>
         <Flex h='100%' w='100%' maxW='750px' align='center' justify='space-between' gap='50px'>
-            <HStack flex='1 0 auto'>
-                {searchBar}
-            </HStack>
-
+            {searchBar}
             <HStack flex='0 0 auto'>
                 <HStack>
                     {showGoodButton}
@@ -43,15 +43,17 @@ export function ControleRanking() {
     </Flex>
 
     function searchBarBuilder () { 
-        return <InputGroup size='sm'>
-            <InputLeftElement
-                pointerEvents='none'
-                color='gray.300'
-                fontSize='1.2em'
-                children={<Search2Icon boxSize={'4'}/>}
-            />
-            <Input placeholder='Deputado' borderColor='gray.200' onChange={onChange}/>
-        </InputGroup>
+        return <HStack flex='1 0 auto'>
+            <InputGroup size='sm' bg='white'>
+                <InputLeftElement
+                    pointerEvents='none'
+                    color='gray.300'
+                    fontSize='1.2em'
+                    children={<Search2Icon boxSize={'4'}/>}
+                />
+                <Input placeholder='Deputado' borderColor='gray.200' onChange={onChange}/>
+            </InputGroup>
+        </HStack>
 
         function onChange (e: React.ChangeEvent<HTMLInputElement>) {
             setSearch(e.target.value);
@@ -60,7 +62,7 @@ export function ControleRanking() {
 
     function showTypeButtonBuilder (label: string, colorScheme: string, show: boolean, setShow: (value:boolean)=>void, icon: JSX.Element) { 
         return <IconButton
-            variant={'outline'}
+            bg={show ? 'white' : 'gray.200'}
             aria-label={label}
             size='sm'
             icon={icon}
@@ -72,7 +74,7 @@ export function ControleRanking() {
     }
     
     function groupBySelectBuilder () { 
-        return <Select placeholder='Ordenar por' size='sm' borderColor='gray.200' onChange={changeHandler}>
+        return <Select placeholder='Ordenar por' size='sm' bg='white' borderColor='gray.200' onChange={changeHandler}>
             <option value='party'>Partidos</option>
             <option value='tier'>Ranking</option>
         </Select>
@@ -82,7 +84,7 @@ export function ControleRanking() {
     }
 
     function showStateSelectBuilder () { 
-        return <Select placeholder='Estado' size='sm' borderColor='gray.200' onChange={changeHandler}>
+        return <Select placeholder='Estado' size='sm' bg='white' borderColor='gray.200' onChange={changeHandler}>
             <option value='Todos'>Todos</option>
             {stateAbbreviations.map(a => {
                 return <option key={a} value={a}>{a}</option>

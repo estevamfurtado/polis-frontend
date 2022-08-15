@@ -8,7 +8,7 @@ export default function EmptySticker ({sticker} : {sticker: CompleteSticker}) {
     const {data: {deck}, hooks} = useContext(DataContext);
 
     const cardId = canBePasted();
-    const pasteButton = cardId ? <Button onClick={() => hooks.pasteCard(cardId)}>Paste</Button> : <></>;
+    const pasteButton = cardId ? <Button variant='solid' colorScheme='alphaWhite' onClick={() => hooks.pasteCard(cardId)}>Colar!</Button> : <></>;
 
     return <Flex gap={1} direction='column' align='center' justify='center' w='100%' h='100%' bg='rgba(0,0,0,0.2)' p='5' borderRadius='md'>
         <Text color='white' fontSize='sm' textAlign={'center'}>{sticker.identifier}</Text>

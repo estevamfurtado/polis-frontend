@@ -16,7 +16,7 @@ export default function PartiesRanking () {
         return <PartyElement partyRecord={pr} index={idx} key={idx}/>
     });
     return <>
-        <TableContainer whiteSpace='pre-wrap' overflowX={'hidden'} marginY={5}>
+        <TableContainer whiteSpace='pre-wrap' overflowX={'hidden'} marginY={5} w='100%' h='50%' bg='blue'>
             <Table variant='simple' size='sm'>
                 <TableCaption >Avaliação feita pelo Ranking dos Políticos</TableCaption>
                 <Thead>

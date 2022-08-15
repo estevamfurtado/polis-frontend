@@ -2,7 +2,7 @@ import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, 
 import { useContext, useEffect, useState } from "react"
 import { DataContext } from "../../../contexts/DataContext"
 import { MyDeck, CompleteSticker } from "../../../types";
-import * as api from "../../../services/services/reqs";
+import * as api from "../../../services/reqs";
 
 
 type UserInfo = {
@@ -190,7 +190,9 @@ function Request ({userInfo, userDeck}: {userInfo: UserInfo, userDeck: MyDeck}) 
         return <Button onClick={sendRequest} isDisabled={offeredCards.length + requestedCards.length  === 0} >Enviar proposta</Button>
     
         async function sendRequest () {
-            await api.postExchangeRequest(userInfo.id, offeredCards, requestedCards);
+            await api.postExchangeRequest(userInfo.id, offeredCards, requestedCards)
+            setOfferedCards([]);
+            setRequestedCards([]);
         }
     
     }

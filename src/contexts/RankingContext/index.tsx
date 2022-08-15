@@ -1,6 +1,7 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
 import { DataContext } from "../DataContext"
 import {CompleteRanking, CompleteRecord, RankingGroup} from "../../types"
+import variables from "../../services/variables"
 
 
 
@@ -69,7 +70,6 @@ export function RankingProvider ({ children }: PropsWithChildren) {
         showBad, setShowBad,
         showNeutral, setShowNeutral,
         showGood, setShowGood,
-        
         groupBy, setGroupBy,
         groups,
 
@@ -94,6 +94,7 @@ export function RankingProvider ({ children }: PropsWithChildren) {
                 records: []
             }
         })
+
         const tiers: RankingGroup[] = [
             {title: "Top 10", color: "green.500", records: []},
             {title: "Top 50", color: "green.500", records: []},
@@ -101,10 +102,6 @@ export function RankingProvider ({ children }: PropsWithChildren) {
             {title: "Top 300", color: "purple.500", records: []},
             {title: "Outros", color: "red.500", records: []},
         ]
-
-        // const orderedRecords = records.sort((a, b) => {
-        //     return (b.scoreRanking ?? 0) - (a.scoreRanking ?? 0);
-        // })
 
         for (const r of records) {
             const show = showRecord(r);
@@ -139,8 +136,8 @@ export function RankingProvider ({ children }: PropsWithChildren) {
             } else {
                 if (stateIsValid) {show = r.stateAbbreviation === showState;}
                 if (show) {
-                    if ((r.scoreTotal ?? 0) < 6.5) {show = showBad}
-                    else if ((r.scoreTotal ?? 0) < 7.5) {show = showNeutral}
+                    if ((r.scoreRanking ?? 0) < variables.values.neutral) {show = showBad}
+                    else if ((r.scoreRanking ?? 0) < variables.values.good) {show = showNeutral}
                     else {show = showGood}
                 }
             }

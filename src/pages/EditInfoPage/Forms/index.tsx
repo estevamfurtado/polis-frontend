@@ -7,7 +7,7 @@ import TextInput from '../../../components/Form/TextInput';
 import SliderInput from '../../../components/Form/SliderInput';
 import SelectInput from '../../../components/Form/SelectInput';
 import { DataContext } from '../../../contexts/DataContext';
-import { signUp } from '../../../services/services/reqs';
+import { signUp } from '../../../services/reqs';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -284,13 +284,15 @@ export default function Forms () {
         setLoading(true)
 
         const sendData = {} as any;
+        const referralId = localStorage.getItem('polis_referralId') || null;
 
         Object.keys(data).forEach(key => {
             if (data[key as keyof typeof data]) {
                 sendData[key] = data[key as keyof typeof data];
             }
         })
-        const response = await signUp(sendData);
+
+        const response = await signUp(sendData, referralId);
         if (response.status === 201) {
             toast({
                 title: 'Infos salvas!',

@@ -1,5 +1,4 @@
-import api from "./api";
-
+import api from "./api.js";
 
 function headers () {
   const token = localStorage.getItem("polis_token");
@@ -11,9 +10,10 @@ function headers () {
 }
 
 
-export async function signUp(data: any) {
+export async function signUp(data: any, referralId: string | null) {
   try {
-    const response = await api.post("/auth/sign-up", data);
+    const params = referralId ? `?referralId=${referralId}` : '';
+    const response = await api.post("/auth/sign-up" + params, data);
     return {...response}
   } catch (error: any) {
     return {...error}
