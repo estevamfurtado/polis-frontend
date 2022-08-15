@@ -136,8 +136,8 @@ export function RankingProvider ({ children }: PropsWithChildren) {
             } else {
                 if (stateIsValid) {show = r.stateAbbreviation === showState;}
                 if (show) {
-                    if ((r.scoreRanking ?? 0) < variables.values.neutral) {show = showBad}
-                    else if ((r.scoreRanking ?? 0) < variables.values.good) {show = showNeutral}
+                    if ((r.scoreRanking ?? 0) > variables.values.neutral) {show = showBad}
+                    else if ((r.scoreRanking ?? 0) > variables.values.good) {show = showNeutral}
                     else {show = showGood}
                 }
             }
