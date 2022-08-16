@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 import {DataContext} from '../../contexts/DataContext';
-import { Wrap, Box, Flex, VStack} from '@chakra-ui/react';
+import { Wrap, Box, Flex, VStack, CircularProgress, CircularProgressLabel, HStack} from '@chakra-ui/react';
 
 
 export default function AlbumBrief() {
@@ -8,7 +8,7 @@ export default function AlbumBrief() {
     const {data: {completeAlbum, deck}} = useContext(DataContext);
 
     if (!completeAlbum || !deck) {
-        return <>nao tem album ou deck</>
+        return <></>
     }
 
     const pages = completeAlbum?.pages
@@ -43,8 +43,30 @@ export default function AlbumBrief() {
         {statusLegendaItem(stickerStatus.repeated)}
     </Wrap>
 
+
+    const stickers = pages.map(page => page.stickers).flat();
+    let total = 0;
+    let pasted = 0;
+
+    for (const sticker of stickers) {
+        total++;
+        if (deck?.deck.stickers.byId[sticker.id]?.pasted.length ?? 0 > 0) {
+            pasted++;
+        }
+    }
+    const progressValue = pasted / total;
+
+    const progress = <HStack justify={'center'} align='center' w='100%'>
+        <CircularProgress value={progressValue*100} color='green.400' size='120px'>
+            <CircularProgressLabel>{
+                `${Math.round(progressValue*100)}%`
+            }</CircularProgressLabel>
+        </CircularProgress>
+    </HStack>
+
     return <VStack align='start'>
         {legenda}
+        {progress}
         {items}
     </VStack>
 
@@ -83,14 +105,14 @@ const stickerStatus = {
         title: 'Você não tem ainda'
     },  
     pasted: {
-        bg: 'gray.200',
-        color: 'gray.800',
+        bg: 'green.400',
+        color: 'white',
         title: 'Colada'
     },
     available: {
         bg: 'blue.400',
         color: 'white',
-        title: 'Você tem para colar'
+        title: 'Pronto para colar'
     },
     repeated: {
         bg: 'orange.400',
