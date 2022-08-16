@@ -1,4 +1,4 @@
-import { Divider, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton } from "@chakra-ui/react";
+import { Divider, Box, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton } from "@chakra-ui/react";
 import { PropsWithChildren, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DataContext } from "../../../contexts/DataContext";
@@ -93,8 +93,10 @@ function RightLoggedIn () {
         return <></>
     }
 
+    const userName = user?.name.split(' ')[0];
+
     return (<HStack>
-        {windowDimensions.width >= 700 ? <Text>{`Olá, ${user?.name}`}</Text> : <></>}
+        {windowDimensions.width >= 700 && userName ? <Box fontSize='sm'>{`Olá, ${userName}`}</Box> : <></>}
         <Menu>
             <MenuButton as={Button}
                 size='sm' variant='ghost' animation='none'

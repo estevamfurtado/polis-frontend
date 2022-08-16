@@ -29,8 +29,8 @@ export default function Album () {
     ? <Stack w='100%' h='100%' overflow='hidden' spacing='0' direction='column'>
         <Stack w='100%' h='50px' direction='row' align='center' justify='center' overflow='auto' flex='0 0 auto'>
             {NavButton({title: 'Álbum', page: 'pages', notifications: 0})}
-            {NavButton({title: 'Figurinhas', page: 'deck', notifications: 5})}
             {NavButton({title: 'Pacotinhos', page: 'packs', notifications: 3})}
+            {NavButton({title: 'Figurinhas', page: 'deck', notifications: 5})}
             {NavButton({title: 'Trocar', page: 'exchange', notifications: 0})}
         </Stack>
         <Outlet/>
