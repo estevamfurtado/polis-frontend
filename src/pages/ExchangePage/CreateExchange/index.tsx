@@ -145,9 +145,6 @@ function Request ({userInfo, userDeck}: {userInfo: UserInfo, userDeck: MyDeck}) 
     }
 
     function CompareAlbumBrief() {
-
-        console.log('aqui', cardsHeHasYouNeed);
-
         return <HStack w='100%' align='start'>
             <VStack w='50%'>
                 <Heading fontSize='md'>Você tem e ele precisa</Heading>
@@ -172,7 +169,6 @@ function Request ({userInfo, userDeck}: {userInfo: UserInfo, userDeck: MyDeck}) 
         </Wrap>
 
         function Card ({cardId, isSelected, badge} : {cardId: number, isSelected: boolean, badge: string}) {
-            console.log('aqui');
             return <Badge cursor='pointer' size='sm' colorScheme={isSelected ? 'blue' : 'gray'} onClick={()=>{toggleCard(cardId)}}>{badge}</Badge>
         }
 

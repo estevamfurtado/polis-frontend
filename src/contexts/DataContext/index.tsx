@@ -86,8 +86,6 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     useEffect(()=>{
         if (token) {
-            console.log('from useeffect');
-            console.log(token);
             getUserData();
         }
     }, [token])
@@ -126,11 +124,14 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     async function getUserData() {
         try {
-            console.log('getting user data');
             const data = await api.getUser();
-            setUser(data.data);
+            if (data.status === 200) {
+                setUser(data.data);
+            }
+            else {
+                logOut();
+            }
         } catch (error) {
-            console.log('error getting user data');
             logOut();
         }
     }

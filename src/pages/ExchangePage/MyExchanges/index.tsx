@@ -52,7 +52,6 @@ export default function MyExchanges() {
 
     async function getMyRequests () {
         const res = await api.getExchangeRequests();
-        console.log(res.data)
         setMyRequests(res.data);
     }
 

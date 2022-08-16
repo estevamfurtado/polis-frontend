@@ -2,7 +2,6 @@ import api from "./api.js";
 
 function headers () {
   const token = localStorage.getItem("polis_token");
-  console.log('token from lstorage', token);
   return {
     Accept: "application/json",
     Authorization: `Bearer ${token}`,

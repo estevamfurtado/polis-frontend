@@ -5,18 +5,21 @@ import { DataContext } from "../../contexts/DataContext";
 
 export default function Album () {
 
-    const { data: {deck, completeAlbum, user}, hooks: {getAlbumData, getDeckData} } = useContext(DataContext);
-    const download = user && !deck && !completeAlbum;
+    const { data: {deck, token, completeAlbum, user}, hooks: {getAlbumData, getUserData, getDeckData} } = useContext(DataContext);
+    const download = token && user && !deck && !completeAlbum;
 
     const navigate = useNavigate();
 
     const location = useLocation();
 
     useEffect(()=>{
-        if (!user) {
+        if (!token) {
             navigate('/sign-in');
         }
-        if (download) {
+        else if (token && !user) {
+            getUserData();
+        }
+        else if (download) {
             getAlbumData();
             getDeckData();
         }
@@ -32,7 +35,7 @@ export default function Album () {
         </Stack>
         <Outlet/>
     </Stack>
-    : <>Nada aqui</>
+    : <></>
 
     function NavButton (props: {title: string, page: string, notifications: number}) {
 

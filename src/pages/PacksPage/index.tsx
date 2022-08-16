@@ -1,4 +1,4 @@
-import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap} from "@chakra-ui/react";
+import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, useToast} from "@chakra-ui/react";
 import { useContext, useEffect } from "react"
 import Card from "../../components/Card";
 import StickerPack from "../../components/StickerPack";
@@ -8,6 +8,8 @@ import { CompleteCard, CompleteSticker } from "../../types";
 export default function PacksPage() {
 
     const {data: {deck, completeAlbum, user}, hooks: {getDeckData, openPack, openPacks, pasteAllCards}} = useContext(DataContext);
+
+    const toast = useToast();
 
     useEffect(()=>{
         if (!deck) {
@@ -34,7 +36,6 @@ export default function PacksPage() {
     </Flex>
 
     async function openOnePack() {
-        console.log('calling handler')
         await openPack();
     }
     async function openAllPacks() {
@@ -67,11 +68,18 @@ export default function PacksPage() {
     }
 
     function copyAndSendLink() {
-        console.log('send link')
         if (user) {
             const link = `Hey, você já ouviu falar do Álbum dos Políticos? Colecione de graça em ${window.location.origin}/referral?id=${user?.id}`
-            console.log(link)
             navigator.clipboard.writeText(link);
+
+            toast({
+                title: 'Link copiado',
+                description: 'Compartilhe seu link com seus amigos',
+                status: 'success',
+                duration: 4000,
+                isClosable: true,
+                position: 'bottom',
+            });
         }
     }
 

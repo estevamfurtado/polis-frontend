@@ -11,7 +11,6 @@ export default function ReferralLandingPage () {
 
     useEffect (()=>{
         if (referralId) {
-            console.log(referralId);
             localStorage.setItem('polis_referralId', referralId);
         }
     } , [])
