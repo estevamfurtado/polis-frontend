@@ -19,7 +19,7 @@ export default function DeckPage() {
     }, [completeAlbum])
 
     if (!deck || !completeAlbum) {
-        return <>nao tem deck ou album</>
+        return <></>
     }
 
     const stickers = completeAlbum?.pages.map(page => page.stickers).flat();
@@ -77,17 +77,14 @@ export default function DeckPage() {
 
         return <Tabs w='100%' variant='enclosed' borderColor='gray.200' size='sm'>
                 <TabList>
-                    <Tab fontWeight={'semibold'}>{`Visão geral`}</Tab>
                     <Tab fontWeight={'semibold'}>{`Novas (${newCards.length})`}</Tab>
                     <Tab fontWeight={'semibold'}>{`Colar (${pasteableCards.length})`}</Tab>
-                    <Tab fontWeight={'semibold'}>{`Guardar (${otherRepeatedCards.length})`}</Tab>
-                    <Tab fontWeight={'semibold'}>{`Trocar (${exchangeCards.length})`}</Tab>
+                    <Tab fontWeight={'semibold'}>{`Repetidas (${exchangeCards.length})`}</Tab>
+                    <Tab fontWeight={'semibold'}>{`Favoritas (${otherRepeatedCards.length})`}</Tab>
+                    <Tab fontWeight={'semibold'}>{`Visão geral`}</Tab>
                 </TabList>
 
                 <TabPanels w='100%' minH='500px'>
-                    <TabPanel w='100%'>
-                        <AlbumBrief/>
-                    </TabPanel>
                     <TabPanel w='100%'>
                         {newCards.length > 0 ? pasteAllButton : <></>}
                         {cardsSection(newCards)}
@@ -97,10 +94,13 @@ export default function DeckPage() {
                         {cardsSection(pasteableCards)}
                     </TabPanel>
                     <TabPanel w='100%'>
+                        {cardsSection(exchangeCards)}
+                    </TabPanel>
+                    <TabPanel w='100%'>
                         {cardsSection(otherRepeatedCards)}
                     </TabPanel>
                     <TabPanel w='100%'>
-                        {cardsSection(exchangeCards)}
+                        <AlbumBrief/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

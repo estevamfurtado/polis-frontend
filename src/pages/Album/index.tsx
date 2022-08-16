@@ -31,7 +31,7 @@ export default function Album () {
             {NavButton({title: 'Álbum', page: 'pages', notifications: 0})}
             {NavButton({title: 'Pacotinhos', page: 'packs', notifications: 3})}
             {NavButton({title: 'Figurinhas', page: 'deck', notifications: 5})}
-            {NavButton({title: 'Trocar', page: 'exchange', notifications: 0})}
+            {NavButton({title: 'Trocas', page: 'exchange', notifications: 0})}
         </Stack>
         <Outlet/>
     </Stack>
