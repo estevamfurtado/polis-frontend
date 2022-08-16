@@ -28,7 +28,7 @@ export default function DeckPage() {
     const newCards : CompleteCard[] = []
     const pasteableCards : CompleteCard[] = []
     const exchangeCards : CompleteCard[] = []
-    const otherRepeatedCards : CompleteCard[] = []
+    const favoriteCards : CompleteCard[] = []
 
     for (const cardId of deck?.deck.cards.arrays.notPasted ?? []) {
         const card = deck?.deck.cards.byId[cardId];
@@ -46,10 +46,11 @@ export default function DeckPage() {
         } 
         if (isPasteable) {
             pasteableCards.push(completeCard);
-        } else if (isExchangeable) {
-            exchangeCards.push(completeCard);
         } else {
-            otherRepeatedCards.push(completeCard);
+            exchangeCards.push(completeCard);
+            if (!isExchangeable) {
+                favoriteCards.push(completeCard);
+            }
         }
     }
 
@@ -80,7 +81,7 @@ export default function DeckPage() {
                     <Tab fontWeight={'semibold'}>{`Novas (${newCards.length})`}</Tab>
                     <Tab fontWeight={'semibold'}>{`Colar (${pasteableCards.length})`}</Tab>
                     <Tab fontWeight={'semibold'}>{`Repetidas (${exchangeCards.length})`}</Tab>
-                    <Tab fontWeight={'semibold'}>{`Favoritas (${otherRepeatedCards.length})`}</Tab>
+                    <Tab fontWeight={'semibold'}>{`Favoritas (${favoriteCards.length})`}</Tab>
                     <Tab fontWeight={'semibold'}>{`Visão geral`}</Tab>
                 </TabList>
 
@@ -97,7 +98,7 @@ export default function DeckPage() {
                         {cardsSection(exchangeCards)}
                     </TabPanel>
                     <TabPanel w='100%'>
-                        {cardsSection(otherRepeatedCards)}
+                        {cardsSection(favoriteCards)}
                     </TabPanel>
                     <TabPanel w='100%'>
                         <AlbumBrief/>

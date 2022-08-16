@@ -19,10 +19,9 @@ export default function CardInDeckPage({card}: {card: CompleteCard}) {
         </Box>
         <HStack>
             {canPaste ? <IconButton onClick={paste} size='sm' icon={<CheckIcon />} aria-label='Colar'/> : <></>}
-            {card.forExchange 
-                ? <IconButton size='sm' onClick={toggle} icon={<StarIcon />} aria-label='Não quero trocar'/>
-                : <IconButton size='sm' onClick={toggle} icon={<RepeatIcon />} aria-label='Quero trocar'/>
-            }
+            <IconButton size='sm' onClick={toggle} icon={<StarIcon />} aria-label='Favorita' 
+                color={card.forExchange ? 'gray.300' : 'teal'}
+            />
         </HStack>
     </VStack>
 
