@@ -9,17 +9,18 @@ import variables from "../../../../../services/variables";
 export default function PoliticianElement ({recordId} : {recordId: number}) {
     
     const {content: {politicianRecords, politicians}} = useContext(DataContext);
-    if (!politicianRecords) {return <></>}
+    
+    const [isLoading, setIsLoading] = useState(true)
+    useEffect(() => {
+        setIsLoading(false)
+    } , [])
 
     const record = politicianRecords?.[recordId] ?? null;
     if (!record) {return <></>}
-
-
+    
     const politician = record.politicianId ? (politicians?.[record.politicianId] ?? null) : null;
     if (!politician) {return <></>}
     
-    const [isLoading, setIsLoading] = useState(true)
-
     const {search, showBad, showGood, showNeutral, showState, filterState, filterSearch} = useContext(RankingContext);
 
     const name = politician.name;
@@ -27,26 +28,24 @@ export default function PoliticianElement ({recordId} : {recordId: number}) {
     const uf = record.stateAbbreviation || '';
     const position = record.scoreRanking || 0;
 
-    const status = position > variables.values.good ? "good"
-                    : position < variables.values.neutral ? "bad" : "neutral";
-    const resultColor = (status === 'good') ? 'green' : (status === 'bad' ? 'yellow' : 'red');
-    
-    const show = computeShow();
+    const status = !position ? 'bad'
+                    : position <= variables.values.good ? "good"
+                    : position < variables.values.neutral ? "neutral"
+                    : 'bad';
 
-    function computeShow() {
-        if (filterState) {if (uf !== showState) {return false;}}
-        if (!showBad && status === 'bad') {return false;}
-        if (!showGood && status === 'good') {return false;}
-        if (!showNeutral && status === 'neutral') {return false;}
-        if (filterSearch) {if (!name.toLowerCase().includes(search.toLowerCase())) {return false;}}
-        return true;
-    }
+    const resultColor = (status === 'good') ? 'green' : (status === 'bad' ? 'red' : 'yellow');
+    
+
+    let show = true;
+    if (filterState) {if (uf !== showState) {show = false;}}
+    if (filterSearch) {if (!name.toLowerCase().includes(search.toLowerCase())) {show = false;}}
+    if (!showBad && status === 'bad') {show = false;}
+    else if (!showGood && status === 'good') {show = false;}
+    else if (!showNeutral && status === 'neutral') {show = false;}
+
+
 
     if (!show) {return <></>}
-
-    useEffect(() => {
-        setIsLoading(false)
-    } , [])
 
     return <Skeleton isLoaded={!isLoading}>
         <WrapItem w={'90px'} fontSize={'sm'}>

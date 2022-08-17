@@ -10,7 +10,7 @@ export default function RankingPage() {
     const {content: {rankings}} = useContext(DataContext);
     
     if (!rankings) {
-        return <Skeleton height={'100vh'}/>
+        return <></>
     }
     
     return (

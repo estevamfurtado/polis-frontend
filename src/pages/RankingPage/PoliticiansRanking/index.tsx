@@ -6,6 +6,7 @@ import GroupElement from "./Party";
 
 export default function PoliticiansRanking () {
 
+
     const [isLoading, setIsLoading] = useState(true)
     const {groups} = useContext(RankingContext)
 
@@ -16,6 +17,7 @@ export default function PoliticiansRanking () {
     const stackElements = groups.map((gp) => {
         return <GroupElement group={gp} key={gp.title}/>
     });
+
 
     return <Flex direction='column' align='center' w='100%' h='100%' padding={5} overflow='scroll'>
         <Skeleton isLoaded={!isLoading}>

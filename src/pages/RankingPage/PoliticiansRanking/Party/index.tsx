@@ -7,6 +7,8 @@ import PoliticianElement from "./Politician";
 
 export default function GroupElement ({group} : {group: RankingGroup}) {
 
+    if (group.records.length === 0) {return <></>}
+
     const [isLoading, setIsLoading] = useState(true)
 
     const mainColor = group.color;

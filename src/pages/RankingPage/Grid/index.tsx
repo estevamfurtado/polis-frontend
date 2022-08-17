@@ -27,6 +27,7 @@ import PoliticiansRanking from "../PoliticiansRanking";
 
 
 export default function RankingGrid () {
+
     return <>
         <VStack spacing='0' w='100%' h='100%' justify='start' align-items='center' overflow='hidden'>
             <Box h='50px' w='100%' flex='0 0 auto' bg='gray.100'>
@@ -41,28 +42,28 @@ export default function RankingGrid () {
 
 
 
-function PartyRankingDrawer({isOpen, onOpen, onClose}: {isOpen: boolean, onOpen: () => void, onClose: () => void}) {
-    return (
-        <Drawer
-            isOpen={isOpen}
-            placement='right'
-            onClose={onClose}
-        >
-            <DrawerOverlay />
-            <DrawerContent>
-                <DrawerCloseButton />
-                <DrawerHeader>Ranking por Partidos</DrawerHeader>
+// function PartyRankingDrawer({isOpen, onOpen, onClose}: {isOpen: boolean, onOpen: () => void, onClose: () => void}) {
+//     return (
+//         <Drawer
+//             isOpen={isOpen}
+//             placement='right'
+//             onClose={onClose}
+//         >
+//             <DrawerOverlay />
+//             <DrawerContent>
+//                 <DrawerCloseButton />
+//                 <DrawerHeader>Ranking por Partidos</DrawerHeader>
     
-                <DrawerBody>
-                    <PartiesRanking/>
-                </DrawerBody>
+//                 <DrawerBody>
+//                     <PartiesRanking/>
+//                 </DrawerBody>
     
-                <DrawerFooter>
-                    <Button variant='outline' mr={3} onClick={onClose}>
-                        Fechar
-                    </Button>
-                </DrawerFooter>
-            </DrawerContent>
-        </Drawer>
-    )
-}
+//                 <DrawerFooter>
+//                     <Button variant='outline' mr={3} onClick={onClose}>
+//                         Fechar
+//                     </Button>
+//                 </DrawerFooter>
+//             </DrawerContent>
+//         </Drawer>
+//     )
+// }
