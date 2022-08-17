@@ -3,8 +3,6 @@ import { Box, Button, HStack, IconButton, VStack } from '@chakra-ui/react'
 import { useContext } from 'react'
 import Card from '../../../components/Card'
 import { DataContext } from '../../../contexts/DataContext'
-import {CompleteCard} from '../../../types'
-import * as api from '../../../services/reqs'
 
 
 export default function CardInDeckPage({cardId}: {cardId: number}) {
@@ -20,7 +18,7 @@ export default function CardInDeckPage({cardId}: {cardId: number}) {
 
     return <VStack paddingBottom='10'>
         <Box border='1px solid gray.300' flex='0 0 auto' boxShadow='xl'>
-            <Card key={card.id} card={card}/>
+            <Card key={card.id} cardId={cardId}/>
         </Box>
         <HStack>
             {canPaste ? <IconButton onClick={()=>{pasteCard(cardId)}} size='sm' icon={<CheckIcon />} aria-label='Colar'/> : <></>}
