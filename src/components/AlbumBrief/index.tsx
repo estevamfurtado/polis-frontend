@@ -13,11 +13,28 @@ export default function AlbumBrief() {
 
     const legenda = <Legenda />
 
+    let total = 0;
+    let pasted = 0;
 
-    const progressValue = 50;
+    for (const pageId of album.pages) {
+        const page = pages?.[pageId] ?? null;
+        if (page) {
+            for (const stickerId of page.stickers) {
+                const sticker = stickers?.[stickerId] ?? null;
+                if (sticker) {
+                    total++;
+                    if (sticker.cards.pasted.length > 0) {
+                        pasted++;
+                    }
+                }
+            }
+        }
+    }
+
+    const progressValue = pasted/total;
     const progress = <AlbumProgress value={progressValue} />
 
-    return <VStack align='start'>
+    return <VStack align='start' spacing='3'>
         {legenda}
         {progress}
         {items}
@@ -29,8 +46,8 @@ export default function AlbumBrief() {
         if (!page) {return <></>}
         if (page.stickers.length === 0) {return <></>}
 
-        return <VStack align='start'>
-            <Box fontSize='sm' fontWeight='bold'>{page.title}</Box>
+        return <VStack align='start' bg='gray.200' p='2' w='100%' borderRadius='sm'>
+            <Box fontSize='xs' fontWeight='bold'>{page.title}</Box>
             <Wrap spacing='0'>
                 {page.stickers.map(sId => <StickerItem key={sId} stickerId={sId}/>)}
             </Wrap>

@@ -8,9 +8,25 @@ export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: Ca
     const {hooks: {pasteCard}} = useContext(DataContext);
 
     const canBePasted = sticker.cards.notPasted.new.length > 0;
-    const pasteButton = canBePasted ? <Button variant='solid' colorScheme='alphaWhite' onClick={() => pasteCard(sticker.cards.notPasted.new[0])}>Colar!</Button> : <></>;
+    const pasteButton = canBePasted ? <Button colorScheme='alphaWhite' onClick={() => pasteCard(sticker.cards.notPasted.new[0])}>Colar!</Button> : <></>;
 
-    return <Flex gap={1} direction='column' align='center' justify='center' w='100%' h='100%' bg='rgba(0,0,0,0.2)' p='5' borderRadius='md'>
+    const bg = canBePasted ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
+    const cursor = canBePasted ? 'pointer' : 'default';
+    const border = canBePasted ? 'solid 3px rgba(255,255,255,0.2)' : 'none';
+    const onHover = canBePasted ? {boxShadow: 'md'} : {};
+    const onClick = canBePasted ? () => pasteCard(sticker.cards.notPasted.new[0]) : () => {};
+
+    return <Flex 
+        gap={1} direction='column' 
+        align='center' justify='center' 
+        w='100%' h='100%' 
+        bg={bg} 
+        p='5' borderRadius='md'
+        cursor={cursor}
+        border={border}
+        _hover={onHover}
+        onClick={onClick}
+    >
         <Text color='white' fontSize='sm' textAlign={'center'}>{sticker.identifier}</Text>
         <Text fontSize='sm' textAlign={'center'}>{sticker.title}</Text>
         {pasteButton}
