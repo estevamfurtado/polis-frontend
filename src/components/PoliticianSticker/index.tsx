@@ -15,7 +15,7 @@ export default function PoliticianSticker({sticker} : {sticker: Sticker}) {
     const {isOpen, onOpen, onClose} = useDisclosure();
 
     const total = politicianRecord?.scoreTotal ?? 0;
-    const badgeColor = total > 7.5 ? 'green' : (total < 6 ? 'red' : '');
+    const badgeColor = total > 7.5 ? 'green' : (total < 6 ? 'red' : 'gray');
 
     const abb = politicianRecord.partyAbbreviation?.length ?? 0 > 6 ? politicianRecord.partyAbbreviation?.substring(0, 6) : politicianRecord.partyAbbreviation;
 

@@ -287,6 +287,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     async function logOut() {
         setUser(null);
+        setToken(null);
     }
 
     async function pasteCard(id: number) {
@@ -316,12 +317,15 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     async function accept (id: number) {
         await api.acceptRequest(id);
+        await getDeckData();
     }
     async function reject (id: number) {
         await api.rejectRequest(id);
+        await getDeckData();
     }
     async function cancel (id: number) {
         await api.cancelRequest(id);
+        await getDeckData();
     }
 
 }

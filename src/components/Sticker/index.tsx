@@ -6,7 +6,7 @@ import PartySticker from "../PartySticker";
 import { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
 
-export default function StickerComponent ({stickerId} : {stickerId: number}) {
+export default function StickerComponent ({stickerId, h, w} : {stickerId: number, h?: number, w?: number}) {
 
     const {content: {stickers}} = useContext(DataContext);
     const sticker = stickers?.[stickerId] ?? null;
@@ -17,7 +17,10 @@ export default function StickerComponent ({stickerId} : {stickerId: number}) {
     ? <PoliticianSticker sticker={sticker} />
     : <PartySticker sticker={sticker} />
 
-    return <Box w='150px' h='200px'>
+    return <Box 
+        w={w ? `${w}px` : '150px'} 
+        h={h ? `${h}px` : '200px'}
+        flex='0 0 auto'>
         {type}
     </Box>;
 }

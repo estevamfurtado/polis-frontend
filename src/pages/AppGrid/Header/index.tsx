@@ -7,7 +7,7 @@ import NavTab from "./NavTab";
 
 export default function Header() {
 
-    const {auth: {token}} = useContext(DataContext);
+    const {auth: {token, user}} = useContext(DataContext);
 
     return (
         <Flex justify='space-between' align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
@@ -59,7 +59,7 @@ export default function Header() {
 
     function Right () {
 
-        const isLoggedIn = token ? true : false;
+        const isLoggedIn = user ? true : false;
         return (
             isLoggedIn ? <RightLoggedIn/> : <RightNotLoggedIn/>
         )
