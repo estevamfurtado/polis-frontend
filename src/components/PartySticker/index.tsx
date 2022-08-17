@@ -1,8 +1,10 @@
 
 import { Badge, Box, Flex, Image, Text, VStack } from "@chakra-ui/react";
-import { CompleteSticker } from "../../types";
+import { useContext } from "react";
+import { DataContext } from "../../contexts/DataContext";
+import { Sticker } from "../../types";
 
-export default function PoliticianSticker({sticker} : {sticker: CompleteSticker}) {
+export default function PoliticianSticker({sticker} : {sticker: Sticker}) {
 
     return <Flex gap={1} 
         direction='column' align='center' justify='center' 

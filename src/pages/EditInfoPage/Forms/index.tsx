@@ -52,7 +52,7 @@ const validatorSchema = joi.object().keys(validator);
 export default function Forms () {
 
     const toast = useToast();
-    const {data: {user, token}, hooks:{getUserData}} = useContext(DataContext);
+    const {auth: {user, token}} = useContext(DataContext);
 
     const [name, setName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
@@ -300,7 +300,6 @@ export default function Forms () {
                 duration: 4000,
                 isClosable: true,
             });
-            getUserData();
         } else {
             toast({
                 title: response.response.statusText,

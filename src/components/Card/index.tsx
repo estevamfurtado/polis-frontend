@@ -1,13 +1,8 @@
-
-import { Badge, Box, Flex, Image, Text, VStack } from "@chakra-ui/react";
-import { CompleteCard } from "../../types";
-import PoliticianSticker from "../PoliticianSticker";
-import PartySticker from "../PartySticker";
 import Sticker from "../Sticker";
+import { useContext } from "react";
+import { DataContext } from "../../contexts/DataContext";
+import { Card } from "../../types";
 
-export default function Card({card} : {card: CompleteCard}) {
-
-    const model = <Sticker sticker={card.sticker} />;
-
-    return model;
+export default function CardComponent ({card} : {card: Card}) {
+    return <Sticker stickerId={card.stickerId} />;
 }

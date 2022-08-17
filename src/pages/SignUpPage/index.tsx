@@ -12,14 +12,14 @@ import Forms from './Forms';
 
 export default function SignUpPage() {
 
-    const {data: {token}} = useContext(DataContext);
+    const {auth: {user}} = useContext(DataContext);
     const navigate = useNavigate()
 
     useEffect(()=>{
-        if (token) {
+        if (user) {
             navigate('/album')
         }
-    }, [token])
+    }, [user])
 
     return (
         <Flex

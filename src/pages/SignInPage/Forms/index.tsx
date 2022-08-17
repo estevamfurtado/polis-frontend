@@ -24,7 +24,7 @@ export default function Forms () {
 
     const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
-    const { data: {setToken}} = useContext(DataContext);
+    const { auth: {setToken}} = useContext(DataContext);
 
     const toast = useToast();
     

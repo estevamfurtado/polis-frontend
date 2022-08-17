@@ -15,8 +15,8 @@ export default function GroupElement ({group} : {group: RankingGroup}) {
     const soft = rgbaToString(rgb.r, rgb.g, rgb.b, 0.2);
     const darker = rgbaToString(rgb.r, rgb.g, rgb.b, 1.0, 0.25, false)
 
-    const politiciansElements = group.records.map((r, index) => {
-        return <PoliticianElement key={r.id} record={r} />
+    const politiciansElements = group.records.map((r) => {
+        return <PoliticianElement key={r} recordId={r} />
     })
 
     useEffect(() => {

@@ -1,10 +1,17 @@
 
 import { Badge, Box, Flex, Image, Text, VStack } from "@chakra-ui/react";
-import { CompleteSticker } from "../../types";
+import { CompleteSticker, Sticker } from "../../types";
 import PoliticianSticker from "../PoliticianSticker";
 import PartySticker from "../PartySticker";
+import { useContext } from "react";
+import { DataContext } from "../../contexts/DataContext";
 
-export default function Sticker({sticker} : {sticker: CompleteSticker}) {
+export default function StickerComponent ({stickerId} : {stickerId: number}) {
+
+    const {content: {stickers}} = useContext(DataContext);
+    const sticker = stickers?.[stickerId] ?? null;
+
+    if (!sticker) {return <></>}
 
     const type = sticker.type === 'politician' 
     ? <PoliticianSticker sticker={sticker} />

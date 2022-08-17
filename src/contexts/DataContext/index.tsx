@@ -6,66 +6,119 @@ import * as api from "../../services/reqs"
 
 import {
     token, Person,
-    CompleteRanking, CompleteAlbum,
-    MyDeck
+    GetDeckResponse, GetRankingResponse
 } from "../../types"
 
 
-
-export type DataContextValues = {data: {
-
-        token: token | null
+export type DataContextValues = {
+    
+    auth: {
+        token: token
         setToken: (input: string | null) => void
 
         user: Person | null
         setUser: (input: Person | null) => void
-    
-        completeRanking: CompleteRanking | null
-        setCompleteRanking: (input: CompleteRanking | null) => void
-
-        completeAlbum: CompleteAlbum | null
-        setCompleteAlbum: (input: CompleteAlbum | null) => void
-
-        deck: MyDeck | null
-        setDeck: (input: MyDeck | null) => void
     },
+
+    content: {
+        rankings: GetRankingResponse['rankings'] | null
+        setRankings: (input: GetRankingResponse['rankings'] | null) => void
+
+        politicians: GetRankingResponse['politicians'] | null
+        setPoliticians: (input: GetRankingResponse['politicians'] | null) => void
+
+        politicianRecords: GetRankingResponse['politicianRecords'] | null
+        setPoliticianRecords: (input: GetRankingResponse['politicianRecords'] | null) => void
+
+        partyRecords: GetRankingResponse['partyRecords'] | null
+        setPartyRecords: (input: GetRankingResponse['partyRecords'] | null) => void
+
+        states: GetRankingResponse['states'] | null
+        setStates: (input: GetRankingResponse['states'] | null) => void
+
+        parties: GetRankingResponse['parties'] | null
+        setParties: (input: GetRankingResponse['parties'] | null) => void
+
+        album: GetDeckResponse['album'] | null
+        setAlbum: (input: GetDeckResponse['album'] | null) => void
+
+        pages: GetDeckResponse['pages'] | null
+        setPages: (input: GetDeckResponse['pages'] | null) => void
+
+        stickers: GetDeckResponse['stickers'] | null
+        setStickers: (input: GetDeckResponse['stickers'] | null) => void
+
+        cards: GetDeckResponse['cards'] | null
+        setCards: (input: GetDeckResponse['cards'] | null) => void
+
+        packs: GetDeckResponse['packs'] | null
+        setPacks: (input: GetDeckResponse['packs'] | null) => void
+
+        exchangeRequests: GetDeckResponse['exchangeRequests'] | null
+        setExchangeRequests: (input: GetDeckResponse['exchangeRequests'] | null) => void
+    }
+
     hooks: {
-        getUserData: () => void
-        getRankingData: () => void
-        getAlbumData: () => void
-        getDeckData: () => void
         logOut: () => void
         pasteCard: (cardId: number) => Promise<void>
         pasteAllCards: () => Promise<void>
         openPack: () => Promise<void>
         openPacks: () => Promise<void>
+        toggleCard: (cardId: number) => Promise<void>
+        accept: (exchangeRequestId: number) => Promise<void>
+        reject: (exchangeRequestId: number) => Promise<void>
+        cancel: (exchangeRequestId: number) => Promise<void>
     }
 }
 
 export const DataContext = createContext<DataContextValues>({
-    data: {
+    
+    auth: {
         token: '',
         user: null,
-        completeRanking: null,
-        completeAlbum: null,
-        deck: null,
-
         setToken: (input: string | null) => {},
         setUser: (input: Person | null) => {},
-        setCompleteRanking: (input: CompleteRanking | null) => {},
-        setCompleteAlbum: (input: CompleteAlbum | null) => {},
-        setDeck: (input: MyDeck | null) => {}
     },
+
+    content: {
+        rankings: null,
+        politicians: null,
+        politicianRecords: null,
+        partyRecords: null,
+        states: null,
+        parties: null,
+        album: null,
+        pages: null,
+        stickers: null,
+        cards: null,
+        packs: null,
+        exchangeRequests: null,
+        
+        setRankings: (input: GetRankingResponse['rankings'] | null) => {},
+        setPoliticians: (input: GetRankingResponse['politicians'] | null) => {},
+        setPoliticianRecords: (input: GetRankingResponse['politicianRecords'] | null) => {},
+        setPartyRecords: (input: GetRankingResponse['partyRecords'] | null) => {},
+        setStates: (input: GetRankingResponse['states'] | null) => {},
+        setParties: (input: GetRankingResponse['parties'] | null) => {},
+        setAlbum: (input: GetDeckResponse['album'] | null) => {},
+        setPages: (input: GetDeckResponse['pages'] | null) => {},
+        setStickers: (input: GetDeckResponse['stickers'] | null) => {},
+        setCards: (input: GetDeckResponse['cards'] | null) => {},
+        setPacks: (input: GetDeckResponse['packs'] | null) => {},
+        setExchangeRequests: (input: GetDeckResponse['exchangeRequests'] | null) => {},
+
+    },
+
     hooks: {
-        getUserData: () => {},
-        getAlbumData: () => {},
-        getRankingData: () => {},
-        getDeckData: () => {},
         logOut: () => {},
         pasteCard: async (cardId: number) => {},
         pasteAllCards: async () => {},
         openPack: async () => {},
-        openPacks: async () => {}
+        openPacks: async () => {},
+        toggleCard: async (cardId: number) => {},
+        accept: async (requestId: number) => {},
+        reject: async (requestId: number) => {},
+        cancel: async (requestId: number) => {},
     }
 })
 
@@ -75,91 +128,165 @@ export function DataProvider ({ children }: PropsWithChildren) {
     const [token, setToken] = useToken();
     const [user, setUser] = useState<Person | null>(null)
     
-    const [completeRanking, setCompleteRanking] = useState<CompleteRanking | null>(null)
-    const [completeAlbum, setCompleteAlbum] = useState<CompleteAlbum | null>(null)
-    const [deck, setDeck] = useState<MyDeck | null>(null)
+    const [rankings, setRankings] = useState<GetRankingResponse['rankings'] | null>(null)
+    const [politicians, setPoliticians] = useState<GetRankingResponse['politicians'] | null>(null)
+    const [politicianRecords, setPoliticianRecords] = useState<GetRankingResponse['politicianRecords'] | null>(null)
+    const [partyRecords, setPartyRecords] = useState<GetRankingResponse['partyRecords'] | null>(null)
+    const [states, setStates] = useState<GetRankingResponse['states'] | null>(null)
+    const [parties, setParties] = useState<GetRankingResponse['parties'] | null>(null)
+    const [album, setAlbum] = useState<GetDeckResponse['album'] | null>(null)
+    const [pages, setPages] = useState<GetDeckResponse['pages'] | null>(null)
+    const [stickers, setStickers] = useState<GetDeckResponse['stickers'] | null>(null)
+    const [cards, setCards] = useState<GetDeckResponse['cards'] | null>(null)
+    const [packs, setPacks] = useState<GetDeckResponse['packs'] | null>(null)
+    const [exchangeRequests, setExchangeRequests] = useState<GetDeckResponse['exchangeRequests'] | null>(null)
     
     const headers = {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
     };
 
+    // when token changes: if there is token get user / if not, set user to null
     useEffect(()=>{
         if (token) {
             getUserData();
+        } else {
+            clearAuth();
         }
     }, [token])
 
+    // get ranking data
     useEffect(()=>{
-        if (!completeRanking) {
+        if (!rankings) {
             getRankingData();
         }
     }, [])
 
+    // if ranking or user changes, if there is both, get album data
+    useEffect(()=>{
+        if (rankings && user) {
+            getDeckData();
+        } else {
+            clearDeckData();
+        }
+    }, [rankings, user])
 
-    const toast = useToast();
 
-    const data = {
-        token, setToken,
-        user, setUser,
-        completeRanking, setCompleteRanking,
-        completeAlbum, setCompleteAlbum,
-        deck, setDeck
+    const auth = {
+        token,
+        user,
+        setToken: setToken,
+        setUser: setUser,
+    }
+
+    const content = {
+        rankings, setRankings,
+        politicians, setPoliticians,
+        politicianRecords, setPoliticianRecords,
+        partyRecords, setPartyRecords,
+        states, setStates,
+        parties, setParties,
+        album, setAlbum,
+        pages, setPages,
+        stickers, setStickers,
+        cards, setCards,
+        packs, setPacks,
+        exchangeRequests, setExchangeRequests,
     }
 
     const hooks = {
-        getUserData,
-        getRankingData,
-        getAlbumData,
-        getDeckData,
         logOut,
         pasteCard,
         pasteAllCards,
         openPack,
-        openPacks
+        openPacks,
+        toggleCard,
+        accept,
+        reject,
+        cancel,
     }
     
-    return <DataContext.Provider value={{data, hooks}}>{children}</DataContext.Provider>
+    return <DataContext.Provider value={{auth, content, hooks}}>{children}</DataContext.Provider>
+
+
+    // ------------------------------------------------------------------
 
 
     async function getUserData() {
         try {
-            const data = await api.getUser();
-            if (data.status === 200) {
-                setUser(data.data);
-            }
-            else {
-                logOut();
-            }
+            const res = await api.getUser();
+            setUser(res);
         } catch (error) {
-            logOut();
+            console.log('Error getting user data');
+            clearAuth();
         }
     }
 
     async function getRankingData() {
-        const res = await api.getRanking();
-        const data = res.data;
-        
-        setCompleteRanking(data.ranking);
-    }
-
-    async function getAlbumData() {
-        const res = await api.getAlbum();
-        const data = res.data;
-        setCompleteAlbum(data.album);
+        try {
+            const res = await api.getRanking();
+            setRankingData(res);
+        } catch (error) {
+            console.log('Error getting ranking data');
+            clearRankingData();
+        }
     }
 
     async function getDeckData() {
-        const res = await api.getDeck();
-        const data = res.data;
-        setDeck(data);
+        try {
+            const res = await api.getDeck();
+            setDeckData(res);
+        } catch (error) {
+            console.log('Error getting deck data');
+            clearDeckData();
+        }
     }
 
-    async function logOut() {
+    function setRankingData(rankingResponse: GetRankingResponse) {
+        setRankings(rankingResponse.rankings);
+        setPoliticians(rankingResponse.politicians);
+        setPoliticianRecords(rankingResponse.politicianRecords);
+        setPartyRecords(rankingResponse.partyRecords);
+        setStates(rankingResponse.states);
+        setParties(rankingResponse.parties);
+    }
+
+    function setDeckData(deckResponse: GetDeckResponse) {
+        setAlbum(deckResponse.album);
+        setPages(deckResponse.pages);
+        setStickers(deckResponse.stickers);
+        setCards(deckResponse.cards);
+        setPacks(deckResponse.packs);
+        setExchangeRequests(deckResponse.exchangeRequests);
+    }
+
+    function clearRankingData() {
+        setRankings(null);
+        setPoliticians(null);
+        setPoliticianRecords(null);
+        setPartyRecords(null);
+        setStates(null);
+        setParties(null);
+    }
+
+    function clearDeckData() {
+        setAlbum(null);
+        setPages(null);
+        setStickers(null);
+        setCards(null);
+        setPacks(null);
+        setExchangeRequests(null);
+    }
+
+    function clearAuth() {
         setToken(null);
-        setDeck(null);
         setUser(null);
-        setCompleteAlbum(null);
+    }
+
+    // ------------------------------------------------------------------
+
+    async function logOut() {
+        setUser(null);
     }
 
     async function pasteCard(id: number) {
@@ -182,6 +309,20 @@ export function DataProvider ({ children }: PropsWithChildren) {
         await getDeckData();
     }
 
+    async function toggleCard(id: number) {
+        await api.toggleMark(id);
+        await getDeckData();
+    }
+
+    async function accept (id: number) {
+        await api.acceptRequest(id);
+    }
+    async function reject (id: number) {
+        await api.rejectRequest(id);
+    }
+    async function cancel (id: number) {
+        await api.cancelRequest(id);
+    }
 
 }
 

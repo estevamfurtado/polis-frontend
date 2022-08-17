@@ -7,14 +7,11 @@ import RankingGrid from "./Grid";
 
 export default function RankingPage() {
 
-    const {data: {completeRanking}, hooks: {getRankingData}} = useContext(DataContext);
-    const isLoaded = completeRanking ? true : false;
-
-    useEffect(() => {
-        if (!isLoaded){
-            getRankingData();
-        }
-    }, [])
+    const {content: {rankings}} = useContext(DataContext);
+    
+    if (!rankings) {
+        return <Skeleton height={'100vh'}/>
+    }
     
     return (
         <RankingProvider>

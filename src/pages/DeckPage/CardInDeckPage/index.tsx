@@ -7,33 +7,28 @@ import {CompleteCard} from '../../../types'
 import * as api from '../../../services/reqs'
 
 
-export default function CardInDeckPage({card}: {card: CompleteCard}) {
+export default function CardInDeckPage({cardId}: {cardId: number}) {
 
-    const {data: {deck}, hooks: {getDeckData}} = useContext(DataContext)
+    const {content: {cards, stickers}, hooks: {pasteCard, toggleCard}} = useContext(DataContext)
 
-    const canPaste = deck?.deck.stickers.byId[card.stickerId].pasted.length === 0;
+    const card = cards?.cards[cardId] ?? null;
+    if (!card) {return <></>}
+    const sticker = stickers?.[card.stickerId] ?? null;
+    if (!sticker) {return <></>}
+
+    const canPaste = sticker.cards.pasted.length === 0;
 
     return <VStack paddingBottom='10'>
         <Box border='1px solid gray.300' flex='0 0 auto' boxShadow='xl'>
             <Card key={card.id} card={card}/>
         </Box>
         <HStack>
-            {canPaste ? <IconButton onClick={paste} size='sm' icon={<CheckIcon />} aria-label='Colar'/> : <></>}
-            <IconButton size='sm' onClick={toggle} icon={<StarIcon />} aria-label='Favorita' 
+            {canPaste ? <IconButton onClick={()=>{pasteCard(cardId)}} size='sm' icon={<CheckIcon />} aria-label='Colar'/> : <></>}
+            <IconButton size='sm' onClick={()=>{toggleCard(cardId)}} icon={<StarIcon />} aria-label='Favorita' 
                 color={card.forExchange ? 'gray.300' : 'teal'}
             />
         </HStack>
     </VStack>
-
-    async function paste() {
-        await api.pasteCard(card.id);
-        await getDeckData();
-    }
-
-    async function toggle() {
-        await api.toggleMark(card.id)
-        await getDeckData();
-    }
 
 }
 

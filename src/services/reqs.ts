@@ -1,3 +1,4 @@
+import { GetDeckResponse, GetRankingResponse, Person } from "../types/index.js";
 import api from "./api.js";
 
 function headers () {
@@ -37,41 +38,37 @@ export async function updateUser(data: any) {
   }
 }
 
+// ------------------------------------------------
+
 export async function getUser() {
-  try {
-    const response = await api.get("/user/", {headers: headers()});
-    return {...response}
-  } catch (error: any) {
-    return {...error}
+  const response = await api.get("/user/", {headers: headers()});
+  if (response.status === 200) {
+    return response.data as Person;
+  } else {
+    throw response;
   }
 }
 
 export async function getRanking() {
-  try {
-    const response = await api.get("/ranking/", {headers: headers()});
-    return {...response}
-  } catch (error: any) {
-    return {...error}
-  }
-}
-
-export async function getAlbum() {
-  try {
-    const response = await api.get("/album/", {headers: headers()});
-    return {...response}
-  } catch (error: any) {
-    return {...error}
+  const response = await api.get("/ranking/", {headers: headers()});
+  if (response.status === 200) {
+    return response.data as GetRankingResponse;
+  } else {
+    throw response;
   }
 }
 
 export async function getDeck() {
-  try {
-    const response = await api.get("/deck/", {headers: headers()});
-    return {...response}
-  } catch (error: any) {
-    return {...error}
+  const response = await api.get("/deck/", {headers: headers()});
+  if (response.status === 200) {
+    return response.data as GetDeckResponse;
+  } else {
+    throw response;
   }
 }
+
+// -----------------
+
 
 export async function pasteCard(id: number) {
   try {

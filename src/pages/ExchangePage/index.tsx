@@ -11,16 +11,10 @@ import MyExchanges from "./MyExchanges";
 
 export default function ExchangePage() {
 
-    const {data: {deck, completeAlbum}, hooks: {getDeckData, openPack, openPacks, pasteAllCards}} = useContext(DataContext);
+    const {content: {cards}} = useContext(DataContext);
 
-    useEffect(()=>{
-        if (!deck) {
-            getDeckData();
-        }
-    }, [completeAlbum])
-
-    if (!deck || !completeAlbum) {
-        return <>nao tem deck ou album</>
+    if (!cards) {
+        return <></>
     }
 
     return <VStack w='100%' align='center' flex='1 1 auto' overflow='scroll'>

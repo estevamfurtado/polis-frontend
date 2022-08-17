@@ -1,33 +1,18 @@
 import { Box, Flex, Text, Image, Badge, VStack, Button } from "@chakra-ui/react"
 import { useContext } from "react"
 import { DataContext } from "../../../../contexts/DataContext"
-import { CompleteSticker } from "../../../../types"
+import { Sticker, CardsCatalog } from "../../../../types"
 
-export default function EmptySticker ({sticker} : {sticker: CompleteSticker}) {
+export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: CardsCatalog }}) {
 
-    const {data: {deck}, hooks} = useContext(DataContext);
+    const {hooks: {pasteCard}} = useContext(DataContext);
 
-    const cardId = canBePasted();
-    const pasteButton = cardId ? <Button variant='solid' colorScheme='alphaWhite' onClick={() => hooks.pasteCard(cardId)}>Colar!</Button> : <></>;
+    const canBePasted = sticker.cards.notPasted.new.length > 0;
+    const pasteButton = canBePasted ? <Button variant='solid' colorScheme='alphaWhite' onClick={() => pasteCard(sticker.cards.notPasted.new[0])}>Colar!</Button> : <></>;
 
     return <Flex gap={1} direction='column' align='center' justify='center' w='100%' h='100%' bg='rgba(0,0,0,0.2)' p='5' borderRadius='md'>
         <Text color='white' fontSize='sm' textAlign={'center'}>{sticker.identifier}</Text>
         <Text fontSize='sm' textAlign={'center'}>{sticker.title}</Text>
         {pasteButton}
     </Flex>
-
-    function canBePasted () {
-        const isInDeck = deck?.deck.stickers.byId[sticker.id] !== undefined;
-        let isPasted = false;
-        let canBePasted = false;
-        let  cardId = null;
-        if (isInDeck) {
-            isPasted = (deck?.deck.stickers.byId[sticker.id]?.pasted.length ?? 0) > 0;
-            canBePasted = !isPasted;
-            if (canBePasted) {
-                cardId = deck?.deck.stickers.byId[sticker.id]?.notPasted[0];
-            }
-        }
-        return canBePasted ? cardId : null;
-    }
 }

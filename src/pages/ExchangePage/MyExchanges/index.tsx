@@ -9,23 +9,11 @@ import {CompleteExchangeRequest} from '../../../types';
 
 export default function MyExchanges() {
 
-    const {data: {deck, user, completeAlbum}, hooks: {getDeckData, openPack, openPacks, pasteAllCards}} = useContext(DataContext);
+    const {auth: {user}, content: {exchangeRequests}, hooks: {accept, cancel, reject}} = useContext(DataContext);
 
-    const [myRequests, setMyRequests] = useState<CompleteExchangeRequest[]>([]);
-
-    useEffect(()=>{
-        if (!deck) {
-            getDeckData();
-        }
-        if (myRequests.length === 0) {
-            getMyRequests();
-        }
-    }, [completeAlbum])
-
-    if (!deck || !completeAlbum) {
+    if (!exchangeRequests || !user) {
         return <></>
     }
-
     
     
     return <VStack w='100%' align='center'>
@@ -42,18 +30,13 @@ export default function MyExchanges() {
                 </Tr>
                 </Thead>
                 <Tbody>
-                    {myRequests.map((r) => {
+                    {exchangeRequests.map((r) => {
                         return <RequestItem key={r.id} request={r} />
                     })}
                 </Tbody>
             </Table>
             </TableContainer>
     </VStack>
-
-    async function getMyRequests () {
-        const res = await api.getExchangeRequests();
-        setMyRequests(res.data);
-    }
 
     function RequestItem ({request} : {request: CompleteExchangeRequest}) {
         return <Tr>
@@ -81,18 +64,4 @@ export default function MyExchanges() {
             </Td>
         </Tr>
     }
-
-    async function accept (id: number) {
-        await api.acceptRequest(id);
-        await getMyRequests();
-    }
-    async function reject (id: number) {
-        await api.rejectRequest(id);
-        await getMyRequests();
-    }
-    async function cancel (id: number) {
-        await api.cancelRequest(id);
-        await getMyRequests();
-    }
-
 }

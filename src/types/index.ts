@@ -405,7 +405,7 @@ export type Deck = {
 export type RankingGroup = {
     title : string
     color: string
-    records: CompleteRecord[]
+    records: number[]
 }
 
 export type CompleteExchangeRequest = (ExchangeRequest & {
@@ -414,3 +414,51 @@ export type CompleteExchangeRequest = (ExchangeRequest & {
     cardsOffered: CompleteCard[]
     cardsRequested: CompleteCard[]
 })
+
+
+// ----------------- new data models
+
+// ranking
+
+
+export type GetRankingResponse = {
+    rankings: {
+        parties: RankingGroup[],
+        ranking: RankingGroup[],
+    },
+    politicians: {[key: number]: Politician},
+    politicianRecords: {[key: number]: Record},
+    partyRecords: {[key: number]: PartyRecord},
+    states: {[key: string]: State},
+    parties: {[key: string]: Party},
+}
+
+export type GetDeckResponse = {
+    album: Album & {pages: number[]},
+    pages: {[key: number]: Page & {stickers: number[]}},
+    stickers: {[key: number]: Sticker & {cards: CardsCatalog}},
+    cards: {
+        cards: {[key: number]: Card},
+        deck: CardsCatalog
+    },
+    packs: {
+        new: number,
+        link: number,
+        lastPackAt: number,
+    },
+    exchangeRequests: CompleteExchangeRequest[]
+}
+
+
+
+export type CardsCatalog = {
+    all: number[],
+    pasted: number[],
+    notPasted: {
+        all: number[],
+        new: number[],
+        repeated: number[],
+        favorites: number[],
+        recent: number[],
+    }
+}

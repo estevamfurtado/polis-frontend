@@ -18,6 +18,9 @@ type RankingContextValues = {
     showState: string
     groups: RankingGroup[]
 
+    filterState: boolean
+    filterSearch: boolean
+
     setSearch: (input: string) => void
     setShowBad: (input: boolean) => void
     setShowNeutral: (input: boolean) => void
@@ -42,36 +45,39 @@ export const RankingContext = createContext<RankingContextValues>({
     setGroupBy: (input: "party" | "tier") => {},
     setShowPartyRanking: (input: boolean) => {},
     setShowState: (input: string) => {},
-    groups: []
+    groups: [],
+    filterState: false,
+    filterSearch: false,
 })
 
 
 export function RankingProvider ({ children }: PropsWithChildren) {
 
-    const {data: {completeRanking}} = useContext(DataContext);
+    const {content: {rankings}} = useContext(DataContext);
 
-    const [search, setSearch] = useState("");
+    const [groupBy, setGroupBy] = useState("party");
     const [showBad, setShowBad] = useState(true);
     const [showNeutral, setShowNeutral] = useState(true);
     const [showGood, setShowGood] = useState(true);
-    const [groupBy, setGroupBy] = useState("party");
     const [showPartyRanking, setShowPartyRanking] = useState(false);
     const [showState, setShowState] = useState("");
+    const [search, setSearch] = useState("");
 
-    const searchIsValid = search.length > 0;
-    const stateIsValid = statesAbbreviations.find(state => state === showState) ? true : false;
+    const filterState = statesAbbreviations.filter(state => state === showState).length > 0;
+    const filterSearch = search.trim().length > 0;
 
-    const [partiesFiltered, tiersFiltered] = processRanking(completeRanking);
-    const groups = groupBy === "party" ? partiesFiltered : tiersFiltered;
+    const groups = (groupBy === "party" ? rankings?.parties : rankings?.ranking) ?? [];
 
     const pass = {
-        search, setSearch,
+        search: search.trim(), setSearch,
         showState, setShowState,
         showBad, setShowBad,
         showNeutral, setShowNeutral,
         showGood, setShowGood,
         groupBy, setGroupBy,
         groups,
+
+        filterState, filterSearch,
 
         showPartyRanking, setShowPartyRanking,
     } as RankingContextValues;
@@ -81,69 +87,6 @@ export function RankingProvider ({ children }: PropsWithChildren) {
             {children}
         </RankingContext.Provider>
     )
-
-    function processRanking (ranking: CompleteRanking | null) {
-
-        if (!ranking) {return [[],[]]};
-
-        const {records} = ranking;
-        const parties: RankingGroup[] = ranking.partyRecords.map(pr => {
-            return {
-                title: pr.partyAbbreviation,
-                color: pr.party.mainColor || "gray.200",
-                records: []
-            }
-        })
-
-        const tiers: RankingGroup[] = [
-            {title: "Top 10", color: "green.500", records: []},
-            {title: "Top 50", color: "green.500", records: []},
-            {title: "Top 100", color: "green.500", records: []},
-            {title: "Top 300", color: "purple.500", records: []},
-            {title: "Outros", color: "red.500", records: []},
-        ]
-
-        for (const r of records) {
-            const show = showRecord(r);
-            if (show) {
-                tiers[tier(r)]?.records.push(r);
-                parties.find(p => p.title === r.partyAbbreviation)?.records.push(r);
-            }
-        }
-
-        return [parties, tiers]
-
-        function tier (record: CompleteRecord) {
-            const {scoreRanking} = record;
-            if (scoreRanking) {
-                if (scoreRanking <= 10) {
-                    return 0;
-                } else if (scoreRanking <= 50) {
-                    return 1;
-                } else if (scoreRanking <= 100) {
-                    return 2;
-                } else if (scoreRanking <= 300) {
-                    return 3;
-                }
-            }
-            return 4;
-        }
-
-        function showRecord (r: CompleteRecord) {
-            let show = true;
-            if (searchIsValid) {
-                show = r.politician.name.toLowerCase().includes(search.toLowerCase());
-            } else {
-                if (stateIsValid) {show = r.stateAbbreviation === showState;}
-                if (show) {
-                    if ((r.scoreRanking ?? 0) > variables.values.neutral) {show = showBad}
-                    else if ((r.scoreRanking ?? 0) > variables.values.good) {show = showNeutral}
-                    else {show = showGood}
-                }
-            }
-            return show;
-        }
-    }
 }
 
 const statesAbbreviations = [

@@ -1,23 +1,29 @@
 
 import { Badge, Box, Flex, Image, Text, useDisclosure, VStack } from "@chakra-ui/react";
-import { useState } from "react";
-import { CompleteSticker } from "../../types";
+import { useContext, useState } from "react";
+import { DataContext } from "../../contexts/DataContext";
+import { Sticker } from "../../types";
 import PoliticianModal from "./PoliticianModal";
 
-export default function PoliticianSticker({sticker} : {sticker: CompleteSticker}) {
+export default function PoliticianSticker({sticker} : {sticker: Sticker}) {
+
+    const { content: { politicianRecords } } = useContext(DataContext);
+
+    const politicianRecord = politicianRecords?.[sticker.politicianRecordId!] ?? null;
+    if (!politicianRecord) {return <></>}
 
     const {isOpen, onOpen, onClose} = useDisclosure();
 
-    const total = sticker.politicianRecord?.scoreTotal ?? 0;
+    const total = politicianRecord?.scoreTotal ?? 0;
     const badgeColor = total > 7.5 ? 'green' : (total < 6 ? 'red' : '');
 
-    const abb = sticker.politicianRecord.partyAbbreviation?.length ?? 0 > 6 ? sticker.politicianRecord.partyAbbreviation?.substring(0, 6) : sticker.politicianRecord.partyAbbreviation;
+    const abb = politicianRecord.partyAbbreviation?.length ?? 0 > 6 ? politicianRecord.partyAbbreviation?.substring(0, 6) : politicianRecord.partyAbbreviation;
 
     return <><Box w='100%' h='100%' bg='white' p='2' borderRadius='sm' position='relative' onClick={onOpen} cursor='pointer'>
 
         <VStack position='absolute' left='0' top='0' m='2' align='start' spacing='0'>
             <Badge fontSize={'xs'} colorScheme={badgeColor}>
-                {`#${sticker.politicianRecord.scoreRanking}`}
+                {`#${politicianRecord.scoreRanking}`}
             </Badge>
         </VStack>
 
@@ -37,6 +43,6 @@ export default function PoliticianSticker({sticker} : {sticker: CompleteSticker}
         </Flex>
     </Box>
 
-    <PoliticianModal isOpen={isOpen} onClose={onClose} sticker={sticker}/>
+    <PoliticianModal isOpen={isOpen} onClose={onClose} sticker={sticker} politicianRecord={politicianRecord}/>
     </>
 }

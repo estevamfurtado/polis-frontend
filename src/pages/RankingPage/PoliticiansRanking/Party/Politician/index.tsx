@@ -1,23 +1,48 @@
 import { Badge, Box, Flex, Text, WrapItem, Image, Skeleton } from "@chakra-ui/react";
-import { useState , useEffect} from "react";
+import { useState , useEffect, useContext} from "react";
+import { DataContext } from "../../../../../contexts/DataContext";
+import { RankingContext } from "../../../../../contexts/RankingContext";
 import variables from "../../../../../services/variables";
-import { CompleteRecord } from "../../../../../types";
 
 
 
-export default function PoliticianElement ({record} : {record: CompleteRecord}) {
+export default function PoliticianElement ({recordId} : {recordId: number}) {
+    
+    const {content: {politicianRecords, politicians}} = useContext(DataContext);
+    if (!politicianRecords) {return <></>}
+
+    const record = politicianRecords?.[recordId] ?? null;
+    if (!record) {return <></>}
+
+
+    const politician = record.politicianId ? (politicians?.[record.politicianId] ?? null) : null;
+    if (!politician) {return <></>}
     
     const [isLoading, setIsLoading] = useState(true)
 
-    const name = record.politician.name;
-    const imageUrl = record.politician.imageUrl || '';
+    const {search, showBad, showGood, showNeutral, showState, filterState, filterSearch} = useContext(RankingContext);
+
+    const name = politician.name;
+    const imageUrl = politician.imageUrl || '';
     const uf = record.stateAbbreviation || '';
     const position = record.scoreRanking || 0;
 
-    const resultColor = 
-        (position === 0) ? 'gray' : 
-            (position < variables.values.good ? 'green' : 
-            (position < variables.values.neutral ? 'yellow' : 'red'));
+    const status = position > variables.values.good ? "good"
+                    : position < variables.values.neutral ? "bad" : "neutral";
+    const resultColor = (status === 'good') ? 'green' : (status === 'bad' ? 'yellow' : 'red');
+    
+    const show = computeShow();
+
+    function computeShow() {
+        if (filterState) {if (uf !== showState) {return false;}}
+        if (!showBad && status === 'bad') {return false;}
+        if (!showGood && status === 'good') {return false;}
+        if (!showNeutral && status === 'neutral') {return false;}
+        if (filterSearch) {if (!name.toLowerCase().includes(search.toLowerCase())) {return false;}}
+        return true;
+    }
+
+    if (!show) {return <></>}
 
     useEffect(() => {
         setIsLoading(false)

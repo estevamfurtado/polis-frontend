@@ -12,7 +12,7 @@ import Forms from './Forms';
 
 export default function EditInfoPage() {
 
-    const {data: {token}} = useContext(DataContext);
+    const {auth: {token}} = useContext(DataContext);
     const navigate = useNavigate()
 
     useEffect(()=>{

@@ -5,30 +5,24 @@ import Page from "./Page";
 
 export default function AlbumPagesPage () {
 
-    const {data: {completeAlbum, deck}, hooks} = useContext(DataContext);
-    const isLoaded = completeAlbum !== null;
+    const {content: {album, stickers, cards}, hooks: {pasteAllCards}} = useContext(DataContext);
+    const isLoaded = album && stickers && cards
 
     if (!isLoaded) {
-        return <div>Loading...</div>;
+        return <></>;
     }
 
-    const filtered = completeAlbum.pages.filter(p => {
-        return p.stickers.length > 1
-    });
-
-    const pages = filtered.map(p => {
-        return <Page key={p.id} page={p} />;
+    const pages = album.pages.map(id => {
+        return <Page key={id} pageId={id} />;
     })
 
-    const cardsToPaste = (deck?.deck.stickers.ids.filter (id => {
-        return deck?.deck.stickers.byId[id].pasted.length === 0 
-            && deck?.deck.stickers.byId[id].notPasted.length > 0
-    })) ?? [];
+    const cardsToPaste = cards.deck.notPasted.new.length > 0;
 
-    const button = cardsToPaste.length > 0 ? <Button
+    const button = cardsToPaste ? <Button
         size='sm' colorScheme='blackAlpha'
         position='absolute' top='3' right='5' zIndex={10}
-        onClick={hooks.pasteAllCards}>Colar todas as cartas</Button> : <></>;
+        onClick={pasteAllCards}>Colar todas as cartas
+    </Button> : <></>;
 
     return <Box position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
         <VStack w='100%' h='100%' gap='0' overflowY={'scroll'}>

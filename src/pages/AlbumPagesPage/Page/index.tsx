@@ -8,22 +8,22 @@ import EmptySticker from "./EmptySticker"
 import PoliticianSticker from "../../../components/PartySticker";
 import PartySticker from "../../../components/PoliticianSticker";
 import Sticker from "../../../components/Sticker";
+import PageSticker from "./PageSticker";
 
-export default function Page ({page} : {page: CompletePage}) {
+export default function Page ({pageId} : {pageId: number}) {
 
-    const {data: {deck}} = useContext(DataContext);
+    const {content: {pages}} = useContext(DataContext);
 
-    const stickers = page.stickers.map(sticker => {
+    const page = pages?.[pageId] ?? null;
 
-        const pastedCardId = deck?.deck.stickers.byId[sticker.id]?.pasted[0] ?? null;
+    if (!page) {
+        return <></>
+    }
 
-        return <WrapItem key={sticker.id} w='150px' h='200px'>
-            {pastedCardId 
-                ? <Sticker sticker={sticker}/> 
-                : <EmptySticker sticker={sticker} 
-            />}
-        </WrapItem>
+    const stickers = page.stickers.map(id => {
+        return <PageSticker stickerId={id} key={id}/>
     })
+
 
     const bgColor = page.backgroundColor;
     const bgRgb = hexToRgb(bgColor ?? "#ffffff");

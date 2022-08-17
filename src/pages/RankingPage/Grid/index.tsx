@@ -27,13 +27,7 @@ import PoliticiansRanking from "../PoliticiansRanking";
 
 
 export default function RankingGrid () {
-    
-    const {showPartyRanking} = useContext(RankingContext);
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-
     return <>
-        <PartyRankingDrawer isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
         <VStack spacing='0' w='100%' h='100%' justify='start' align-items='center' overflow='hidden'>
             <Box h='50px' w='100%' flex='0 0 auto' bg='gray.100'>
                 <ControleRanking/>

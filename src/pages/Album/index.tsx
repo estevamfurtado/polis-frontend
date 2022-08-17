@@ -5,42 +5,33 @@ import { DataContext } from "../../contexts/DataContext";
 
 export default function Album () {
 
-    const { data: {deck, token, completeAlbum, user}, hooks: {getAlbumData, getUserData, getDeckData} } = useContext(DataContext);
-    const download = token && user && !deck && !completeAlbum;
+    const { auth: {token, user}, content: {packs, cards, exchangeRequests} } = useContext(DataContext);
 
     const navigate = useNavigate();
-
-    const location = useLocation();
-
     useEffect(()=>{
         if (!token) {
             navigate('/sign-in');
         }
-        else if (token && !user) {
-            getUserData();
-        }
-        else if (download) {
-            getAlbumData();
-            getDeckData();
-        }
-    },[user]);
+    },[token]);
+
+
+    const location = useLocation();
+
 
     return user 
     ? <Stack w='100%' h='100%' overflow='hidden' spacing='0' direction='column'>
         <Stack w='100%' h='50px' direction='row' align='center' justify='center' overflow='auto' flex='0 0 auto'>
             {NavButton({title: 'Álbum', page: 'pages', notifications: 0})}
-            {NavButton({title: 'Pacotinhos', page: 'packs', notifications: 3})}
-            {NavButton({title: 'Figurinhas', page: 'deck', notifications: 5})}
-            {NavButton({title: 'Trocas', page: 'exchange', notifications: 0})}
+            {NavButton({title: 'Pacotinhos', page: 'packs', notifications: packs?.new ?? 0})}
+            {NavButton({title: 'Figurinhas', page: 'deck', notifications: cards?.deck.notPasted.recent.length ?? 0})}
+            {NavButton({title: 'Trocas', page: 'exchange', notifications: exchangeRequests?.length ?? 0})}
         </Stack>
         <Outlet/>
     </Stack>
     : <></>
 
     function NavButton (props: {title: string, page: string, notifications: number}) {
-
         const isSelected = location.pathname.includes(props.page);
-
         const notification = props.notifications > 0 
             ? <Box 
                 position='absolute' 

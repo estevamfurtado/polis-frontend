@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AlbumCover from "../../components/AlbumCover";
 import StickerPack from "../../components/StickerPack";
-import { DataContext } from "../../contexts/DataContext";
 
 export default function AlbumIntroPage () {
 
@@ -28,15 +27,6 @@ export default function AlbumIntroPage () {
             >
                 <AlbumCover/>
                 <Text>Meu álbum</Text>
-            </VStack>
-        )
-    }
-    
-    function PackThumb () {
-        return (
-            <VStack onClick={goToDeck} cursor='pointer'>
-                <StickerPack/>
-                <Text>Minhas figurinhas</Text>
             </VStack>
         )
     }

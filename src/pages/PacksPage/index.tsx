@@ -7,22 +7,15 @@ import { CompleteCard, CompleteSticker } from "../../types";
 
 export default function PacksPage() {
 
-    const {data: {deck, completeAlbum, user}, hooks: {getDeckData, openPack, openPacks, pasteAllCards}} = useContext(DataContext);
+    const {content: {packs}, hooks: {openPack, openPacks}} = useContext(DataContext);
+
+    if (!packs) {return <></>}
 
     const toast = useToast();
 
-    useEffect(()=>{
-        if (!deck) {
-            getDeckData();
-        }
-    }, [completeAlbum])
-
-    if (!deck || !completeAlbum) {
-        return <></>
-    }
 
     const hasPacksMessage = <>
-        <Text>{`Você tem +${deck.packs} pacotes`}</Text>
+        <Text>{`Você tem +${packs.new} pacotes`}</Text>
         <HStack align='start'>
             <Button size='sm' onClick={openOnePack}>Abrir +1</Button>
             <Button size='sm' onClick={openAllPacks}>Abrir todos</Button>
@@ -43,24 +36,29 @@ export default function PacksPage() {
     }
 
     function packsArea() {
+
+        if (!packs) {return <></>}
+
+        const nextPack = packs.lastPackAt + 60*60*1000;
+        const nextPackDate = new Date(nextPack);
+        const nextPackTime = nextPackDate.toLocaleTimeString();
+
         return <VStack w='100%' spacing='10' justify='center' align='center'>
         <VStack flex='0 0 auto' spacing='7' align='center'>
             <StickerPack/>
-
             <VStack align='center' spacing='5'>
-
                 <VStack align='center'>
-                {(deck?.packs ?? 0)> 0 ? hasPacksMessage : <Text>Você não tem pacotinhos para abrir :(</Text>}
+                {(packs?.new ?? 0)> 0 ? hasPacksMessage : <Text>Você não tem pacotinhos para abrir :(</Text>}
                 </VStack>
 
                 <VStack align='center'>
                     <Text>{`Ganhe novos pacotes`}</Text>
                     <Wrap align='start' w='80%' justify='center'>
-                        <Button colorScheme='teal' size='sm' onClick={copyAndSendLink} isDisabled={user ? false : true}>Compartilhe seu link </Button>
+                        <Button colorScheme='teal' size='sm' onClick={copyAndSendLink}>Compartilhe seu link </Button>
                         <Button size='sm' isDisabled={true}>DepuTinder</Button>
                         <Button size='sm' isDisabled={true}>SuperPolis</Button>
                     </Wrap>
-                    <Text fontSize={'sm'}>{`ou aguarde - logo logo vc ganha +20`}</Text>
+                    <Text fontSize={'sm'}>{`Seu próximo pacote será liberado às ${nextPackTime}`}</Text>
                 </VStack>
             </VStack>
         </VStack>
@@ -68,8 +66,8 @@ export default function PacksPage() {
     }
 
     function copyAndSendLink() {
-        if (user) {
-            const link = `Hey, você já ouviu falar do Álbum dos Políticos? Colecione de graça em ${window.location.origin}/referral?id=${user?.id}`
+        if (packs) {
+            const link = `Hey, você já ouviu falar do Álbum dos Políticos? Colecione de graça em ${window.location.origin}/referral?id=${packs.link}`
             navigator.clipboard.writeText(link);
 
             toast({

@@ -1,8 +1,9 @@
 import { CheckCircleIcon, WarningIcon, ExternalLinkIcon } from "@chakra-ui/icons"
 import { Progress, Box, Flex, List,ListIcon, Text, Button, Modal, ModalBody, ModalCloseButton, VStack, HStack, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Image, Badge, Checkbox, ListItem, Link } from "@chakra-ui/react"
-import { CompleteSticker } from "../../../types"
+import { Sticker, Record } from "../../../types"
 
-export default function PoliticianModal({isOpen, onClose, sticker} : {isOpen: boolean, onClose: () => void, sticker: CompleteSticker}) {
+
+export default function PoliticianModal({isOpen, onClose, sticker, politicianRecord} : {isOpen: boolean, onClose: () => void, sticker: Sticker, politicianRecord: Record }) {
 
     return <Modal isOpen={isOpen} onClose={onClose} size='lg'>
         <ModalOverlay />
@@ -20,28 +21,28 @@ export default function PoliticianModal({isOpen, onClose, sticker} : {isOpen: bo
                             </Flex>
                         </VStack>
                         <VStack flex='1 1 auto' align='start'>
-                            {line('Partido', sticker.politicianRecord?.partyAbbreviation ?? '-')}
-                            {line('Estado', sticker.politicianRecord?.stateAbbreviation ?? '-')}
-                            {line('# de votos', String(sticker.politicianRecord?.quantityVote ?? '') ?? '?')}
+                            {line('Partido', politicianRecord.partyAbbreviation ?? '-')}
+                            {line('Estado', politicianRecord.stateAbbreviation ?? '-')}
+                            {line('# de votos', String(politicianRecord.quantityVote ?? '') ?? '?')}
                         </VStack>
                     </HStack>
 
                     <VStack align={'start'} width='100%'>
                         <Text fontWeight={'bold'}>Avaliação</Text>
-                        {link(`Avaliação completa de ${sticker.title}`, sticker.politicianRecord?.sourceUrl ?? '?')}
+                        {link(`Avaliação completa de ${sticker.title}`, politicianRecord.sourceUrl ?? '?')}
 
                         <HStack w='100%' spacing='10'>
 
                             <VStack w='50%' align='start' justify='start'>
-                                {scoreProgress(sticker.politicianRecord.scoreTotal, 'Total')}
-                                {scoreProgress(sticker.politicianRecord.scorePrivileges, 'Antiprivilégio')}
-                                {scoreProgress(sticker.politicianRecord.scoreWastage, 'Antidesperdício')}
+                                {scoreProgress(politicianRecord.scoreTotal, 'Total')}
+                                {scoreProgress(politicianRecord.scorePrivileges, 'Antiprivilégio')}
+                                {scoreProgress(politicianRecord.scoreWastage, 'Antidesperdício')}
                             </VStack>
                             <VStack w='50%' align='start' justify='start'>
                                 <List>
-                                    {checkValue(sticker.politicianRecord.cutAidShift, 'Cortou auxílio-mudança')}
-                                    {checkValue(sticker.politicianRecord.cutHousingAllowance, 'Cortou auxílio-moradia')}
-                                    {checkValue(sticker.politicianRecord.cutRetirement, 'Cortou aposentadoria especial')}
+                                    {checkValue(politicianRecord.cutAidShift, 'Cortou auxílio-mudança')}
+                                    {checkValue(politicianRecord.cutHousingAllowance, 'Cortou auxílio-moradia')}
+                                    {checkValue(politicianRecord.cutRetirement, 'Cortou aposentadoria especial')}
                                 </List>
                             </VStack>
 
