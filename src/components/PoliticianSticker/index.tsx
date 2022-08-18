@@ -5,7 +5,7 @@ import { DataContext } from "../../contexts/DataContext";
 import { Sticker } from "../../types";
 import PoliticianModal from "./PoliticianModal";
 
-export default function PoliticianSticker({sticker} : {sticker: Sticker}) {
+export default function PoliticianSticker({sticker, dontOpen} : {sticker: Sticker, dontOpen?: boolean}) {
 
     const { content: { politicianRecords } } = useContext(DataContext);
 
@@ -43,6 +43,10 @@ export default function PoliticianSticker({sticker} : {sticker: Sticker}) {
         </Flex>
     </Box>
 
-    <PoliticianModal isOpen={isOpen} onClose={onClose} sticker={sticker} politicianRecord={politicianRecord}/>
+    {(dontOpen === true)
+        ? <></>
+        : <PoliticianModal isOpen={isOpen} onClose={onClose} sticker={sticker} politicianRecord={politicianRecord}/>
+    }
+
     </>
 }

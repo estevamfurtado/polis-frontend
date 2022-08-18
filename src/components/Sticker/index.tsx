@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
 
 export default function StickerComponent (
-    {stickerId, h, w, open} : {stickerId: number, h?: number, w?: number, open?: boolean}) {
+    {stickerId, h, w, dontOpen} : {stickerId: number, h?: number, w?: number, dontOpen?: boolean}) {
 
     const {content: {stickers}} = useContext(DataContext);
     const sticker = stickers?.[stickerId] ?? null;
@@ -15,7 +15,7 @@ export default function StickerComponent (
     if (!sticker) {return <></>}
 
     const type = sticker.type === 'politician' 
-    ? <PoliticianSticker sticker={sticker} />
+    ? <PoliticianSticker sticker={sticker} dontOpen={dontOpen} />
     : <PartySticker sticker={sticker} />
 
     return <Box 
