@@ -16,14 +16,14 @@ export default function CardInDeckPage({cardId}: {cardId: number}) {
 
     const canPaste = sticker.cards.pasted.length === 0;
 
-    return <VStack paddingBottom='10'>
-        <Box border='1px solid gray.300' flex='0 0 auto' boxShadow='xl'>
-            <Card key={card.id} cardId={cardId}/>
+    return <VStack paddingBottom='2' spacing='1'>
+        <Box border='1px solid' borderColor='gray.200' flex='0 0 auto' boxShadow='xl'>
+            <Card key={card.id} cardId={cardId} w={95} h={140}/>
         </Box>
         <HStack>
             {canPaste ? <IconButton onClick={()=>{pasteCard(cardId)}} size='sm' icon={<CheckIcon />} aria-label='Colar'/> : <></>}
             <IconButton size='sm' onClick={()=>{toggleCard(cardId)}} icon={<StarIcon />} aria-label='Favorita' 
-                color={card.forExchange ? 'gray.300' : 'teal'}
+                color={card.forExchange ? 'gray.300' : 'yellow.500'}
             />
         </HStack>
     </VStack>

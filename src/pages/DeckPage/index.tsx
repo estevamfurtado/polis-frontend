@@ -22,8 +22,8 @@ export default function DeckPage() {
         if (!cards) {return <></>}
 
         return <Tabs w='100%' variant='enclosed' borderColor='gray.200' size='sm'>
-            <TabList>
-                <Tab fontWeight={'semibold'}>{`+ Recentes (${cards.deck.notPasted.recent.length})`}</Tab>
+            <TabList w='100%' overflowX={'scroll'}>
+                <Tab fontWeight={'semibold'}>{`Recentes (${cards.deck.notPasted.recent.length})`}</Tab>
                 <Tab fontWeight={'semibold'}>{`Novas (${cards.deck.notPasted.new.length})`}</Tab>
                 <Tab fontWeight={'semibold'}>{`Repetidas (${cards.deck.notPasted.repeated.length})`}</Tab>
                 <Tab fontWeight={'semibold'}>{`Favoritas (${cards.deck.notPasted.favorites.length})`}</Tab>

@@ -30,8 +30,8 @@ export default function Page ({pageId} : {pageId: number}) {
     const darkerTone = rgbaToString(bgRgb.r, bgRgb.g, bgRgb.b, 1, 0.1, false);
     const lighterTone = rgbaToString(bgRgb.r, bgRgb.g, bgRgb.b, 1, 0.25, true);
 
-    return <VStack w='100%' bg={page.backgroundColor || 'gray'} p='5' align='start'>
-        <Wrap w='100%' spacing='5'>
+    return <VStack w='100%' bg={page.backgroundColor || 'gray'} p='3' align='start'>
+        <Wrap w='100%' spacing='2'>
             <WrapItem>
                     <VStack align='start' maxW='450px' borderRadius='md' bg={darkerTone} p='3'>
                         <Box 

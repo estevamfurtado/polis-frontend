@@ -12,7 +12,10 @@ export default function PageSticker ({stickerId} : {stickerId: number}) {
     
     if (!sticker) {return <></>}
     
-    return <WrapItem key={stickerId} w='150px' h='200px'>
+    // w={95} h={140}
+    // w={150} h={200}
+
+    return <WrapItem key={stickerId} w='110px' h='160px'>
         {sticker.cards.pasted.length > 0 
             ? <Sticker stickerId={stickerId}/> 
             : <EmptySticker sticker={sticker} 

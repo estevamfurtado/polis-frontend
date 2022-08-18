@@ -139,7 +139,7 @@ const stickerStatus = {
         title: 'Pronto para colar'
     },
     repeated: {
-        bg: 'orange.400',
+        bg: 'green.500',
         color: 'white',
         title: 'Repetida'
     },

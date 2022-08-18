@@ -18,8 +18,8 @@ export default function StickerComponent ({stickerId, h, w} : {stickerId: number
     : <PartySticker sticker={sticker} />
 
     return <Box 
-        w={w ? `${w}px` : '150px'} 
-        h={h ? `${h}px` : '200px'}
+        w={w ? `${w}px` : '100%'} 
+        h={h ? `${h}px` : '100%'}
         flex='0 0 auto'>
         {type}
     </Box>;

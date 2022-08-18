@@ -27,8 +27,8 @@ export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: Ca
         _hover={onHover}
         onClick={onClick}
     >
-        <Text color='white' fontSize='sm' textAlign={'center'}>{sticker.identifier}</Text>
-        <Text fontSize='sm' textAlign={'center'}>{sticker.title}</Text>
+        <Text color='white' fontSize='xs' textAlign={'center'}>{sticker.identifier}</Text>
+        <Text color='white' fontSize='xs' textAlign={'center'}>{sticker.title}</Text>
         {pasteButton}
     </Flex>
 }
