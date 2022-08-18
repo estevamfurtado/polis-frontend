@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Image, Badge, VStack, Button } from "@chakra-ui/react"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { DataContext } from "../../../../contexts/DataContext"
 import { Sticker, CardsCatalog } from "../../../../types"
 
@@ -7,8 +7,13 @@ export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: Ca
 
     const {hooks: {pasteCard}} = useContext(DataContext);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const canBePasted = sticker.cards.notPasted.new.length > 0;
-    const pasteButton = canBePasted ? <Button colorScheme='alphaWhite' onClick={() => pasteCard(sticker.cards.notPasted.new[0])}>Colar!</Button> : <></>;
+    const pasteButton = canBePasted ? 
+        !isLoading ? <Button colorScheme='alphaWhite' onClick={handlePaste}>Colar!</Button>
+        : <Button colorScheme='alphaWhite' isDisabled>Colando...</Button> 
+    : <></>;
 
     const bg = canBePasted ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
     const cursor = canBePasted ? 'pointer' : 'default';
@@ -31,4 +36,10 @@ export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: Ca
         <Text color='white' fontSize='xs' textAlign={'center'}>{sticker.title}</Text>
         {pasteButton}
     </Flex>
+
+    async function handlePaste() {
+        setIsLoading(true);
+        await pasteCard(sticker.cards.notPasted.new[0]);
+        setIsLoading(false);
+    }
 }
