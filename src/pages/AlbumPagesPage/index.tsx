@@ -16,9 +16,9 @@ export default function AlbumPagesPage () {
         return <Page key={id} pageId={id} />;
     })
 
-    const cardsToPaste = cards.deck.notPasted.new.length > 0;
+    const manyCardsToPaste = cards.deck.notPasted.new.length > 30;
 
-    const button = cardsToPaste ? <Button
+    const button = manyCardsToPaste ? <Button
         size='sm' colorScheme='blackAlpha'
         position='absolute' top='3' right='5' zIndex={10}
         onClick={pasteAllCards}>Colar todas as cartas
