@@ -65,7 +65,7 @@ export default function Forms () {
     }
 
 
-    return <Box w={'100%'} bg={'white'} p={'5'} shadow={'md'}>
+    return <Box w={'100%'} bg={'white'} p={'2'}>
         <VStack gap={20} w={'100%'}>
             
             <VStack gap={2} w={'100%'}>
@@ -74,7 +74,6 @@ export default function Forms () {
             </VStack>
 
             <VStack gap={2} w={'100%'}>
-                <Text color={'red'}>{validation.error?.message}</Text>
                 <Button colorScheme='facebook' isDisabled={!isValid} onClick={submitHandler}>{ 'Entrar' }</Button>
             </VStack>
 

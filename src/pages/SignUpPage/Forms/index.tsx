@@ -138,6 +138,14 @@ export default function Forms () {
             state: cpf,
             setState: setCpf,
             errorMessage: 'Deve ser um CPF válido no formato xxx.xxx.xxx-xx.',
+            inputProcessor: (value: string) => {
+                let clean = value.replace(/\D/g, '');
+                const p1 = clean.slice(0, 3);
+                const p2 = clean.length > 3 ? '.' + clean.slice(3, 6) : '';
+                const p3 = clean.length > 6 ? '.' + clean.slice(6, 9) : '';
+                const p4 = clean.length > 9 ? '-' + clean.slice(9, 11) : '';
+                return p1 + p2 + p3 + p4;
+            },
         },
         voteStateAbbreviation: {
             value: voteStateAbbreviation,
@@ -159,6 +167,13 @@ export default function Forms () {
             state: phone,
             setState: setPhone,
             errorMessage: 'Deve ser um telefone válido no formato xx xxxxx-xxxx.',
+            inputProcessor: (value: string) => {
+                let clean = value.replace(/\D/g, '');
+                const p1 = clean.slice(0, 2);
+                const p2 = clean.length > 2 ? ' ' + clean.slice(2, 7) : '';
+                const p3 = clean.length > 7 ? '-' + clean.slice(7, 11) : '';
+                return p1 + p2 + p3;
+            }
         },
         birthDate: {
             value: birthDate,
@@ -169,6 +184,7 @@ export default function Forms () {
             state: birthDate,
             setState: setBirthDate,
             errorMessage: 'Deve ser uma data válida.',
+            type: 'date',
         },
         skinColor: {
             value: skinColor,
@@ -243,7 +259,7 @@ export default function Forms () {
     }
 
 
-    return <Box w={'100%'} bg={'white'} p={'5'} shadow={'md'}>
+    return <Box w={'100%'} bg={'white'} p={'2'}>
         <VStack gap={20} w={'100%'}>
             
             <VStack gap={2} w={'100%'}>
@@ -267,7 +283,6 @@ export default function Forms () {
             </VStack>
 
             <VStack gap={2} w={'100%'}>
-                <Text color={'red'}>{validation.error?.message}</Text>
                 <Button colorScheme='facebook' isDisabled={!isValid} onClick={submitHandler}>{ 'Cadastrar' }</Button>
             </VStack>
 
