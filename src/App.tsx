@@ -19,7 +19,7 @@ import Album from "./pages/Album";
 import DeckPage from "./pages/DeckPage";
 import PacksPage from "./pages/PacksPage";
 import ExchangePage from "./pages/ExchangePage";
-import About from "./pages/About";
+import Home from "./pages/Home";
 import ReferralLandingPage from "./pages/ReferralLandingPage";
 
 
@@ -30,8 +30,7 @@ export default function App() {
         <Router>
           <Routes>
             <Route path="/" element={<AppGrid />}>
-              <Route index element={<></>}/>
-              <Route path="/about" element={<About/>}/>
+              <Route index element={<Home/>}/>
               <Route path="/ranking" element={<RankingPage/>}/>
               <Route path='/album' element={<Album/>}>
                 <Route index element={<AlbumIntroPage/>}/>

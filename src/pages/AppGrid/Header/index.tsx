@@ -30,7 +30,7 @@ export default function Header() {
                         size='sm' variant='ghost' animation='none'
                     >🏛️ Polis</MenuButton>
                     <MenuList fontSize={'sm'} shadow={'lg'}>
-                        <MenuItem onClick={()=>{goTo('/about')}}>Sobre</MenuItem>
+                        <MenuItem onClick={()=>{goTo('/')}}>Sobre</MenuItem>
                         <MenuItem onClick={()=>{goTo('/ranking')}}>Ranking</MenuItem>
                         <MenuItem onClick={()=>{goTo('/album')}}>Álbum</MenuItem>
                     </MenuList>
@@ -38,7 +38,7 @@ export default function Header() {
             </HStack>
         }
     
-        const About = NavTab({label: 'Polis', emoji: '🏛️', isSelected: (location.pathname === '/about') , goTo: '/about'});
+        const About = NavTab({label: 'Polis', emoji: '🏛️', isSelected: (location.pathname === '/') , goTo: '/'});
         const Ranking = NavTab({label: 'Ranking', emoji: '🏆', isSelected: (location.pathname === '/ranking'), goTo: '/ranking'});
         const Album = NavTab({label: 'Album', emoji: '🃏', isSelected: (location.pathname === '/album'), goTo: '/album'});
         
