@@ -5,7 +5,7 @@ import { Wrap, Box, Flex, VStack, CircularProgress, CircularProgressLabel, HStac
 
 export default function AlbumBrief() {
 
-    const {content: {album, pages, stickers}} = useContext(DataContext);
+    const {content: {album, pages, stickers, politicianRecords}} = useContext(DataContext);
 
     if (!album) {return <></>}
 
@@ -34,10 +34,12 @@ export default function AlbumBrief() {
     const progressValue = pasted/total;
     const progress = <AlbumProgress value={progressValue} />
 
-    return <VStack align='start' spacing='3'>
+    return <VStack align='start' spacing='5'>
         {legenda}
         {progress}
-        {items}
+        <VStack align='start' spacing='1'>
+            {items}
+        </VStack>
     </VStack>
 
 
@@ -45,7 +47,7 @@ export default function AlbumBrief() {
         const page = pages?.[pageId] ?? null;
         if (!page) {return <></>}
         if (page.stickers.length === 0) {return <></>}
-
+        
         return <VStack align='start' bg='gray.200' p='2' w='100%' borderRadius='sm'>
             <Box fontSize='xs' fontWeight='bold'>{page.title}</Box>
             <Wrap spacing='0'>
@@ -59,8 +61,12 @@ export default function AlbumBrief() {
         const sticker = stickers?.[stickerId] ?? null;
         if (!sticker) {return <></>}
 
+        const record = sticker.politicianRecordId ? politicianRecords?.[sticker.politicianRecordId] ?? null : null;
+
         const num = sticker.identifier.split('-')[1].trim();
-        const status = color();
+        
+        const status = color()
+
         return <Flex 
             key={sticker.id}    
             align='center' justify='center' 
@@ -74,17 +80,30 @@ export default function AlbumBrief() {
 
             if (!sticker) {return stickerStatus.empty}
 
-            const isPasted = sticker.cards.pasted.length > 0;
-            const hasNotPastedCards = sticker.cards.notPasted.all.length > 0;
             const doesntHave = sticker.cards.all.length === 0;
-            const toPaste = sticker.cards.notPasted.new.length > 0;
-            return doesntHave
-                ? stickerStatus.empty 
-                    : (toPaste
-                        ? stickerStatus.available
-                        : (hasNotPastedCards
-                            ? stickerStatus.repeated
-                            : stickerStatus.pasted));
+            if (doesntHave) {return stickerStatus.empty}
+
+            const isPolitician = sticker.type === 'politician';
+            if (!isPolitician) {
+                return stickerStatus.special;
+            } else {
+                if (!record) {return stickerStatus.bad}
+                const value = record.scoreRanking;
+                if (!value) {return stickerStatus.bad}
+                if (value <= 50) {return stickerStatus.good}
+                if (value <= 250) {return stickerStatus.neutral}
+                return stickerStatus.bad;
+            }
+
+            // const hasNotPastedCards = sticker.cards.notPasted.all.length > 0;
+            // const toPaste = sticker.cards.notPasted.new.length > 0;
+            // return doesntHave
+            //     ? stickerStatus.empty 
+            //         : (toPaste
+            //             ? stickerStatus.available
+            //             : (hasNotPastedCards
+            //                 ? stickerStatus.repeated
+            //                 : stickerStatus.pasted));
         }
     }
 
@@ -123,6 +142,26 @@ export default function AlbumBrief() {
 }
 
 const stickerStatus = {
+    special: {
+        bg: 'purple.500',
+        color: 'white',
+        title: 'Special'
+    },
+    good: {
+        bg: 'green.400',
+        color: 'white',
+        title: 'OK'
+    },
+    neutral: {
+        bg: 'yellow.400',
+        color: 'black',
+        title: 'OK'
+    },
+    bad: {
+        bg: 'red.400',
+        color: 'white',
+        title: 'OK'
+    },
     empty: {
         bg: 'white',
         color: 'gray.500',
