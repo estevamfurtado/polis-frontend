@@ -68,6 +68,7 @@ export type DataContextValues = {
         accept: (exchangeRequestId: number) => Promise<void>
         reject: (exchangeRequestId: number) => Promise<void>
         cancel: (exchangeRequestId: number) => Promise<void>
+        updateDeck: () => Promise<void>
     }
 }
 
@@ -106,7 +107,6 @@ export const DataContext = createContext<DataContextValues>({
         setCards: (input: GetDeckResponse['cards'] | null) => {},
         setPacks: (input: GetDeckResponse['packs'] | null) => {},
         setExchangeRequests: (input: GetDeckResponse['exchangeRequests'] | null) => {},
-
     },
 
     hooks: {
@@ -119,6 +119,7 @@ export const DataContext = createContext<DataContextValues>({
         accept: async (requestId: number) => {},
         reject: async (requestId: number) => {},
         cancel: async (requestId: number) => {},
+        updateDeck: async () => {},
     }
 })
 
@@ -204,6 +205,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
         accept,
         reject,
         cancel,
+        updateDeck
     }
     
     return <DataContext.Provider value={{auth, content, hooks}}>{children}</DataContext.Provider>
@@ -217,7 +219,6 @@ export function DataProvider ({ children }: PropsWithChildren) {
             const res = await api.getUser();
             setUser(res);
         } catch (error) {
-            console.log('Error getting user data');
             clearAuth();
         }
     }
@@ -227,7 +228,6 @@ export function DataProvider ({ children }: PropsWithChildren) {
             const res = await api.getRanking();
             setRankingData(res);
         } catch (error) {
-            console.log('Error getting ranking data');
             clearRankingData();
         }
     }
@@ -237,7 +237,6 @@ export function DataProvider ({ children }: PropsWithChildren) {
             const res = await api.getDeck();
             setDeckData(res);
         } catch (error) {
-            console.log('Error getting deck data');
             clearDeckData();
         }
     }
@@ -325,6 +324,10 @@ export function DataProvider ({ children }: PropsWithChildren) {
     }
     async function cancel (id: number) {
         await api.cancelRequest(id);
+        await getDeckData();
+    }
+
+    async function updateDeck() {
         await getDeckData();
     }
 

@@ -4,6 +4,7 @@ import { DataContext } from "../../../../contexts/DataContext";
 import { CompleteSticker, GetDeckResponse } from "../../../../types";
 import * as api from "../../../../services/reqs";
 import WrappedCards from "./WrappedCards";
+import { updateModuleBlock } from "typescript";
 
 
 type UserInfo = {
@@ -20,7 +21,7 @@ export default function NewRequest ({
     userStickers: GetDeckResponse['stickers'],
 }) {
 
-    const {auth: {user}, content: {cards, stickers}} = useContext(DataContext);
+    const {auth: {user}, content: {cards, stickers}, hooks: {updateDeck}} = useContext(DataContext);
 
     const [offeredCards, setOfferedCards] = useState<number[]>([]);
     const [requestedCards, setRequestedCards] = useState<number[]>([]);
@@ -90,11 +91,11 @@ export default function NewRequest ({
     function CompareAlbumBrief() {
         return <VStack w='100%' align='start' spacing='10'>
             <VStack w='100%' spacing='5'>
-                <Heading fontSize='md'>{`Você está oferecendo ${offeredCards.length} figurinhas`}</Heading>
+                <Heading fontSize='sm'>{`Você está oferecendo ${offeredCards.length} figurinhas`}</Heading>
                 <WrappedCards cardIds={cardsYouHaveHeNeeds} cardArray={offeredCards} setCardArray={setOfferedCards} />
             </VStack>
             <VStack w='100%' spacing='3'>
-                <Heading fontSize='md'>{`Você está pedindo ${requestedCards.length} figurinhas`}</Heading>
+                <Heading fontSize='sm'>{`Você está pedindo ${requestedCards.length} figurinhas`}</Heading>
                 <WrappedCards cardIds={cardsHeHasYouNeed} cardArray={requestedCards} setCardArray={setRequestedCards} />
             </VStack>
         </VStack>
@@ -104,12 +105,12 @@ export default function NewRequest ({
         return <Button onClick={sendRequest} isDisabled={offeredCards.length + requestedCards.length  === 0} >Enviar proposta</Button>
     
         async function sendRequest () {
-
             if (!reqUser) {return;}
-
             await api.postExchangeRequest(reqUser.id, offeredCards, requestedCards)
             setOfferedCards([]);
             setRequestedCards([]);
+            await updateDeck();
+            
         }
     
     }

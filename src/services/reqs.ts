@@ -109,10 +109,7 @@ export async function openAllPacks() {
 
 export async function searchUsers (email: string) {
 
-  console.log('searching email...', email);
-
   const search = new URLSearchParams({email}).toString();
-  console.log('search', search);
 
   try {
     const response = await api.get(`/user/search/email?${search}`, {headers: headers()});
