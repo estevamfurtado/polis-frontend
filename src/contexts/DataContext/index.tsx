@@ -149,6 +149,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     // when token changes: if there is token get user / if not, set user to null
     useEffect(()=>{
+
         if (token) {
             getUserData();
         } else {

@@ -6,7 +6,8 @@ import PartySticker from "../PartySticker";
 import { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
 
-export default function StickerComponent ({stickerId, h, w} : {stickerId: number, h?: number, w?: number}) {
+export default function StickerComponent (
+    {stickerId, h, w, open} : {stickerId: number, h?: number, w?: number, open?: boolean}) {
 
     const {content: {stickers}} = useContext(DataContext);
     const sticker = stickers?.[stickerId] ?? null;

@@ -92,14 +92,15 @@ export default function NewRequest ({
         return <VStack w='100%' align='start' spacing='10'>
             <VStack w='100%' spacing='5'>
                 <Heading fontSize='sm'>{`Você está oferecendo ${offeredCards.length} figurinhas`}</Heading>
-                <WrappedCards cardIds={cardsYouHaveHeNeeds} cardArray={offeredCards} setCardArray={setOfferedCards} />
+                <WrappedCards cardIds={cardsYouHaveHeNeeds} setCardArray={setOfferedCards} />
             </VStack>
             <VStack w='100%' spacing='3'>
                 <Heading fontSize='sm'>{`Você está pedindo ${requestedCards.length} figurinhas`}</Heading>
-                <WrappedCards cardIds={cardsHeHasYouNeed} cardArray={requestedCards} setCardArray={setRequestedCards} />
+                <WrappedCards cardIds={cardsHeHasYouNeed} setCardArray={setRequestedCards} />
             </VStack>
         </VStack>
     }
+
 
     function SendRequestButton () {
         return <Button onClick={sendRequest} isDisabled={offeredCards.length + requestedCards.length  === 0} >Enviar proposta</Button>
