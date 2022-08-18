@@ -92,11 +92,11 @@ export default function NewRequest ({
         return <VStack w='100%' align='start' spacing='10'>
             <VStack w='100%' spacing='5'>
                 <Heading fontSize='sm'>{`Você está oferecendo ${offeredCards.length} figurinhas`}</Heading>
-                <WrappedCards cardIds={cardsYouHaveHeNeeds} setCardArray={setOfferedCards} />
+                <WrappedCards cardIds={cardsYouHaveHeNeeds} setCardArray={setOfferedCards} cardArray={offeredCards} />
             </VStack>
             <VStack w='100%' spacing='3'>
                 <Heading fontSize='sm'>{`Você está pedindo ${requestedCards.length} figurinhas`}</Heading>
-                <WrappedCards cardIds={cardsHeHasYouNeed} setCardArray={setRequestedCards} />
+                <WrappedCards cardIds={cardsHeHasYouNeed} setCardArray={setRequestedCards} cardArray={requestedCards} />
             </VStack>
         </VStack>
     }

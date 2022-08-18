@@ -38,7 +38,7 @@ export default function PoliticianSticker({sticker} : {sticker: Sticker}) {
             </Text>
         </VStack>
 
-        <Flex direction='column' align='center' justify='end' w='100%' h='100%' borderRadius='sm'>
+        <Flex direction='column' align='center' justify='end' w='100%' h='100%' borderRadius='sm' overflow='hidden'>
             <Image w='100%' src={sticker.imageUrl} alt={sticker.title} />
         </Flex>
     </Box>
