@@ -21,28 +21,29 @@ export default function PoliticianModal({isOpen, onClose, sticker, politicianRec
                             </Flex>
                         </VStack>
                         <VStack flex='1 1 auto' align='start'>
+                            {line('Posição no Ranking', String(politicianRecord.scoreRanking ? politicianRecord.scoreRanking + 'º' : '?'))}
                             {line('Partido', politicianRecord.partyAbbreviation ?? '-')}
                             {line('Estado', politicianRecord.stateAbbreviation ?? '-')}
-                            {line('# de votos', String(politicianRecord.quantityVote ?? '') ?? '?')}
+                            {line('# de votos', String((politicianRecord.quantityVote ? politicianRecord.quantityVote : '?')))}
                         </VStack>
                     </HStack>
 
                     <VStack align={'start'} width='100%'>
                         <Text fontWeight={'bold'}>Avaliação</Text>
-                        {link(`Avaliação completa de ${sticker.title}`, politicianRecord.sourceUrl ?? '?')}
+                        {link(`Veja a avaliação completa de ${sticker.title}`, politicianRecord.sourceUrl ?? '?')}
 
                         <HStack w='100%' spacing='10'>
 
                             <VStack w='50%' align='start' justify='start'>
-                                {scoreProgress(politicianRecord.scoreTotal, 'Total')}
-                                {scoreProgress(politicianRecord.scorePrivileges, 'Antiprivilégio')}
-                                {scoreProgress(politicianRecord.scoreWastage, 'Antidesperdício')}
+                                {scoreProgress(politicianRecord.scoreTotal, 'Nota Total')}
+                                {scoreProgress(politicianRecord.scorePrivileges, 'Nota Antiprivilégio')}
+                                {scoreProgress(politicianRecord.scoreWastage, 'Nota Antidesperdício')}
                             </VStack>
                             <VStack w='50%' align='start' justify='start'>
                                 <List>
-                                    {checkValue(politicianRecord.cutAidShift, 'Cortou auxílio-mudança')}
-                                    {checkValue(politicianRecord.cutHousingAllowance, 'Cortou auxílio-moradia')}
-                                    {checkValue(politicianRecord.cutRetirement, 'Cortou aposentadoria especial')}
+                                    {checkValue(politicianRecord.cutAidShift, politicianRecord.cutAidShift ? 'Cortou auxílio-mudança' : 'Não cortou auxílio-mudança')}
+                                    {checkValue(politicianRecord.cutHousingAllowance, politicianRecord.cutHousingAllowance ? 'Cortou auxílio-moradia' : 'Não cortou auxílio-moradia')}
+                                    {checkValue(politicianRecord.cutRetirement, politicianRecord.cutRetirement ? 'Cortou aposentadoria especial' : 'Não cortou aposentadoria especial')}
                                 </List>
                             </VStack>
 
@@ -69,9 +70,13 @@ export default function PoliticianModal({isOpen, onClose, sticker, politicianRec
 
 
     function scoreProgress (value: number | null, title: string) {
+
+        const score = Math.round((value ?? 0)*10)
+        const scoreColor = score > 75 ? 'teal' : score > 65 ? 'yellow' : 'red'
+
         return <VStack w='100%' align='start' spacing='1'>
-            <Text color='gray.600' fontSize='sm'>{`${title} (${Math.round((value ?? 0)*10) ?? '?'})`}</Text>
-            <Progress borderRadius='sm' colorScheme="teal" size='lg' value={(value ?? 0) * 10} w='100%'/>
+            <Text color='gray.600' fontSize='sm'>{`${title} (${score ?? '?'}/100)`}</Text>
+            <Progress borderRadius='sm' colorScheme={scoreColor} size='lg' value={score} w='100%'/>
         </VStack>
     }
 
@@ -92,8 +97,8 @@ export default function PoliticianModal({isOpen, onClose, sticker, politicianRec
     function link (title: string, value: string) {
         return <HStack w='100%'>
             <Link color='blue.600' fontSize='xs' w='100%' href={value} isExternal>
-                {title}
                 <ExternalLinkIcon mx='2px' />
+                {title}
             </Link>
         </HStack>
     }
