@@ -22,7 +22,7 @@ export default function DeckPage() {
         if (!cards) {return <></>}
 
         return <Tabs w='100%' variant='enclosed' borderColor='gray.200' size='sm'>
-            <TabList w='100%' overflowX={'scroll'}>
+            <TabList w='100%' overflowX={'scroll'} overflowY={'hidden'}>
                 <Tab fontWeight={'semibold'}>{`Recentes (${cards.deck.notPasted.recent.length})`}</Tab>
                 <Tab fontWeight={'semibold'}>{`Novas (${cards.deck.notPasted.new.length})`}</Tab>
                 <Tab fontWeight={'semibold'}>{`Repetidas (${cards.deck.notPasted.repeated.length})`}</Tab>
@@ -35,7 +35,6 @@ export default function DeckPage() {
                     {cardsSection(cards.deck.notPasted.recent)}
                 </TabPanel>
                 <TabPanel w='100%'>
-                    <Button size='sm' onClick={pasteAllCards}>Colar tudo!</Button>
                     {cardsSection(cards.deck.notPasted.new)}
                 </TabPanel>
                 <TabPanel w='100%'>
