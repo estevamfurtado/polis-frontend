@@ -55,12 +55,12 @@ export default function Forms () {
 
     const toast = useToast();
 
-    const [name, setName] = useState<string | null>(null);
-    const [email, setEmail] = useState<string | null>(null);
-    const [password, setPassword] = useState<string | null>(null);
-    const [cpf, setCpf] = useState<string | null>(null);
-    const [voteStateAbbreviation, setVoteStateAbbreviation] = useState<string | null>(null);
-    const [phone, setPhone] = useState<string | null>(null);
+    const [name, setName] = useState<string | null>('');
+    const [email, setEmail] = useState<string | null>('');
+    const [password, setPassword] = useState<string | null>('');
+    const [cpf, setCpf] = useState<string | null>('');
+    const [voteStateAbbreviation, setVoteStateAbbreviation] = useState<string | null>('');
+    const [phone, setPhone] = useState<string | null>('');
     const [birthDate, setBirthDate] = useState<string | null>(null);
     const [skinColor, setSkinColor] = useState<string | null>(null);
     const [economicClass, setEconomicClass] = useState<string | null>(null);
@@ -260,9 +260,9 @@ export default function Forms () {
 
 
     return <Box w={'100%'} bg={'white'} p={'2'}>
-        <VStack gap={20} w={'100%'}>
+        <VStack gap={10} w={'100%'}>
             
-            <VStack gap={2} w={'100%'}>
+            <VStack gap={1} w={'100%'}>
                 <TextInput {...props.name} />
                 <TextInput {...props.email} />
                 <Password {...props.password} />
@@ -270,19 +270,19 @@ export default function Forms () {
                 <TextInput {...props.phone} />
             </VStack>
 
-            <VStack gap={2} w={'100%'}>
+            <VStack gap={1} w={'100%'}>
                 <SelectInput {...props.voteStateAbbreviation} />
                 <TextInput {...props.birthDate} />
             </VStack>
 
-            <VStack gap={2} w={'100%'}>
+            <VStack gap={1} w={'100%'}>
                 <SliderInput {...props.diplomaticAxis} />
                 <SliderInput {...props.economicAxis} />
                 <SliderInput {...props.civilAxis} />
                 <SliderInput {...props.socialAxis} />
             </VStack>
 
-            <VStack gap={2} w={'100%'}>
+            <VStack gap={1} w={'100%'}>
                 <Button colorScheme='facebook' isDisabled={!isValid} onClick={submitHandler}>{ 'Cadastrar' }</Button>
             </VStack>
 

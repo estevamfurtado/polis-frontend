@@ -39,6 +39,6 @@ export default function TextInput ({
     }
 
     return <Form {...formProps} >
-        <Input {...inputProps}/>
+        <Input {...inputProps} borderColor='gray.300'/>
     </Form>
 }

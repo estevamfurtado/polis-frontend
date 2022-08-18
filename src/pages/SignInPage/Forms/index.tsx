@@ -66,14 +66,14 @@ export default function Forms () {
 
 
     return <Box w={'100%'} bg={'white'} p={'2'}>
-        <VStack gap={20} w={'100%'}>
+        <VStack gap={5} w={'100%'}>
             
-            <VStack gap={2} w={'100%'}>
+            <VStack gap={1} w={'100%'}>
                 <TextInput {...props.email} />
                 <Password {...props.password} />
             </VStack>
 
-            <VStack gap={2} w={'100%'}>
+            <VStack gap={1} w={'100%'}>
                 <Button colorScheme='facebook' isDisabled={!isValid} onClick={submitHandler}>{ 'Entrar' }</Button>
             </VStack>
 
