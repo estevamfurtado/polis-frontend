@@ -21,7 +21,7 @@ export default function Album () {
     return user 
     ? <Stack w='100%' h='100%' overflow='hidden' spacing='0' direction='column'>
         <Stack w='100%' h='50px' direction='row' align='center' justify='center' overflow='auto' flex='0 0 auto'>
-            {NavButton({title: 'Álbum', page: 'pages', notifications: packs?.new ?? 0})}
+            {NavButton({title: 'Álbum', page: 'pages', notifications: cards?.deck.notPasted.new.length ?? 0})}
             {NavButton({title: 'Pacotinhos', page: 'packs', notifications: packs?.new ?? 0})}
             {NavButton({title: 'Figurinhas', page: 'deck', notifications: cards?.deck.notPasted.new.length ?? 0})}
             {NavButton({title: 'Trocas', page: 'exchange', notifications: exchangeRequests?.length ?? 0})}
