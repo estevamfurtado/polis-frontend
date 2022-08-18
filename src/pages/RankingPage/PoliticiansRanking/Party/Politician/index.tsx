@@ -62,10 +62,10 @@ export default function PoliticianElement ({recordId} : {recordId: number}) {
                     <Badge size='sm' colorScheme={'grey'}>{uf}</Badge>
                     <Badge size='sm' colorScheme={resultColor}>{position ? position : '?'}</Badge>
                 </Flex>
-                <Box overflow='clip' bg='gray.300' flex='0 0 auto' height='80px' w='100%'>
+                <Box overflow='hidden' bg='gray.300' flex='0 0 auto' height='80px' w='100%'>
                     <Image src={imageUrl} alt={name} objectFit='cover'/>
                 </Box>
-                <Text fontSize='xs' flex='0 0 auto' p='1'>{name}</Text>
+                <Text fontSize='xs' flex='0 0 auto' p='1' bg='white'>{name}</Text>
             </Flex>
         </WrapItem>
     </Skeleton>
