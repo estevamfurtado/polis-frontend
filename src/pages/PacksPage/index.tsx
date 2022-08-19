@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react"
 import Card from "../../components/Card";
 import StickerPack from "../../components/StickerPack";
 import { DataContext } from "../../contexts/DataContext"
+import variables from "../../services/variables";
 import { CompleteCard, CompleteSticker } from "../../types";
 
 export default function PacksPage() {
@@ -39,7 +40,7 @@ export default function PacksPage() {
 
         if (!packs) {return <></>}
 
-        const nextPack = packs.lastPackAt + 60*60*1000;
+        const nextPack = packs.lastPackAt + 60*60*1000*variables.back.SIGN_IN_FREE_CARDS_HOURS;
         const nextPackDate = new Date(nextPack);
         const nextPackTime = nextPackDate.toLocaleTimeString();
 
