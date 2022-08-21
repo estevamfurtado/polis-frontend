@@ -1,122 +1,118 @@
-import { Divider, Box, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton } from "@chakra-ui/react";
-import { PropsWithChildren, useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Box, Flex, Button, useDisclosure } from "@chakra-ui/react";
+import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider,
+} from '@chakra-ui/react'
+
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+} from '@chakra-ui/react'
+
+import { useContext, useRef } from "react";
+import { PolisPerson } from "../../../components/Icons";
 import { DataContext } from "../../../contexts/DataContext";
-import useWindowDimensions from "../../../hooks/useWindowDimensions";
-import NavTab from "./NavTab";
+
 
 export default function Header() {
 
-    const {auth: {token, user}} = useContext(DataContext);
+    const {auth: {token, user}, hooks: {logOut}} = useContext(DataContext);
+
+    const HomeButton = HomeButtonBuilder();
+    const SettingsMenu = SettingsMenuBuilder();
 
     return (
         <Flex justify='space-between' align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
-            <Left/>
-            <Right/>
+            {HomeButton}
+            { user ? SettingsMenu : <></>}
         </Flex>
     )
 
-    function Left () {
-
-        const windowDimensions = useWindowDimensions();
-    
-        const location = useLocation();
-        const navigate = useNavigate();
-    
-        if (windowDimensions.width < 700) {
-            return <HStack>
-                <Menu>
-                    <MenuButton as={Button}
-                        size='sm' variant='ghost' animation='none'
-                    >🏛️ Polis</MenuButton>
-                    <MenuList fontSize={'sm'} shadow={'lg'}>
-                        <MenuItem onClick={()=>{goTo('/')}}>Sobre</MenuItem>
-                        <MenuItem onClick={()=>{goTo('/ranking')}}>Ranking</MenuItem>
-                        <MenuItem onClick={()=>{goTo('/album')}}>Álbum</MenuItem>
-                    </MenuList>
-                </Menu>
-            </HStack>
-        }
-    
-        const About = NavTab({label: 'Polis', emoji: '🏛️', isSelected: (location.pathname === '/') , goTo: '/'});
-        const Ranking = NavTab({label: 'Ranking', emoji: '🏆', isSelected: (location.pathname === '/ranking'), goTo: '/ranking'});
-        const Album = NavTab({label: 'Album', emoji: '🃏', isSelected: (location.pathname === '/album'), goTo: '/album'});
-        
-        return (
-            <Flex align={'center'} h={'100%'} gap={3}>
-                {About}
-                <Divider orientation={'vertical'} borderColor='gray.200'/>
-                {Ranking}
-                {Album}
-            </Flex>
-        )
-    
-        function goTo (path: string) {
-            navigate(path);
-        } 
+    function HomeButtonBuilder() {
+        return <Button variant='ghost' size='sm'>
+            🏛️ Polis
+        </Button>
     }
 
+    function SettingsMenuBuilder() {
 
-    function Right () {
+        const { isOpen, onOpen, onClose } = useDisclosure();
 
-        const isLoggedIn = user ? true : false;
-        return (
-            isLoggedIn ? <RightLoggedIn/> : <RightNotLoggedIn/>
-        )
+        return <><Menu>
+            <MenuButton as={Button} 
+                color='white' fontSize='md' fontWeight={'bold'} 
+                opacity='33%'
+                bg='transparent'
+                colorScheme='whiteAlpha.300'
+                _hover = {{opacity: '90%'}} >
+                    <PolisPerson h='22px'/>
+            </MenuButton>
+            <MenuList
+                fontSize={'sm'}
+                fontWeight='bold'
+                border={'1px solid'}
+                borderColor='gray.700'
+                bg='gray.800'
+            >
+                <MenuItem isDisabled={true}>Minha conta</MenuItem>
+                <MenuItem onClick={logOutHandler}>Sair</MenuItem>
+            </MenuList>
+        </Menu>
+        <ConfirmLogOut/>
+        </>
 
-        function RightNotLoggedIn () {
-
-            const location = useLocation();
-        
-            const SignIn = NavTab({label: 'Entrar', isSelected: (location.pathname === '/sign-in'), goTo: '/sign-in', variant: 'outline'});
-            const SignUp = NavTab({label: 'Cadastrar', emoji:'👋', isSelected: true, goTo: '/sign-up', colorScheme: 'facebook'});
-        
-            return (
-                <Flex align={'center'} h={'100%'} gap={3}>
-                    {SignIn}
-                    {SignUp}
-                </Flex>
-            )
+        function logOutHandler() {
+            onOpen();
         }
-        
-        function RightLoggedIn () {
-        
-            const windowDimensions = useWindowDimensions();
-        
-            const {auth: {user}, hooks: {logOut}} = useContext(DataContext);
-            const navigate = useNavigate();
-        
-            if (!user) {
-                return <></>
-            }
-        
-            const userName = user?.name.split(' ')[0];
-        
-            return (<HStack>
-                {windowDimensions.width >= 700 && userName ? <Box fontSize='sm'>{`Olá, ${userName}`}</Box> : <></>}
-                <Menu>
-                    <MenuButton as={Button}
-                        size='sm' variant='ghost' animation='none'
-                    >⚙️</MenuButton>
-                    <MenuList fontSize={'sm'} shadow={'lg'}>
-                        <MenuItem onClick={()=>{goTo('/user')}}>Meus dados</MenuItem>
-                        <MenuItem onClick={handleLogOut}>Sair</MenuItem>
-                    </MenuList>
-                </Menu>
-            </HStack>)
-        
-            function goTo (path: string) {
-                navigate(path);
-            } 
-        
-            function handleLogOut () {
-                navigate('/ranking');
-                logOut()
-            }
+
+        function confirmLogOut() {
+            onClose();
+            console.log('saindo');
+            logOut();
         }
-        
+
+        function ConfirmLogOut () {
+
+            const cancelRef = useRef(null);
+
+            return <>
+                <AlertDialog
+                    motionPreset='slideInBottom'
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    leastDestructiveRef={cancelRef}
+                >
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <AlertDialogHeader fontSize='md' fontWeight='bold'>
+                                {'Tem certeza?'}
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <Button size='sm' onClick={onClose} ref={cancelRef} >
+                                    Cancelar
+                                </Button>
+                                <Button colorScheme='red' size='sm' onClick={confirmLogOut} ml={3}>
+                                    Sair
+                                </Button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
+            </>
+        }
     }
     
+
 
 }
 

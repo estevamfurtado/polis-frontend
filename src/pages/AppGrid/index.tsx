@@ -1,27 +1,58 @@
-import { Flex, Grid, GridItem } from "@chakra-ui/react";
+import { Center, Flex, Grid, GridItem, Box, Button, Heading, useColorMode } from "@chakra-ui/react";
 import { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import {DataContext} from "../../contexts/DataContext";
 
 
-
 export default function AppGrid() {
 
+    const {app} = useContext(DataContext);
+    const maxW = '700px';
+
+    const Main = MainBuilder();
+    const HeaderNav = app.showAppHeader ? HeaderNavBuilder() : <></>;
+    const FooterNav = app.showAppFooterNav ? FooterNavBuilder() : <></>
+
+    const {colorMode, toggleColorMode} = useColorMode();
+
     return (
-        <Grid templateAreas={`"header" "main"`} 
-                gridTemplateRows={'50px 1fr'}
-                gridTemplateColumns={'1fr'}
-                h='100%'
-                overflow='hidden'
-                w='100%'
+        <Flex direction={'column'}
+            w='100%' h='100%'
+            overflow={'hidden'}
         >
-            <GridItem area={'header'} borderBottom={'1px'} borderColor='gray.200'>
-                <Header/>
-            </GridItem>
-            <GridItem area={'main'} overflowY={'scroll'}>
-                <Outlet/>
-            </GridItem>
-        </Grid>
+            {HeaderNav}
+            {Main}
+            {FooterNav}
+        </Flex>
     )
+
+
+    function MainBuilder() {
+        return <Flex 
+            direction={'column'} align='center'
+            w='100%' h='100%' 
+            flex='1 1 auto' overflowY={'auto'}
+        >
+            <Box w='100%' flex='0 0 auto' maxW={maxW}>
+                <Outlet/>
+            </Box>
+        </Flex>
+    }
+
+    function HeaderNavBuilder() {
+        return <Center w='100%' h='60px' bg='gray.900' flex='0 0 auto'>
+            <Box h='100%' w='100%' maxW={maxW}>
+                <Header/>
+            </Box>
+        </Center>;
+    }
+
+    function FooterNavBuilder() {
+        return <Center w='100%' h='60px' bg='gray.900' flex='0 0 auto'>
+            <Box h='100%' w='100%' maxW={maxW}>
+            </Box>
+        </Center>;
+    }
+
 }

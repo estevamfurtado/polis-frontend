@@ -3,6 +3,9 @@ import {
     Stack,
     Heading,
     Text,
+    Button,
+    VStack,
+    Box
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -22,24 +25,32 @@ export default function SignInPage() {
     }, [user])
 
     return (
-        <Flex
-            direction={'column'} align={'center'} my={'20'}
-        >
-            <Stack spacing={8} mx={'auto'} w={'100%'} maxW={'500px'}>
-                <Headline/>
-                <Forms/>
-            </Stack>
-        </Flex>
+        <VStack align={'center'} w='100%' spacing='5' p='5'>
+            <VStack align={'center'} w='100%' p='5' spacing='5'>
+                <Heading fontSize={'lg'} textAlign={'center'}>
+                    Bem-vindo ao Polis!
+                </Heading>
+                <Text textAlign={'center'}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </Text>
+
+
+                <Box 
+                    as='button'
+                    fontSize='sm'
+                    fontWeight='bold'
+                    color='white' 
+                    bg='gray.700'
+                    boxShadow={'0 3px 0 #222'}
+                    px='4' py='2' borderRadius='lg'
+                >
+                        Ainda não tem conta? Crie aqui!
+                </Box>
+
+            </VStack>
+
+            <Forms/>
+
+        </VStack>
     );
-}
-
-
-function Headline () {
-    return <Stack align={'center'}>
-        <Heading fontSize={'2xl'} textAlign={'center'}>
-            Bem-vindo de volta :)
-        </Heading>
-        
-        <Link to={'/sign-up'}>Ainda não tem cadastro? Cadastre-se!</Link>
-    </Stack>
 }

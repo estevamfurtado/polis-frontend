@@ -4,50 +4,44 @@ import {
   Route
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
-import AppGrid from "./pages/AppGrid";
+
 import { DataProvider } from "./contexts/DataContext";
 
-import SignInPage from "./pages/SignInPage";
-import SignUpPage from "./pages/SignUpPage";
-import EditInfoPage from "./pages/EditInfoPage";
-import RankingPage from "./pages/RankingPage";
+import AppGrid from "./pages/AppGrid";
 
-import AlbumIntroPage from "./pages/AlbumIntroPage";
-import AlbumPagesPage from "./pages/AlbumPagesPage";
-import Album from "./pages/Album";
+import Home from "./pages/HomePage";
 
-import DeckPage from "./pages/DeckPage";
-import PacksPage from "./pages/PacksPage";
-import ExchangePage from "./pages/ExchangePage";
-import Home from "./pages/Home";
-import ReferralLandingPage from "./pages/ReferralLandingPage";
+import SignIn from "./pages/SignInPage";
+import SignUp from "./pages/SignUpPage";
+import Referral from "./pages/ReferralLandingPage";
+
+
+import Album from "./pages/AlbumPage";
+import Stickers from "./pages/StickersPage";
+import Games from "./pages/GamesPage";
+import Exchange from "./pages/ExchangePage";
+import theme from './theme';
 
 
 export default function App() {
   return (
     <DataProvider>
-      <ChakraProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<AppGrid />}>
-              <Route index element={<Home/>}/>
-              <Route path="/ranking" element={<RankingPage/>}/>
-              <Route path='/album' element={<Album/>}>
-                <Route index element={<AlbumIntroPage/>}/>
-                <Route path="pages" element={<AlbumPagesPage/>}/>
-                <Route path="deck" element={<DeckPage/>}/>
-                <Route path="packs" element={<PacksPage/>}/>
-                <Route path="exchange" element={<ExchangePage/>}/>
+        <ChakraProvider theme={theme}>
+          <Router>
+            <Routes>
+              <Route path="/" element={<AppGrid />}>
+                  <Route index element={<Home/>}/>
+                  <Route path="album" element={<Album/>}/>
+                  <Route path="stickers" element={<Stickers/>}/>
+                  <Route path="exchange" element={<Exchange/>}/>
+                  <Route path="games" element={<Games/>}/>
+                  <Route path="sign-in" element={<SignIn/>}/>
+                  <Route path="sign-up" element={<SignUp/>}/>              
+                  <Route path="referral" element={<Referral/>}/>
               </Route>
-              <Route path="/sign-in" element={<SignInPage/>}/>
-              <Route path="/sign-up" element={<SignUpPage/>}/>
-              <Route path="/user" element={<EditInfoPage/>}/>
-              
-              <Route path="/referral" element={<ReferralLandingPage/>}/>
-            </Route>
-          </Routes>
-        </Router>
-      </ChakraProvider>
+            </Routes>
+          </Router>
+        </ChakraProvider>
     </DataProvider>
   )
 }

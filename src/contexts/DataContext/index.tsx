@@ -58,6 +58,17 @@ export type DataContextValues = {
         setExchangeRequests: (input: GetDeckResponse['exchangeRequests'] | null) => void
     }
 
+    app: {
+        showAppHeader: boolean
+        setShowAppHeader: (show: boolean) => void
+
+        showAppFooterNav: boolean
+        setShowAppFooterNav: (show: boolean) => void
+
+        limitWidth: boolean
+        setLimitWidth: (show: boolean) => void
+    }
+
     hooks: {
         logOut: () => void
         pasteCard: (cardId: number) => Promise<void>
@@ -109,6 +120,17 @@ export const DataContext = createContext<DataContextValues>({
         setExchangeRequests: (input: GetDeckResponse['exchangeRequests'] | null) => {},
     },
 
+    app: {
+        showAppHeader: true,
+        setShowAppHeader: (show: boolean) => {},
+
+        showAppFooterNav: true,
+        setShowAppFooterNav: (show: boolean) => {},
+
+        limitWidth: false,
+        setLimitWidth: (show: boolean) => {},
+    },
+
     hooks: {
         logOut: () => {},
         pasteCard: async (cardId: number) => {},
@@ -142,6 +164,11 @@ export function DataProvider ({ children }: PropsWithChildren) {
     const [packs, setPacks] = useState<GetDeckResponse['packs'] | null>(null)
     const [exchangeRequests, setExchangeRequests] = useState<GetDeckResponse['exchangeRequests'] | null>(null)
     
+    const [showAppHeader, setShowAppHeader] = useState<boolean>(true);
+    const [showAppFooterNav, setShowAppFooterNav] = useState<boolean>(false);
+    const [limitWidth, setLimitWidth] = useState<boolean>(false);
+
+
     const headers = {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
@@ -175,10 +202,8 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
 
     const auth = {
-        token,
-        user,
-        setToken: setToken,
-        setUser: setUser,
+        token, setToken,
+        user, setUser,
     }
 
     const content = {
@@ -196,6 +221,12 @@ export function DataProvider ({ children }: PropsWithChildren) {
         exchangeRequests, setExchangeRequests,
     }
 
+    const app = {
+        showAppHeader, setShowAppHeader,
+        showAppFooterNav, setShowAppFooterNav,
+        limitWidth, setLimitWidth,
+    }
+
     const hooks = {
         logOut,
         pasteCard,
@@ -209,7 +240,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
         updateDeck
     }
     
-    return <DataContext.Provider value={{auth, content, hooks}}>{children}</DataContext.Provider>
+    return <DataContext.Provider value={{auth, content, app, hooks}}>{children}</DataContext.Provider>
 
 
     // ------------------------------------------------------------------
