@@ -8,12 +8,18 @@ import { CompleteCard, CompleteSticker } from "../../types";
 
 export default function PacksPage() {
 
-    const {content: {packs}, hooks: {openPack, openPacks}} = useContext(DataContext);
-
-    if (!packs) {return <></>}
-
+    const {content: {packs}, hooks: {openPack, openPacks}, app: {setSection}} = useContext(DataContext);
     const toast = useToast();
 
+
+    useEffect(() => {
+        setSection('games')
+        return () => {
+            setSection(null)
+        };
+    },[])
+
+    if (!packs) {return <></>}
 
     const hasPacksMessage = <>
         <Text>{`Você tem +${packs.new} pacotes`}</Text>

@@ -1,5 +1,5 @@
 import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap} from "@chakra-ui/react";
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import AlbumBrief from "../../components/AlbumBrief";
 import { DataContext } from "../../contexts/DataContext"
 import CardInDeckPage from "./CardInDeckPage";
@@ -7,7 +7,15 @@ import CardInDeckPage from "./CardInDeckPage";
 
 export default function DeckPage() {
 
-    const {content: {cards}, hooks: {pasteAllCards}} = useContext(DataContext);
+    const {content: {cards}, hooks: {pasteAllCards}, app: {setSection}} = useContext(DataContext);
+
+    useEffect(() => {
+        setSection('stickers')
+
+        return () => {
+            setSection(null)
+        };
+    },[])
 
     if (!cards) {return <></>}
 

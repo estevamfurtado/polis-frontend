@@ -1,12 +1,22 @@
 import { Button, VStack, Box } from "@chakra-ui/react";
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { DataContext } from "../../contexts/DataContext"
 import Page from "./Page";
 
-export default function AlbumPagesPage () {
+export default function AlbumPage () {
 
-    const {content: {album, stickers, cards}, hooks: {pasteAllCards}} = useContext(DataContext);
+    const {content: {album, stickers, cards}, hooks: {pasteAllCards}, app: {setShowAppHeader, setSection}} = useContext(DataContext);
     const isLoaded = album && stickers && cards
+
+    useEffect(() => {
+        setShowAppHeader(false);
+        setSection('album')
+
+        return () => {
+            setShowAppHeader(true);
+            setSection(null)
+        };
+    },[])
 
     if (!isLoaded) {
         return <></>;

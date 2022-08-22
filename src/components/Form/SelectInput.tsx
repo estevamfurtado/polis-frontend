@@ -34,7 +34,7 @@ export default function SelectInput ({
     }
 
     return <Form {...formProps} >
-        <Select placeholder='Selecione seu estado' onChange={(e)=>{setState(e.target.value)}} borderColor='gray.300'>
+        <Select border='none' bg='gray.700' fontSize='sm' placeholder='Selecione seu estado' onChange={(e)=>{setState(e.target.value)}}>
             {options.map(({value, label}) => <option key={value} value={value}>{label}</option>)}
         </Select>
     </Form>

@@ -34,7 +34,6 @@ export default function SignInPage() {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </Text>
 
-
                 <Box 
                     as='button'
                     fontSize='sm'
@@ -43,6 +42,7 @@ export default function SignInPage() {
                     bg='gray.700'
                     boxShadow={'0 3px 0 #222'}
                     px='4' py='2' borderRadius='lg'
+                    onClick={() => {navigate('/sign-up')}}
                 >
                         Ainda não tem conta? Crie aqui!
                 </Box>

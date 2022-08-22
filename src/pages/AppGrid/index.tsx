@@ -2,6 +2,7 @@ import { Center, Flex, Grid, GridItem, Box, Button, Heading, useColorMode } from
 import { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
+import Footer from "./Footer";
 import {DataContext} from "../../contexts/DataContext";
 
 
@@ -34,14 +35,14 @@ export default function AppGrid() {
             w='100%' h='100%' 
             flex='1 1 auto' overflowY={'auto'}
         >
-            <Box w='100%' flex='0 0 auto' maxW={maxW}>
+            <Box w='100%' flex='0 0 auto' maxW={maxW} py={5}>
                 <Outlet/>
             </Box>
         </Flex>
     }
 
     function HeaderNavBuilder() {
-        return <Center w='100%' h='60px' bg='gray.900' flex='0 0 auto'>
+        return <Center w='100%' h='60px' bg='gray.850' flex='0 0 auto'>
             <Box h='100%' w='100%' maxW={maxW}>
                 <Header/>
             </Box>
@@ -49,8 +50,9 @@ export default function AppGrid() {
     }
 
     function FooterNavBuilder() {
-        return <Center w='100%' h='60px' bg='gray.900' flex='0 0 auto'>
+        return <Center w='100%' h='60px' bg='gray.850' flex='0 0 auto'>
             <Box h='100%' w='100%' maxW={maxW}>
+                <Footer/>
             </Box>
         </Center>;
     }

@@ -1,122 +1,48 @@
-import { Divider, Box, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton } from "@chakra-ui/react";
+import { Divider, Box, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton, IconButton } from "@chakra-ui/react";
 import { PropsWithChildren, useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { PolisAlbum, PolisCard, PolisExchange, PolisGames, PolisPerson } from "../../../components/Icons";
 import { DataContext } from "../../../contexts/DataContext";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
-import NavTab from "./NavTab";
 
-export default function Header() {
+export default function Footer() {
 
-    const {auth: {token, user}} = useContext(DataContext);
+    const {auth: {token, user}, app: {section}} = useContext(DataContext);
+    const navigate = useNavigate();
 
     return (
-        <Flex justify='space-between' align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
-            <Left/>
-            <Right/>
+        <Flex justify='space-around' align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
+            <IconButton 
+                aria-label={'Álbum'} 
+                variant='ghost' w='100%' 
+                onClick={() => {navigate('/album')}}
+                color={section === 'album' ? 'whiteAlpha.800' : 'whiteAlpha.400'}
+                icon={<PolisAlbum/>}
+            />
+            <IconButton 
+                aria-label={'Figurinhas'} 
+                variant='ghost' w='100%' 
+                onClick={() => {navigate('/stickers')}}
+                color={section === 'stickers' ? 'whiteAlpha.800' : 'whiteAlpha.400'}
+                icon={<PolisCard/>}
+            />
+            <IconButton 
+                aria-label={'Trocar'} 
+                variant='ghost' w='100%' 
+                onClick={() => {navigate('/exchange')}}
+                color={section === 'exchange' ? 'whiteAlpha.800' : 'whiteAlpha.400'}
+                icon={<PolisExchange/>}
+            />
+            <IconButton 
+                aria-label={'Jogar'} 
+                variant='ghost' w='100%' 
+                onClick={() => {navigate('/games')}}
+                color={section === 'games' ? 'whiteAlpha.800' : 'whiteAlpha.400'}
+                icon={<PolisGames/>}
+            />
         </Flex>
+        
     )
-
-    function Left () {
-
-        const windowDimensions = useWindowDimensions();
-    
-        const location = useLocation();
-        const navigate = useNavigate();
-    
-        if (windowDimensions.width < 700) {
-            return <HStack>
-                <Menu>
-                    <MenuButton as={Button}
-                        size='sm' variant='ghost' animation='none'
-                    >🏛️ Polis</MenuButton>
-                    <MenuList fontSize={'sm'} shadow={'lg'}>
-                        <MenuItem onClick={()=>{goTo('/')}}>Sobre</MenuItem>
-                        <MenuItem onClick={()=>{goTo('/ranking')}}>Ranking</MenuItem>
-                        <MenuItem onClick={()=>{goTo('/album')}}>Álbum</MenuItem>
-                    </MenuList>
-                </Menu>
-            </HStack>
-        }
-    
-        const About = NavTab({label: 'Polis', emoji: '🏛️', isSelected: (location.pathname === '/') , goTo: '/'});
-        const Ranking = NavTab({label: 'Ranking', emoji: '🏆', isSelected: (location.pathname === '/ranking'), goTo: '/ranking'});
-        const Album = NavTab({label: 'Album', emoji: '🃏', isSelected: (location.pathname === '/album'), goTo: '/album'});
-        
-        return (
-            <Flex align={'center'} h={'100%'} gap={3}>
-                {About}
-                <Divider orientation={'vertical'} borderColor='gray.200'/>
-                {Ranking}
-                {Album}
-            </Flex>
-        )
-    
-        function goTo (path: string) {
-            navigate(path);
-        } 
-    }
-
-
-    function Right () {
-
-        const isLoggedIn = user ? true : false;
-        return (
-            isLoggedIn ? <RightLoggedIn/> : <RightNotLoggedIn/>
-        )
-
-        function RightNotLoggedIn () {
-
-            const location = useLocation();
-        
-            const SignIn = NavTab({label: 'Entrar', isSelected: (location.pathname === '/sign-in'), goTo: '/sign-in', variant: 'outline'});
-            const SignUp = NavTab({label: 'Cadastrar', emoji:'👋', isSelected: true, goTo: '/sign-up', colorScheme: 'facebook'});
-        
-            return (
-                <Flex align={'center'} h={'100%'} gap={3}>
-                    {SignIn}
-                    {SignUp}
-                </Flex>
-            )
-        }
-        
-        function RightLoggedIn () {
-        
-            const windowDimensions = useWindowDimensions();
-        
-            const {auth: {user}, hooks: {logOut}} = useContext(DataContext);
-            const navigate = useNavigate();
-        
-            if (!user) {
-                return <></>
-            }
-        
-            const userName = user?.name.split(' ')[0];
-        
-            return (<HStack>
-                {windowDimensions.width >= 700 && userName ? <Box fontSize='sm'>{`Olá, ${userName}`}</Box> : <></>}
-                <Menu>
-                    <MenuButton as={Button}
-                        size='sm' variant='ghost' animation='none'
-                    >⚙️</MenuButton>
-                    <MenuList fontSize={'sm'} shadow={'lg'}>
-                        <MenuItem onClick={()=>{goTo('/user')}}>Meus dados</MenuItem>
-                        <MenuItem onClick={handleLogOut}>Sair</MenuItem>
-                    </MenuList>
-                </Menu>
-            </HStack>)
-        
-            function goTo (path: string) {
-                navigate(path);
-            } 
-        
-            function handleLogOut () {
-                navigate('/ranking');
-                logOut()
-            }
-        }
-        
-    }
-    
 
 }
 

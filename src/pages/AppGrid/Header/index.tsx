@@ -39,7 +39,7 @@ export default function Header() {
     )
 
     function HomeButtonBuilder() {
-        return <Button variant='ghost' size='sm'>
+        return <Button variant='ghost' size='md' fontWeight={'bold'}>
             🏛️ Polis
         </Button>
     }

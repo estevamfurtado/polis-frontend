@@ -1,15 +1,22 @@
 import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap} from "@chakra-ui/react";
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { DataContext } from "../../contexts/DataContext"
 import { NewRequestContextProvider } from "../../contexts/NewRequestContext";
 import CreateExchange from "./CreateExchange";
 import MyExchanges from "./MyExchanges";
 
 
-
 export default function ExchangePage() {
 
-    const {content: {cards}} = useContext(DataContext);
+    const {content: {cards}, app: {setSection}} = useContext(DataContext);
+
+    useEffect(() => {
+        setSection('exchange')
+
+        return () => {
+            setSection(null)
+        };
+    },[])
 
     if (!cards) {
         return <></>

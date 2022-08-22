@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
+import { useLocation } from 'react-router-dom';
 import useToken from "../../hooks/useToken"
 import * as api from "../../services/reqs"
 
@@ -67,6 +68,9 @@ export type DataContextValues = {
 
         limitWidth: boolean
         setLimitWidth: (show: boolean) => void
+
+        section: string | null
+        setSection: (show: string | null) => void
     }
 
     hooks: {
@@ -129,6 +133,9 @@ export const DataContext = createContext<DataContextValues>({
 
         limitWidth: false,
         setLimitWidth: (show: boolean) => {},
+
+        section: null,
+        setSection: (section: null | string) => {},
     },
 
     hooks: {
@@ -165,9 +172,11 @@ export function DataProvider ({ children }: PropsWithChildren) {
     const [exchangeRequests, setExchangeRequests] = useState<GetDeckResponse['exchangeRequests'] | null>(null)
     
     const [showAppHeader, setShowAppHeader] = useState<boolean>(true);
-    const [showAppFooterNav, setShowAppFooterNav] = useState<boolean>(false);
+    const [showAppFooterNavDismiss, setShowAppFooterNav] = useState<boolean>(false);
     const [limitWidth, setLimitWidth] = useState<boolean>(false);
+    const [section, setSection] = useState<string | null>(null);
 
+    const showAppFooterNav = user ? true : false;
 
     const headers = {
         Accept: "application/json",
@@ -225,6 +234,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
         showAppHeader, setShowAppHeader,
         showAppFooterNav, setShowAppFooterNav,
         limitWidth, setLimitWidth,
+        section, setSection
     }
 
     const hooks = {
