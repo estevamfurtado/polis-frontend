@@ -29,8 +29,8 @@ export default function CardInDeckPage({cardId}: {cardId: number}) {
                 bg='white'
                 position='absolute' bottom='0' left='0' zIndex={10}
             />
-
         </Box>
+
     </VStack>
 
 }

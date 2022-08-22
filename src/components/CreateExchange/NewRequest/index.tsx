@@ -1,9 +1,9 @@
-import { Button, VStack, HStack, Heading, Wrap, Badge } from "@chakra-ui/react";
+import { Button, VStack, HStack, Heading, Wrap, Badge, Text } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { DataContext } from "../../../../contexts/DataContext";
-import { GetDeckResponse } from "../../../../types";
-import * as api from "../../../../services/reqs";
-import { NewRequestContext } from "../../../../contexts/NewRequestContext";
+import { DataContext } from "../../../contexts/DataContext";
+import { GetDeckResponse } from "../../../types";
+import * as api from "../../../services/reqs";
+import { NewRequestContext } from "../../../contexts/NewRequestContext";
 import CompareAlbum from "./CompareAlbum";
 
 
@@ -25,12 +25,13 @@ export default function NewRequest () {
     const offer = Object.values(offeredCards).filter(v => v);
     const request = Object.values(requestedCards).filter(v => v);
 
-    return <VStack w='100%' align='center' spacing='10' pt='10'>
+    return <VStack spacing={4} w='100%' align='center' bg='gray.700' py='5' borderRadius='10'>
         <Heading fontSize='xl'>{requestedUser.info.name}</Heading>
         <HStack w='100%' spacing='3'>
             <CompareAlbum />
         </HStack>
-        <Button onClick={sendRequest} isDisabled={offer.length + request.length  === 0} >Enviar proposta</Button>
-    </VStack> 
+        <Button colorScheme='green' onClick={sendRequest} isDisabled={offer.length + request.length  === 0} >Enviar proposta</Button>
+    </VStack>
     
 }
+

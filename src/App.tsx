@@ -21,6 +21,8 @@ import Stickers from "./pages/StickersPage";
 import Games from "./pages/GamesPage";
 import Exchange from "./pages/ExchangePage";
 import theme from './theme';
+import CreateExchange from "./components/CreateExchange";
+import ViewExchange from "./components/ViewExchange";
 
 
 export default function App() {
@@ -33,7 +35,11 @@ export default function App() {
                   <Route index element={<Home/>}/>
                   <Route path="album" element={<Album/>}/>
                   <Route path="stickers" element={<Stickers/>}/>
-                  <Route path="exchange" element={<Exchange/>}/>
+                  <Route path="exchange" element={<Exchange/>}>
+                    <Route index element={<></>}/>
+                    <Route path="new" element={<CreateExchange/>}/>
+                    <Route path=":requestId" element={<ViewExchange/>}/>
+                  </Route>
                   <Route path="games" element={<Games/>}/>
                   <Route path="sign-in" element={<SignIn/>}/>
                   <Route path="sign-up" element={<SignUp/>}/>              

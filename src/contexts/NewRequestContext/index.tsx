@@ -176,7 +176,6 @@ export function NewRequestContextProvider ({ children }: PropsWithChildren) {
 
     
     async function searchUsers (email: string) {
-        setText(email);
         if (email) {
             const response = await api.searchUsers(email);
             setUsers(response.data);
