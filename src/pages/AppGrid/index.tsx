@@ -35,9 +35,11 @@ export default function AppGrid() {
             w='100%' h='100%' 
             flex='1 1 auto' overflowY={'auto'}
         >
-            <Box w='100%' flex='0 0 auto' maxW={maxW} py={5}>
-                <Outlet/>
-            </Box>
+            {app.showAppHeader ?
+                <Box w='100%' flex='0 0 auto' maxW={maxW} py={5}>
+                    <Outlet/>
+                </Box>
+            : <Outlet/>}
         </Flex>
     }
 

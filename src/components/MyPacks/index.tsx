@@ -1,4 +1,3 @@
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, Badge, IconButton, useToast} from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";

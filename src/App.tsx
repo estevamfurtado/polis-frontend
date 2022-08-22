@@ -23,6 +23,7 @@ import Exchange from "./pages/ExchangePage";
 import theme from './theme';
 import CreateExchange from "./components/CreateExchange";
 import ViewExchange from "./components/ViewExchange";
+import Wall from "./pages/Wall";
 
 
 export default function App() {
@@ -33,14 +34,16 @@ export default function App() {
             <Routes>
               <Route path="/" element={<AppGrid />}>
                   <Route index element={<Home/>}/>
-                  <Route path="album" element={<Album/>}/>
-                  <Route path="stickers" element={<Stickers/>}/>
-                  <Route path="exchange" element={<Exchange/>}>
-                    <Route index element={<></>}/>
-                    <Route path="new" element={<CreateExchange/>}/>
-                    <Route path=":requestId" element={<ViewExchange/>}/>
+                  <Route element={<Wall/>}>
+                    <Route path="album" element={<Album/>}/>
+                    <Route path="stickers" element={<Stickers/>}/>
+                    <Route path="exchange" element={<Exchange/>}>
+                      <Route index element={<></>}/>
+                      <Route path="new" element={<CreateExchange/>}/>
+                      <Route path=":requestId" element={<ViewExchange/>}/>
+                    </Route>
+                    <Route path="games" element={<Games/>}/>
                   </Route>
-                  <Route path="games" element={<Games/>}/>
                   <Route path="sign-in" element={<SignIn/>}/>
                   <Route path="sign-up" element={<SignUp/>}/>              
                   <Route path="referral" element={<Referral/>}/>

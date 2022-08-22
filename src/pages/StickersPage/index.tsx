@@ -25,7 +25,7 @@ export default function DeckPage() {
     return <VStack spacing={'12'} w='100%'>
         <VStack spacing={'3'} w='100%'>
             <MyPacks />
-            <MyExchanges />
+            {/* <MyExchanges /> */}
         </VStack>
         <New/>
         <Repeated/>

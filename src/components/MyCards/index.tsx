@@ -3,7 +3,7 @@ import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, 
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../contexts/DataContext"
-import { Sticker, CardsCatalog } from "../../types";
+import { Sticker, CardsCatalog, StickerTypes } from "../../types";
 import { CardsWrap } from "../CardsWrap";
 import InStackSection from "../InStackSection";
 import StickerComponent from "../Sticker";
@@ -17,10 +17,10 @@ export function Repeated() {
     const stickersRow = Object.keys(stickers ?? {});
 
     return <CardsWrap height='300px' title='Repetidas' button={{title: 'Trocar figurinhas', onClick: () => {navigate('/exchange')}}}>
-            {stickersRow.map(sId => {
+            {stickersRow.map((sId, index) => {
                 const sticker = stickers?.[Number(sId)] ?? null;
                 const q = sticker?.cards.notPasted.all.length ?? 0;
-                return <StickerInSection sticker={sticker} q={q}/>
+                return <StickerInSection key={index} sticker={sticker} q={q}/>
             })}
     </CardsWrap>
 }
@@ -33,10 +33,10 @@ export function New() {
     const stickersRow = Object.keys(stickers ?? {});
 
     return <CardsWrap height='130px' title='Novas' button={{title: 'Colar no álbum!', onClick: () => {navigate('/album')}}}>
-            {stickersRow.map(sId => {
+            {stickersRow.map((sId, index) => {
                 const sticker = stickers?.[Number(sId)] ?? null;
                 const q = sticker?.cards.notPasted.new.length ?? 0;
-                return <StickerInSection sticker={sticker} q={q}/>
+                return <StickerInSection key={index} sticker={sticker} q={q}/>
             })}
     </CardsWrap>
 }

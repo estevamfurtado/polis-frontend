@@ -1,11 +1,7 @@
 import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, useToast, Center} from "@chakra-ui/react";
 import { useContext, useEffect } from "react"
-import Card from "../../components/Card";
 import MyPacks from "../../components/MyPacks";
-import StickerPack from "../../components/StickerPack";
 import { DataContext } from "../../contexts/DataContext"
-import variables from "../../services/variables";
-import { CompleteCard, CompleteSticker } from "../../types";
 
 export default function PacksPage() {
 

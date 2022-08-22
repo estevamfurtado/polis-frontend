@@ -1,4 +1,4 @@
-import { Divider, Box, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton, IconButton } from "@chakra-ui/react";
+import { Center, Box, VStack, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton, IconButton, Circle } from "@chakra-ui/react";
 import { PropsWithChildren, useContext } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { PolisAlbum, PolisCard, PolisExchange, PolisGames, PolisPerson } from "../../../components/Icons";
@@ -7,47 +7,58 @@ import useWindowDimensions from "../../../hooks/useWindowDimensions";
 
 export default function Footer() {
 
-    const {auth: {token, user}, app: {section}} = useContext(DataContext);
-    const navigate = useNavigate();
+    const {content: {cards, exchangeRequests}} = useContext(DataContext);
+
 
     return (
         <Flex justify='space-around' align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
-            <IconButton 
-                aria-label={'Álbum'} 
-                variant='ghost' w='100%' 
-                onClick={() => {navigate('/album')}}
-                color={section === 'album' ? 'whiteAlpha.800' : 'whiteAlpha.400'}
-                icon={<PolisAlbum/>}
-            />
-            <IconButton 
-                aria-label={'Figurinhas'} 
-                variant='ghost' w='100%' 
-                onClick={() => {navigate('/stickers')}}
-                color={section === 'stickers' ? 'whiteAlpha.800' : 'whiteAlpha.400'}
-                icon={<PolisCard/>}
-            />
-            <IconButton 
-                aria-label={'Trocar'} 
-                variant='ghost' w='100%' 
-                onClick={() => {navigate('/exchange')}}
-                color={section === 'exchange' ? 'whiteAlpha.800' : 'whiteAlpha.400'}
-                icon={<PolisExchange/>}
-            />
-            <IconButton 
-                aria-label={'Jogar'} 
-                variant='ghost' w='100%' 
-                onClick={() => {navigate('/games')}}
-                color={section === 'games' ? 'whiteAlpha.800' : 'whiteAlpha.400'}
-                icon={<PolisGames/>}
-            />
+
+            <IconNav title="Album" goTo="/album" activeSection="album" notifications={
+                cards?.deck.notPasted.new.length ?? 0
+            }>
+                <PolisAlbum w='30px'/>
+            </IconNav>
+
+            <IconNav title="Figurinhas" goTo="/stickers" activeSection="stickers" notifications={
+                cards?.deck.notPasted.new.length ?? 0
+            }>
+                <PolisCard h='22px'/>
+            </IconNav>
+
+            <IconNav title="Trocar" goTo="/exchange" activeSection="exchange" notifications={
+                exchangeRequests?.length ?? 0
+            }>
+                <PolisExchange w='40px'/>
+            </IconNav>
+
+            <IconNav title="Jogar" goTo="/games" activeSection="games" notifications={0}>
+                <PolisGames w='40px'/>
+            </IconNav>
+
         </Flex>
         
     )
 
 }
 
+function IconNav ({children, title, goTo, activeSection, notifications} : {
+    title: string, goTo: string, activeSection: string, notifications: number
+} & PropsWithChildren) {
+    
+    const {app: {section}} = useContext(DataContext);
+    const navigate = useNavigate();
 
-
-
-
+    return <Center
+        w='100%' 
+        onClick={() => {navigate(goTo)}}
+        color={section === activeSection ? 'white' : 'whiteAlpha.400'}
+        _hover={{color: activeSection? 'white' : 'whiteAlpha.500'}}
+        cursor='pointer'
+    >
+        <VStack align='center'>
+            {children}
+            {notifications ? <Circle size='5px' bg='green.300' /> : <></>}
+        </VStack>
+    </Center>
+}
 
