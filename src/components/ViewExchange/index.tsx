@@ -22,13 +22,12 @@ export default function ViewExchanges () {
     const idNum = Number(requestId)
     const request = exchangeRequests?.find(x => x.id === idNum) ?? null;
     
-    if (!user || !requestId || !request) {return <Text>Proposta não existe</Text>}
+    if (!user || !requestId || !request) {return <></>}
 
     const isAuthor = user?.id === request.proposerId;
     const wasRequested = user?.id === request.requestedId;
 
-    if (!isAuthor && !wasRequested) {return <Text>Usuário não envolvido</Text>}
-
+    if (!isAuthor && !wasRequested) {return <></>}
     const author = isAuthor ? 'Você' : request.proposer.name;
     const requested = isAuthor ? request.requested.name : 'você'
 

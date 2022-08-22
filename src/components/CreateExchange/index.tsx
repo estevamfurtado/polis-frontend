@@ -25,7 +25,7 @@ export default function CreateExchange() {
 
     return <NewRequestContextProvider>
         <VStack w='100%' spacing='5'>
-            <Heading size='md'>Trocar com...</Heading>
+            <Heading size='md'>Criar proposta</Heading>
             <Search/>
             <NewRequest/>
         </VStack>

@@ -8,19 +8,17 @@ import { CompleteExchangeRequest } from "../../../types";
 
 export default function ExchangeThumb ({request} : {request: CompleteExchangeRequest}) {
 
-    const {auth: {user}, hooks: {openPacks}, app: {setSection}} = useContext(DataContext);
+    const {auth: {user}, hooks: {accept, reject}} = useContext(DataContext);
     const navigate = useNavigate();
 
     const isAuthor = request.proposerId === user?.id;
 
     const title = isAuthor ? request.requested.name.split(' ')[0] : request.proposer.name.split(' ')[0]
     const color = isAuthor ? 'gray.600' : 'teal';
-    const willReceive = isAuthor ? request.cardsRequested.length : request.cardsOffered.length;
-    const willGive = isAuthor ? request.cardsRequested.length : request.cardsOffered.length;
 
     const buttons = <HStack spacing='1' align='center'>
-        <IconButton size='sm' aria-label="recusar" fontSize='xs' icon={<CloseIcon/>}/>
-        <IconButton aria-label="aceitar" colorScheme="green"
+        <IconButton size='sm' aria-label="recusar" fontSize='xs' icon={<CloseIcon/>} onClick={handleReject}/>
+        <IconButton aria-label="aceitar" colorScheme="green" onClick={handleAccept}
             icon={<CheckIcon/>}/>
     </HStack>
 
@@ -32,4 +30,14 @@ export default function ExchangeThumb ({request} : {request: CompleteExchangeReq
             {isAuthor ? note : buttons}
         </Flex>
     </VStack>
+
+    async function handleAccept() {
+        
+        await accept(request.id);
+    }
+
+    async function handleReject() {
+        await reject(request.id);
+    }
+
 }

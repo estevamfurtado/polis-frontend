@@ -17,40 +17,42 @@ export default function CompareAlbum() {
         return <></>
     }
 
+    const nome = requestedUser.info.name.split(' ')[0];
+
     const offer = Object.values(offeredCards).filter(v => v);
     const request = Object.values(requestedCards).filter(v => v);
 
-    return <VStack w='100%' align='start' spacing='3'>
-        <CardsWrap title={`Você está oferecendo ${offer.length} figurinhas`} height='150px'>
+    return <VStack w='100%' align='start' spacing='5'>
+        <CardsWrap title={`Você tem, ${nome} precisa`} height='150px'>
             {
                 cardsYouHaveHeNeeds.map(c => {
                     const isSelected = offeredCards[c.id] ?? false;
                     return <Box 
-                        border='2px solid' borderColor={isSelected ? 'blue.100' : 'gray.100'}
                         onClick={() => toggleOfferedCardId(c.id)}
                         opacity={isSelected ? 1 : 0.5}
                         cursor='pointer'
                         key={c.id}
-                        borderRadius='sm'
                     >
-                        <StickerComponent stickerId={c.stickerId} dontOpen={true} w={100} h={130}/>
+                        <StickerComponent stickerId={c.stickerId} dontOpen={true} 
+                        w={isSelected ? 100 : 100*0.8} 
+                        h={isSelected ? 130 : 130*0.8}/>
                     </Box>
                 })
             }
         </CardsWrap>
-        <CardsWrap title={`Você está pedindo ${request.length} figurinhas`} height='150px'>
+        <CardsWrap title={`Você precisa, ${nome} tem`} height='150px'>
             {
                 cardsHeHasYouNeed.map(c => {
-                    const isSelected = requestedCards[c.id] ?? false;
+                    const isSelected = offeredCards[c.id] ?? false;
                     return <Box 
-                        border='2px solid' borderColor={isSelected ? 'blue.100' : 'gray.100'}
-                        onClick={() => toggleRequestedCardId(c.id)}
+                        onClick={() => toggleOfferedCardId(c.id)}
                         opacity={isSelected ? 1 : 0.5}
                         cursor='pointer'
                         key={c.id}
-                        borderRadius='sm'
                     >
-                        <StickerComponent stickerId={c.stickerId} dontOpen={true} w={100} h={130}/>
+                        <StickerComponent stickerId={c.stickerId} dontOpen={true} 
+                        w={isSelected ? 100 : 100*0.8} 
+                        h={isSelected ? 130 : 130*0.8}/>
                     </Box>
                 })
             }

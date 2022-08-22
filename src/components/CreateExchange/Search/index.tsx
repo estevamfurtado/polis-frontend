@@ -15,12 +15,15 @@ export default function Search () {
     const {} = useContext(DataContext);
     const {users, text, searchUsers, setUsers, setText, clickUser} = useContext(NewRequestContext);
 
-    return <VStack w='100%' align='center' bg='gray.700' py='5' px='5' borderRadius='10'>
-        <Input bg='rgba(255, 255, 255, 0.1)' textAlign={'center'} border='none' placeholder='Procurar email...' value={text} onChange={handleInput}/>
-        <VStack bg='rgba(0, 0, 0, 0.1)' w='100%'>
-            {users.map(user => {
-                return <UsersSearchItem key={user.id}  user={user}/>
-            })}
+    return <VStack w='100%' align='center' bg='gray.700' py='5' px='5' borderRadius='10' spacing='5'>
+        <Heading size='sm'>Selecione um usuário</Heading>
+        <VStack w='100%' spacing='0'>
+            <Input bg='rgba(255, 255, 255, 0.1)' textAlign={'center'} border='none' placeholder='Procurar email...' value={text} onChange={handleInput}/>
+            <VStack bg='rgba(0, 0, 0, 0.1)' w='100%' spacing='0'>
+                {users.map(user => {
+                    return <UsersSearchItem key={user.id}  user={user}/>
+                })}
+            </VStack>
         </VStack>
     </VStack>
 
