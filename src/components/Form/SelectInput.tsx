@@ -1,4 +1,4 @@
-import { Text, Badge, Flex, Input, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Select } from "@chakra-ui/react"
+import { Select } from "@chakra-ui/react"
 import Joi from "joi";
 import Form from "."
 

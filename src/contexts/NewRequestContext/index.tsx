@@ -1,7 +1,6 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
+import { createContext, PropsWithChildren, useContext, useState } from "react"
 import { DataContext } from "../DataContext"
-import {CompleteRanking, CompleteRecord, RankingGroup, GetDeckResponse} from "../../types"
-import variables from "../../services/variables"
+import {GetDeckResponse} from "../../types"
 import * as api from '../../services/reqs'
 
 type UserInfo = {

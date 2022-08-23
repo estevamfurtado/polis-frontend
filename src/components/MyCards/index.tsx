@@ -1,17 +1,15 @@
-import { CheckIcon, CloseIcon, StarIcon } from "@chakra-ui/icons";
-import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, Badge, IconButton, Grid, Center} from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react"
+import { Box, HStack, Center} from "@chakra-ui/react";
+import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../contexts/DataContext"
-import { Sticker, CardsCatalog, StickerTypes } from "../../types";
+import { Sticker, CardsCatalog } from "../../types";
 import { CardsWrap } from "../CardsWrap";
-import InStackSection from "../InStackSection";
 import StickerComponent from "../Sticker";
 
 
 export function Repeated() {
 
-    const {content: {cards, stickers}, hooks: {openPacks}} = useContext(DataContext);
+    const {content: {stickers}} = useContext(DataContext);
     const navigate = useNavigate();
 
     const stickersRow = Object.keys(stickers ?? {});

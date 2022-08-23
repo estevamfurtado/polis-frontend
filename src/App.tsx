@@ -26,32 +26,33 @@ import ViewExchange from "./components/ViewExchange";
 
 import theme from './theme';
 
+console.log(theme);
 
 export default function App() {
   return (
     <DataProvider>
-        <ChakraProvider theme={theme}>
-          <Router>
-            <Routes>
-              <Route path="/" element={<AppGrid />}>
-                  <Route index element={<Home/>}/>
-                  <Route element={<Wall/>}>
-                    <Route path="album" element={<Album/>}/>
-                    <Route path="stickers" element={<Stickers/>}/>
-                    <Route path="exchange" element={<Exchange/>}>
-                      <Route index element={<></>}/>
-                      <Route path="new" element={<CreateExchange/>}/>
-                      <Route path=":requestId" element={<ViewExchange/>}/>
+          <ChakraProvider theme={theme}>
+            <Router>
+              <Routes>
+                <Route path="/" element={<AppGrid />}>
+                    <Route index element={<Home/>}/>
+                    <Route element={<Wall/>}>
+                      <Route path="album" element={<Album/>}/>
+                      <Route path="stickers" element={<Stickers/>}/>
+                      <Route path="exchange" element={<Exchange/>}>
+                        <Route index element={<></>}/>
+                        <Route path="new" element={<CreateExchange/>}/>
+                        <Route path=":requestId" element={<ViewExchange/>}/>
+                      </Route>
+                      <Route path="games" element={<Games/>}/>
                     </Route>
-                    <Route path="games" element={<Games/>}/>
-                  </Route>
-                  <Route path="sign-in" element={<SignIn/>}/>
-                  <Route path="sign-up" element={<SignUp/>}/>              
-                  <Route path="referral" element={<Referral/>}/>
-              </Route>
-            </Routes>
-          </Router>
-        </ChakraProvider>
+                    <Route path="sign-in" element={<SignIn/>}/>
+                    <Route path="sign-up" element={<SignUp/>}/>              
+                    <Route path="referral" element={<Referral/>}/>
+                </Route>
+              </Routes>
+            </Router>
+          </ChakraProvider>
     </DataProvider>
   )
 }

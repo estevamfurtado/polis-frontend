@@ -1,8 +1,5 @@
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, Badge, IconButton} from "@chakra-ui/react";
-import { PropsWithChildren, useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
-import { DataContext } from "../../contexts/DataContext"
+import { Box, HStack, VStack , Heading} from "@chakra-ui/react";
+import { PropsWithChildren } from "react"
 
 
 export default function InStackSection ({title, button, children} : PropsWithChildren & {

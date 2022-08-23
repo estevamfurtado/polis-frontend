@@ -1,6 +1,4 @@
-import { useToast } from '@chakra-ui/react';
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
-import { useLocation, useNavigate } from 'react-router-dom';
+import { createContext, PropsWithChildren, useEffect, useState } from "react"
 import useToken from "../../hooks/useToken"
 import * as api from "../../services/reqs"
 

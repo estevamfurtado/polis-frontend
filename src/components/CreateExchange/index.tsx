@@ -1,8 +1,6 @@
-import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, Input, Badge} from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react"
+import {  VStack , Heading, } from "@chakra-ui/react";
+import { useContext, } from "react"
 import { DataContext } from "../../contexts/DataContext"
-import { MyDeck, CompleteSticker, GetDeckResponse } from "../../types";
-import * as api from "../../services/reqs";
 import Search from "./Search";
 import NewRequest from "./NewRequest";
 import { NewRequestContextProvider } from "../../contexts/NewRequestContext";

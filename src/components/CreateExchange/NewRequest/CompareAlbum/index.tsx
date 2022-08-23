@@ -1,4 +1,4 @@
-import { VStack, HStack, Heading, Box } from "@chakra-ui/react"
+import { VStack, Box } from "@chakra-ui/react"
 import { useContext } from "react"
 import StickerComponent from "../../../Sticker";
 import { DataContext } from "../../../../contexts/DataContext"
@@ -18,9 +18,6 @@ export default function CompareAlbum() {
     }
 
     const nome = requestedUser.info.name.split(' ')[0];
-
-    const offer = Object.values(offeredCards).filter(v => v);
-    const request = Object.values(requestedCards).filter(v => v);
 
     return <VStack w='100%' align='start' spacing='5'>
         <CardsWrap title={`Você tem, ${nome} precisa`} height='150px'>

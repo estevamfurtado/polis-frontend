@@ -1,9 +1,8 @@
-import { Center, Box, VStack, Text, Flex, Button, Tab, HStack, TabList, TabPanel, TabPanels, Tabs, Menu, MenuList, MenuItem, MenuButton, IconButton, Circle } from "@chakra-ui/react";
+import { Center,  VStack, Flex, Circle } from "@chakra-ui/react";
 import { PropsWithChildren, useContext } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { PolisAlbum, PolisCard, PolisExchange, PolisGames, PolisPerson } from "../../../components/Icons";
+import { useNavigate } from "react-router-dom";
+import { PolisAlbum, PolisCard, PolisExchange, PolisGames } from "../../../components/Icons";
 import { DataContext } from "../../../contexts/DataContext";
-import useWindowDimensions from "../../../hooks/useWindowDimensions";
 
 export default function Footer() {
 

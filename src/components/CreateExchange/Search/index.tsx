@@ -12,7 +12,6 @@ type UserInfo = {
 
 export default function Search () {
     
-    const {} = useContext(DataContext);
     const {users, text, searchUsers, setUsers, setText, clickUser} = useContext(NewRequestContext);
 
     return <VStack w='100%' align='center' bg='gray.700' py='5' px='5' borderRadius='10' spacing='5'>

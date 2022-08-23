@@ -1,12 +1,10 @@
-import { Box, Button, VStack, Text, useToast } from '@chakra-ui/react';
+import { Box, VStack, useToast } from '@chakra-ui/react';
 import joi from 'joi';
-import { useContext, useState } from 'react';
-import Number from '../../../components/Form/Number';
+import { useState } from 'react';
 import Password from '../../../components/Form/Password';
 import TextInput from '../../../components/Form/TextInput';
 import SliderInput from '../../../components/Form/SliderInput';
 import SelectInput from '../../../components/Form/SelectInput';
-import { DataContext } from '../../../contexts/DataContext';
 import { signUp } from '../../../services/reqs';
 import { useNavigate } from 'react-router-dom';
 
@@ -139,7 +137,7 @@ export default function Forms () {
             setState: setCpf,
             errorMessage: 'Deve ser um CPF válido no formato xxx.xxx.xxx-xx.',
             inputProcessor: (value: string) => {
-                let clean = value.replace(/\D/g, '');
+                const clean = value.replace(/\D/g, '');
                 const p1 = clean.slice(0, 3);
                 const p2 = clean.length > 3 ? '.' + clean.slice(3, 6) : '';
                 const p3 = clean.length > 6 ? '.' + clean.slice(6, 9) : '';

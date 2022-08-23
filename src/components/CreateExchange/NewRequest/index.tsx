@@ -1,8 +1,6 @@
-import { Button, VStack, HStack, Heading, Wrap, Badge, Text, Box } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { Button, VStack, HStack, Heading, Box } from "@chakra-ui/react";
+import { useContext } from "react";
 import { DataContext } from "../../../contexts/DataContext";
-import { GetDeckResponse } from "../../../types";
-import * as api from "../../../services/reqs";
 import { NewRequestContext } from "../../../contexts/NewRequestContext";
 import CompareAlbum from "./CompareAlbum";
 
