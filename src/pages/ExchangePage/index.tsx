@@ -1,39 +1,29 @@
 import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap} from "@chakra-ui/react";
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
+import MyPacks from "../../components/MyPacks";
 import { DataContext } from "../../contexts/DataContext"
 import { NewRequestContextProvider } from "../../contexts/NewRequestContext";
-import CreateExchange from "./CreateExchange";
-import MyExchanges from "./MyExchanges";
-
+import CreateExchange from "../../components/CreateExchange";
+import ViewExchange from "../../components/ViewExchange";
+import MyExchanges from "../../components/MyExchanges";
+import { Outlet } from "react-router-dom";
 
 
 export default function ExchangePage() {
 
-    const {content: {cards}} = useContext(DataContext);
+    const {content: {cards}, app: {setSection}} = useContext(DataContext);
 
-    if (!cards) {
-        return <></>
-    }
+    useEffect(() => {
+        setSection('exchange')
 
-    return <VStack w='100%' align='center' flex='1 1 auto' overflow='scroll'>
-        <Tabs w='100%' maxW='750px' variant='enclosed' borderColor='gray.200' size='sm' pt='5' isLazy>
-            <TabList w='yellow'>
-                <Tab fontWeight={'semibold'}>{`Minhas Trocas`}</Tab>
-                <Tab fontWeight={'semibold'}>{`Procurar`}</Tab>
-            </TabList>
+        return () => {
+            setSection(null)
+        };
+    },[])
 
-            <TabPanels w='100%' minH='500px'>
-                
-                <TabPanel w='100%'>
-                        <MyExchanges/>
-                </TabPanel>
-                <TabPanel w='100%'>
-                    <NewRequestContextProvider>
-                        <CreateExchange/>
-                    </NewRequestContextProvider>
-                </TabPanel>
 
-            </TabPanels>
-        </Tabs>
+    return <VStack w='100%' flex='1 1 auto' gap='10'>
+        <MyExchanges/>
+        <Outlet/>
     </VStack>
 }

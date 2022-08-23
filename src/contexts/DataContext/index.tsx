@@ -1,12 +1,14 @@
 import { useToast } from '@chakra-ui/react';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
+import { useLocation, useNavigate } from 'react-router-dom';
 import useToken from "../../hooks/useToken"
 import * as api from "../../services/reqs"
 
 
 import {
     token, Person,
-    GetDeckResponse, GetRankingResponse
+    GetDeckResponse, GetRankingResponse,
+    FunctionalPage
 } from "../../types"
 
 
@@ -56,6 +58,23 @@ export type DataContextValues = {
 
         exchangeRequests: GetDeckResponse['exchangeRequests'] | null
         setExchangeRequests: (input: GetDeckResponse['exchangeRequests'] | null) => void
+
+        pagesByParties: FunctionalPage[]
+        pagesByStates: FunctionalPage[]
+    }
+
+    app: {
+        showAppHeader: boolean
+        setShowAppHeader: (show: boolean) => void
+
+        showAppFooterNav: boolean
+        setShowAppFooterNav: (show: boolean) => void
+
+        limitWidth: boolean
+        setLimitWidth: (show: boolean) => void
+
+        section: string | null
+        setSection: (show: string | null) => void
     }
 
     hooks: {
@@ -94,6 +113,9 @@ export const DataContext = createContext<DataContextValues>({
         cards: null,
         packs: null,
         exchangeRequests: null,
+
+        pagesByParties: [],
+        pagesByStates: [],
         
         setRankings: (input: GetRankingResponse['rankings'] | null) => {},
         setPoliticians: (input: GetRankingResponse['politicians'] | null) => {},
@@ -107,6 +129,20 @@ export const DataContext = createContext<DataContextValues>({
         setCards: (input: GetDeckResponse['cards'] | null) => {},
         setPacks: (input: GetDeckResponse['packs'] | null) => {},
         setExchangeRequests: (input: GetDeckResponse['exchangeRequests'] | null) => {},
+    },
+
+    app: {
+        showAppHeader: true,
+        setShowAppHeader: (show: boolean) => {},
+
+        showAppFooterNav: true,
+        setShowAppFooterNav: (show: boolean) => {},
+
+        limitWidth: false,
+        setLimitWidth: (show: boolean) => {},
+
+        section: null,
+        setSection: (section: null | string) => {},
     },
 
     hooks: {
@@ -141,7 +177,16 @@ export function DataProvider ({ children }: PropsWithChildren) {
     const [cards, setCards] = useState<GetDeckResponse['cards'] | null>(null)
     const [packs, setPacks] = useState<GetDeckResponse['packs'] | null>(null)
     const [exchangeRequests, setExchangeRequests] = useState<GetDeckResponse['exchangeRequests'] | null>(null)
+    const [pagesByParties, setPagesByParties] = useState<GetDeckResponse['pagesByParties']>([])
+    const [pagesByStates, setPagesByStates] = useState<GetDeckResponse['pagesByStates']>([])
     
+    const [showAppHeader, setShowAppHeader] = useState<boolean>(true);
+    const [showAppFooterNavDismiss, setShowAppFooterNav] = useState<boolean>(false);
+    const [limitWidth, setLimitWidth] = useState<boolean>(false);
+    const [section, setSection] = useState<string | null>(null);
+
+    const showAppFooterNav = user ? true : false;
+
     const headers = {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
@@ -149,7 +194,6 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     // when token changes: if there is token get user / if not, set user to null
     useEffect(()=>{
-
         if (token) {
             getUserData();
         } else {
@@ -175,10 +219,8 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
 
     const auth = {
-        token,
-        user,
-        setToken: setToken,
-        setUser: setUser,
+        token, setToken,
+        user, setUser,
     }
 
     const content = {
@@ -194,6 +236,14 @@ export function DataProvider ({ children }: PropsWithChildren) {
         cards, setCards,
         packs, setPacks,
         exchangeRequests, setExchangeRequests,
+        pagesByParties, pagesByStates
+    }
+
+    const app = {
+        showAppHeader, setShowAppHeader,
+        showAppFooterNav, setShowAppFooterNav,
+        limitWidth, setLimitWidth,
+        section, setSection
     }
 
     const hooks = {
@@ -209,7 +259,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
         updateDeck
     }
     
-    return <DataContext.Provider value={{auth, content, hooks}}>{children}</DataContext.Provider>
+    return <DataContext.Provider value={{auth, content, app, hooks}}>{children}</DataContext.Provider>
 
 
     // ------------------------------------------------------------------
@@ -252,12 +302,17 @@ export function DataProvider ({ children }: PropsWithChildren) {
     }
 
     function setDeckData(deckResponse: GetDeckResponse) {
+
+        console.log(deckResponse);
+
         setAlbum(deckResponse.album);
         setPages(deckResponse.pages);
         setStickers(deckResponse.stickers);
         setCards(deckResponse.cards);
         setPacks(deckResponse.packs);
         setExchangeRequests(deckResponse.exchangeRequests);
+        setPagesByParties(deckResponse.pagesByParties)
+        setPagesByStates(deckResponse.pagesByStates)
     }
 
     function clearRankingData() {
@@ -276,6 +331,8 @@ export function DataProvider ({ children }: PropsWithChildren) {
         setCards(null);
         setPacks(null);
         setExchangeRequests(null);
+        setPagesByParties([])
+        setPagesByStates([])
     }
 
     function clearAuth() {

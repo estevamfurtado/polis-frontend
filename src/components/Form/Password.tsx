@@ -35,8 +35,8 @@ export default function Password ({
 
 
     return <Form {...formProps}>
-        <InputGroup borderColor='gray.300'>
-            <Input {...inputProps}/>
+        <InputGroup>
+            <Input {...inputProps} fontSize={'sm'} variant='solid' bg='gray.700'/>
             <InputRightElement width={'auto'}>
                 <Button _hover={{bg: 'transparent'}} _focus={{bg: 'transparent'}} variant={'ghost'} h={'100%'} size={'sm'} onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <ViewIcon/> : <ViewOffIcon/>}

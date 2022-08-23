@@ -22,7 +22,7 @@ export default function Form ({value, label, helperText, children, isRequired, v
     const formHelperText = <FormHelperText>{helperText}</FormHelperText>
 
     return <FormControl isRequired={isRequired} isInvalid={showError}>
-        <FormLabel>{label}</FormLabel>
+        <FormLabel fontSize='sm'>{label}</FormLabel>
         {children}
         {showError ? formError : null}
     </FormControl>

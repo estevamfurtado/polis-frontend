@@ -3,6 +3,8 @@ import {
     Stack,
     Heading,
     Text,
+    VStack,
+    Box,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -22,26 +24,34 @@ export default function SignUpPage() {
     }, [user])
 
     return (
-        <Flex
-            direction={'column'} align={'center'} my={'20'}
-        >
-            <Stack spacing={8} mx={'auto'} w={'100%'} maxW={'500px'}>
-                <Headline/>
-                <Forms/>
-            </Stack>
-        </Flex>
+
+        <VStack align={'center'} w='100%' spacing='5' p='5'>
+            <VStack align={'center'} w='100%' p='5' spacing='5'>
+                <Heading fontSize={'lg'} textAlign={'center'}>
+                    Crie sua conta
+                </Heading>
+                <Text textAlign={'center'}>
+                    e ganhe o álbum de figurinhas do Congresso Nacional ✌️
+                </Text>
+
+                <Box 
+                    as='button'
+                    fontSize='sm'
+                    fontWeight='bold'
+                    color='white' 
+                    bg='gray.700'
+                    boxShadow={'0 3px 0 #222'}
+                    px='4' py='2' borderRadius='lg'
+                    onClick={() => {navigate('/sign-in')}}
+                >
+                        Já tem conta? Entre aqui!
+                </Box>
+
+            </VStack>
+
+            <Forms/>
+
+        </VStack>
+
     );
-}
-
-
-function Headline () {
-    return <Stack align={'center'}>
-        <Heading fontSize={'2xl'} textAlign={'center'}>
-            Cadastre-se
-        </Heading>
-        <Text fontSize={'lg'} color={'gray.600'} textAlign={'center'}>
-            e ganhe o álbum de figurinhas do Congresso Nacional ✌️
-        </Text>
-        <Link to={'/sign-in'}>Já tem cadastro? Entre aqui!</Link>
-    </Stack>
 }

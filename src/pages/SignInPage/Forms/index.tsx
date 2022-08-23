@@ -65,16 +65,30 @@ export default function Forms () {
     }
 
 
-    return <Box w={'100%'} bg={'white'} p={'2'}>
+    return <Box w={'100%'} bg={'gray.850'} p={'5'} borderRadius='xl'>
         <VStack gap={5} w={'100%'}>
-            
+
             <VStack gap={1} w={'100%'}>
                 <TextInput {...props.email} />
                 <Password {...props.password} />
             </VStack>
 
             <VStack gap={1} w={'100%'}>
-                <Button colorScheme='facebook' isDisabled={!isValid} onClick={submitHandler}>{ 'Entrar' }</Button>
+                
+                <Box 
+                    as='button'
+                    fontSize='md'
+                    fontWeight='bold'
+                    color='white' 
+                    bg='#165967'
+                    boxShadow={'0 3px 0 #13424B'}
+                    px='4' py='2' borderRadius='lg'
+                    disabled={!isValid}
+                    onClick={submitHandler}
+                >
+                        Entrar
+                </Box>
+
             </VStack>
 
         </VStack>

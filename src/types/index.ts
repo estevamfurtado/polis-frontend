@@ -446,7 +446,9 @@ export type GetDeckResponse = {
         link: number,
         lastPackAt: number,
     },
-    exchangeRequests: CompleteExchangeRequest[]
+    exchangeRequests: CompleteExchangeRequest[],
+    pagesByStates: FunctionalPage[],
+    pagesByParties: FunctionalPage[],
 }
 
 
@@ -461,4 +463,12 @@ export type CardsCatalog = {
         favorites: number[],
         recent: number[],
     }
+}
+
+export type FunctionalPage = {
+    title: string,
+    badge?: string,
+    description?: string,
+    color?: string,
+    stickers: number[],
 }
