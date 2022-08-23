@@ -166,7 +166,7 @@ export default function Forms () {
             setState: setPhone,
             errorMessage: 'Deve ser um telefone válido no formato xx xxxxx-xxxx.',
             inputProcessor: (value: string) => {
-                let clean = value.replace(/\D/g, '');
+                const clean = value.replace(/\D/g, '');
                 const p1 = clean.slice(0, 2);
                 const p2 = clean.length > 2 ? ' ' + clean.slice(2, 7) : '';
                 const p3 = clean.length > 7 ? '-' + clean.slice(7, 11) : '';
