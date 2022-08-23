@@ -8,7 +8,7 @@ import variables from "../../services/variables";
 export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean}) {
 
     const [nowTime, setNowTime] = useState(new Date());
-    const {content: {packs}, hooks: {openPacks}} = useContext(DataContext);
+    const {content: {packs}, hooks: {openPacks, realizePacks}} = useContext(DataContext);
     const [openIsLoading, setOpenIsLoading] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();
@@ -41,7 +41,7 @@ export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean
             px='4' py='2' borderRadius='lg'
             onClick={
                 packs?.new ? onClickOpen
-                    : isAvailable ? ()=>{}
+                    : isAvailable ? realizeAvailable
                     : () => {navigate('/games')
             }}
             disabled={openIsLoading}
@@ -59,6 +59,13 @@ export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean
             setOpenIsLoading(false);
         } catch (e) {
             setOpenIsLoading(false);
+        }
+    }
+
+    async function realizeAvailable () {
+        try {
+            await realizeAvailable();
+        } catch (e) {
         }
     }
 

@@ -57,34 +57,3 @@ export default function PoliticianSticker({sticker, dontOpen} : {sticker: Sticke
 
     </>
 }
-
-
-    // return <>
-    // <Box
-    //     w='100%' h='100%'
-    //     bg='white'
-    //     borderRadius='sm' 
-    //     position='relative' onClick={onOpen} cursor='pointer'
-    //     overflow='hidden'
-    // >
-
-    //     <HStack bg='green' w='100%' h='3'>
-    //         <Box fontSize={'xs'} bg={badgeColor} color={badgeFontColor}>
-    //             {`#${politicianRecord.scoreRanking}`}
-    //         </Box>
-    //         <Box fontSize={'xs'} bg={badgeColor} color={badgeFontColor}>
-    //             {abb}
-    //         </Box>
-    //     </HStack>
-    
-
-    //     <VStack position='absolute' right='0' bottom='0' width='100%' align='end' spacing='0'>
-    //         <Text color={'gray.900'} fontSize={'xs'} maxW='90%' flex='0 1 auto' textAlign='right' fontWeight={'semibold'} p='0.5'>
-    //             <span style={{backgroundColor: 'white', padding: '2px 5px'}}>{sticker.title}</span>
-    //         </Text>
-    //     </VStack>
-
-    //     <Flex direction='column' align='center' justify='end' w='100%' h='100%' borderRadius='sm' overflow='hidden'>
-    //         <Image w='100%' src={sticker.imageUrl} alt={sticker.title} />
-    //     </Flex>
-    // </Box>

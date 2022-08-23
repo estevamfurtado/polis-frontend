@@ -191,3 +191,13 @@ export async function rejectRequest (id: number) {
     return {...error}
   }
 }
+
+export async function realizePacks () {
+  try {
+    const response = await api.get(`/deck/packs/realize`, {headers: headers()});
+    return {...response}
+  }
+  catch (error: any) {
+    return {...error}
+  }
+}
