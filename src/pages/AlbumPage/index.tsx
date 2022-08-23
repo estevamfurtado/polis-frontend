@@ -10,6 +10,8 @@ export default function AlbumPage () {
 
     const [type, setType] = useState<'party' | 'state'>('party');
 
+    const [currentTitle, setCurrentTitle] = useState<string | null>(null);
+
     useEffect(() => {
         setShowAppHeader(false);
         setSection('album');
@@ -30,11 +32,11 @@ export default function AlbumPage () {
 
     return <Flex direction='column' position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
         {button}
-        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'party'}>            
+        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'party'} onScroll={onScroll}>            
             <Pages pages={pagesByParties}/>
         </VStack>
 
-        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'state'}>            
+        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'state'} onScroll={onScroll}>            
             <Pages pages={pagesByStates}/>
         </VStack>
 
@@ -69,6 +71,10 @@ export default function AlbumPage () {
             setType(choice);
         }
     }
+
+    function onScroll() {
+        
+    }
 }
 
 type FunctionalPage = {
@@ -83,7 +89,7 @@ type FunctionalPage = {
 function Pages ({pages} : {pages: FunctionalPage[]}) {
     return <>{
         pages.map((pg, index) => {
-            return <Page key={index} page={pg} />;
+            return <Page key={index} page={pg}/>;
         })
     }</>;
 }

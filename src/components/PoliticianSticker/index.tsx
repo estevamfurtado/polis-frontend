@@ -1,5 +1,5 @@
 
-import { Badge, Box, Flex, HStack, Image, Text, useDisclosure, VStack } from "@chakra-ui/react";
+import { Badge, Box, Center, Flex, HStack, Image, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { DataContext } from "../../contexts/DataContext";
 import { Sticker } from "../../types";
@@ -29,6 +29,7 @@ export default function PoliticianSticker({sticker, dontOpen} : {sticker: Sticke
         spacing='0'
         overflow='hidden'
         border='1px' borderColor='rgba(255, 255, 255, 0.1)'
+        flex='0 0 auto'
     >
         <HStack bg={badgeColor} color={badgeFontColor} w='100%' h='4' justify='space-between' flex='0 0 auto'>
             <Box h='100%' fontSize={'xs'} fontWeight='semibold' px='1' >
@@ -39,13 +40,11 @@ export default function PoliticianSticker({sticker, dontOpen} : {sticker: Sticke
             </Box>
         </HStack>
 
-        <Box bg='gray' w='100%' h='100%' flex='1 1 auto'>
-            <Flex direction='column' align='center' justify='end' w='100%' h='100%' borderRadius='sm' overflow='hidden'>
-                <Image w='100%' src={sticker.imageUrl} alt={sticker.title} />
-            </Flex>
-        </Box>
+        <Center bg='gray' w='100%' h='50%' flex='1 1 auto' overflow={'hidden'}>
+            <Image w='100%' src={sticker.imageUrl} alt={sticker.title} />
+        </Center>
 
-        <Box w='100%' fontSize={'xs'} fontWeight='semibold' color='gray.900' p='1' bg='white' flex='0 0 auto'>
+        <Box w='100%' fontSize={'10'} fontWeight='semibold' color='gray.900' p='1' bg='white' flex='0 0 auto'>
             {sticker.title}
         </Box>
 
