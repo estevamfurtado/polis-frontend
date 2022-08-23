@@ -7,7 +7,8 @@ import * as api from "../../services/reqs"
 
 import {
     token, Person,
-    GetDeckResponse, GetRankingResponse
+    GetDeckResponse, GetRankingResponse,
+    FunctionalPage
 } from "../../types"
 
 
@@ -57,6 +58,9 @@ export type DataContextValues = {
 
         exchangeRequests: GetDeckResponse['exchangeRequests'] | null
         setExchangeRequests: (input: GetDeckResponse['exchangeRequests'] | null) => void
+
+        pagesByParties: FunctionalPage[]
+        pagesByStates: FunctionalPage[]
     }
 
     app: {
@@ -109,6 +113,9 @@ export const DataContext = createContext<DataContextValues>({
         cards: null,
         packs: null,
         exchangeRequests: null,
+
+        pagesByParties: [],
+        pagesByStates: [],
         
         setRankings: (input: GetRankingResponse['rankings'] | null) => {},
         setPoliticians: (input: GetRankingResponse['politicians'] | null) => {},
@@ -170,6 +177,8 @@ export function DataProvider ({ children }: PropsWithChildren) {
     const [cards, setCards] = useState<GetDeckResponse['cards'] | null>(null)
     const [packs, setPacks] = useState<GetDeckResponse['packs'] | null>(null)
     const [exchangeRequests, setExchangeRequests] = useState<GetDeckResponse['exchangeRequests'] | null>(null)
+    const [pagesByParties, setPagesByParties] = useState<GetDeckResponse['pagesByParties']>([])
+    const [pagesByStates, setPagesByStates] = useState<GetDeckResponse['pagesByStates']>([])
     
     const [showAppHeader, setShowAppHeader] = useState<boolean>(true);
     const [showAppFooterNavDismiss, setShowAppFooterNav] = useState<boolean>(false);
@@ -185,7 +194,6 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     // when token changes: if there is token get user / if not, set user to null
     useEffect(()=>{
-
         if (token) {
             getUserData();
         } else {
@@ -228,6 +236,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
         cards, setCards,
         packs, setPacks,
         exchangeRequests, setExchangeRequests,
+        pagesByParties, pagesByStates
     }
 
     const app = {
@@ -293,12 +302,17 @@ export function DataProvider ({ children }: PropsWithChildren) {
     }
 
     function setDeckData(deckResponse: GetDeckResponse) {
+
+        console.log(deckResponse);
+
         setAlbum(deckResponse.album);
         setPages(deckResponse.pages);
         setStickers(deckResponse.stickers);
         setCards(deckResponse.cards);
         setPacks(deckResponse.packs);
         setExchangeRequests(deckResponse.exchangeRequests);
+        setPagesByParties(deckResponse.pagesByParties)
+        setPagesByStates(deckResponse.pagesByStates)
     }
 
     function clearRankingData() {
@@ -317,6 +331,8 @@ export function DataProvider ({ children }: PropsWithChildren) {
         setCards(null);
         setPacks(null);
         setExchangeRequests(null);
+        setPagesByParties([])
+        setPagesByStates([])
     }
 
     function clearAuth() {

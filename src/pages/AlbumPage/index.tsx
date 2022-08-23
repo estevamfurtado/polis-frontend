@@ -6,30 +6,21 @@ import Page from "./Page";
 
 export default function AlbumPage () {
 
-    const {content: {album, stickers, cards}, hooks: {pasteAllCards}, app: {setShowAppHeader, setSection}} = useContext(DataContext);
-    const isLoaded = album && stickers && cards
+    const {content: {pagesByParties, pagesByStates, cards}, hooks: {pasteAllCards}, app: {setShowAppHeader, setSection}} = useContext(DataContext);
 
-    const [type, setType] = useState<'party' | 'ranking' | 'state'>('party');
+    const [type, setType] = useState<'party' | 'state'>('party');
 
     useEffect(() => {
         setShowAppHeader(false);
-        setSection('album')
+        setSection('album');
 
         return () => {
             setShowAppHeader(true);
-            setSection(null)
-        };
+            setSection(null);
+        }
     },[])
 
-    if (!isLoaded) {
-        return <></>;
-    }
-
-    const pages = album.pages.map(id => {
-        return <Page key={id} pageId={id} />;
-    })
-
-    const manyCardsToPaste = cards.deck.notPasted.new.length > 30;
+    const manyCardsToPaste = cards?.deck.notPasted.new.length ?? 0 > 30;
 
     const button = manyCardsToPaste ? <Button
         size='sm' colorScheme='blackAlpha'
@@ -38,10 +29,15 @@ export default function AlbumPage () {
     </Button> : <></>;
 
     return <Flex direction='column' position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
-        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3'>
-            {button}
-            {pages}
+        {button}
+        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'party'}>            
+            <Pages pages={pagesByParties}/>
         </VStack>
+
+        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'state'}>            
+            <Pages pages={pagesByStates}/>
+        </VStack>
+
         <Footer/>
     </Flex>
 
@@ -52,7 +48,6 @@ export default function AlbumPage () {
                 <HStack>
                     <Choice title='Partidos' choice='party'/>
                     <Choice title='Estados' choice='state'/>
-                    <Choice title='Ranking' choice='ranking'/>
                 </HStack>
                 <HStack>
                     <IconButton aria-label="down" icon={<TriangleDownIcon/>}/>
@@ -62,7 +57,7 @@ export default function AlbumPage () {
         </Center>
     }
     
-    function Choice({title, choice} : {title: string, choice: 'ranking' | 'state' | 'party'}) {
+    function Choice({title, choice} : {title: string, choice: 'state' | 'party'}) {
 
         const isSelected = type === choice;
 
@@ -76,4 +71,19 @@ export default function AlbumPage () {
     }
 }
 
+type FunctionalPage = {
+    title: string,
+    badge?: string,
+    description?: string,
+    color?: string,
+    stickers: number[],
+}
 
+
+function Pages ({pages} : {pages: FunctionalPage[]}) {
+    return <>{
+        pages.map((pg, index) => {
+            return <Page key={index} page={pg} />;
+        })
+    }</>;
+}
