@@ -1,11 +1,6 @@
-import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, TableContainer, TableCaption, Thead, Th, Table, Tr, Td, Tbody, Badge, Accordion, AccordionItem, AccordionPanel, AccordionButton, AccordionIcon} from "@chakra-ui/react";
-import { useState, useContext, useEffect } from "react"
-import Card from "../Card";
-import StickerPack from "../StickerPack";
+import { HStack, VStack , Button, Heading} from "@chakra-ui/react";
+import { useContext } from "react"
 import { DataContext } from "../../contexts/DataContext"
-import { CompleteCard, CompleteSticker } from "../../types";
-import * as api from "../../services/reqs";
-import {CompleteExchangeRequest} from '../../types';
 import StickerComponent from "../Sticker";
 import { useParams } from 'react-router-dom';
 import { CardsWrap } from "../CardsWrap";

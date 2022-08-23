@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image, Badge, VStack, Button } from "@chakra-ui/react"
+import { Flex, Text, Button } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import { DataContext } from "../../../../contexts/DataContext"
 import { Sticker, CardsCatalog } from "../../../../types"

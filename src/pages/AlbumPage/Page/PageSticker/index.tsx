@@ -1,5 +1,5 @@
-import { Skeleton, WrapItem } from "@chakra-ui/react"
-import { useContext, useEffect, useState } from "react";
+import { WrapItem } from "@chakra-ui/react"
+import { useContext } from "react";
 import Sticker from "../../../../components/Sticker"
 import { DataContext } from "../../../../contexts/DataContext";
 import EmptySticker from "../EmptySticker"

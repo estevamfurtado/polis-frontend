@@ -16,14 +16,15 @@ import SignUp from "./pages/SignUpPage";
 import Referral from "./pages/ReferralLandingPage";
 
 
+import Wall from "./pages/Wall";
 import Album from "./pages/AlbumPage";
 import Stickers from "./pages/StickersPage";
 import Games from "./pages/GamesPage";
 import Exchange from "./pages/ExchangePage";
-import theme from './theme';
 import CreateExchange from "./components/CreateExchange";
 import ViewExchange from "./components/ViewExchange";
-import Wall from "./pages/Wall";
+
+import theme from './theme';
 
 
 export default function App() {

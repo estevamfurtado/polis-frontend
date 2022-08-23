@@ -1,5 +1,4 @@
-import { Heading, Text, VStack, Wrap, WrapItem, Badge, Box } from "@chakra-ui/react"
-import { hexToRgb, rgbaToString } from "../../../utils/color"
+import { Heading, Text, VStack, Wrap, WrapItem, Box } from "@chakra-ui/react"
 
 import PageSticker from "./PageSticker";
 

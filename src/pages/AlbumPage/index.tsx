@@ -1,5 +1,5 @@
 import { TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
-import { Button, VStack, Box, Flex, Center, HStack, IconButton } from "@chakra-ui/react";
+import { Button, VStack, Flex, Center, HStack, IconButton } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react"
 import { DataContext } from "../../contexts/DataContext"
 import Page from "./Page";
@@ -10,7 +10,6 @@ export default function AlbumPage () {
 
     const [type, setType] = useState<'party' | 'state'>('party');
 
-    const [currentTitle, setCurrentTitle] = useState<string | null>(null);
 
     useEffect(() => {
         setShowAppHeader(false);

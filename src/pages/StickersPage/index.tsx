@@ -1,12 +1,11 @@
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, Badge, IconButton} from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react"
+import { VStack } from "@chakra-ui/react";
+import { useContext, useEffect } from "react"
 import { DataContext } from "../../contexts/DataContext"
-import {Repeated, New, Liked} from "../../components/MyCards";
+import {Repeated, New } from "../../components/MyCards";
 import MyPacks from "../../components/MyPacks";
 
 
-export default function DeckPage() {
+export default function StickersPage() {
 
     const {app: {setSection}} = useContext(DataContext);
 
@@ -23,6 +22,5 @@ export default function DeckPage() {
         </VStack>
         <New/>
         <Repeated/>
-        {/* <Liked/> */}
     </VStack>
 }

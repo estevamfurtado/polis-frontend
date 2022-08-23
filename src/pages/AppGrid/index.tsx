@@ -1,4 +1,4 @@
-import { Center, Flex, Grid, GridItem, Box, Button, Heading, useColorMode } from "@chakra-ui/react";
+import { Center, Flex, Box } from "@chakra-ui/react";
 import { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
