@@ -88,6 +88,7 @@ export type DataContextValues = {
         reject: (exchangeRequestId: number) => Promise<void>
         cancel: (exchangeRequestId: number) => Promise<void>
         updateDeck: () => Promise<void>
+        realizePacks: () => Promise<void>
     }
 }
 
@@ -156,6 +157,7 @@ export const DataContext = createContext<DataContextValues>({
         reject: async (requestId: number) => {},
         cancel: async (requestId: number) => {},
         updateDeck: async () => {},
+        realizePacks: async () => {}
     }
 })
 
@@ -256,7 +258,8 @@ export function DataProvider ({ children }: PropsWithChildren) {
         accept,
         reject,
         cancel,
-        updateDeck
+        updateDeck,
+        realizePacks
     }
     
     return <DataContext.Provider value={{auth, content, app, hooks}}>{children}</DataContext.Provider>
@@ -386,6 +389,11 @@ export function DataProvider ({ children }: PropsWithChildren) {
     }
 
     async function updateDeck() {
+        await getDeckData();
+    }
+
+    async function realizePacks() {
+        await api.realizePacks();
         await getDeckData();
     }
 

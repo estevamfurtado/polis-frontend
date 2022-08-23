@@ -23,6 +23,6 @@ export default function DeckPage() {
         </VStack>
         <New/>
         <Repeated/>
-        <Liked/>
+        {/* <Liked/> */}
     </VStack>
 }
