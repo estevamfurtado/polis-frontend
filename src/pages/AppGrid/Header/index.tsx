@@ -39,9 +39,9 @@ export default function Header() {
     )
 
     function HomeButtonBuilder() {
-        return <Button variant='ghost' size='md' fontWeight={'bold'}>
+        return <Box fontSize='md' fontWeight={'bold'}>
             🏛️ Polis
-        </Button>
+        </Box>
     }
 
     function SettingsMenuBuilder() {

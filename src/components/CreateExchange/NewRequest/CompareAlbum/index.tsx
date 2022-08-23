@@ -43,9 +43,9 @@ export default function CompareAlbum() {
         <CardsWrap title={`Você precisa, ${nome} tem`} height='150px'>
             {
                 cardsHeHasYouNeed.map(c => {
-                    const isSelected = offeredCards[c.id] ?? false;
+                    const isSelected = requestedCards[c.id] ?? false;
                     return <Box 
-                        onClick={() => toggleOfferedCardId(c.id)}
+                        onClick={() => toggleRequestedCardId(c.id)}
                         opacity={isSelected ? 1 : 0.5}
                         cursor='pointer'
                         key={c.id}

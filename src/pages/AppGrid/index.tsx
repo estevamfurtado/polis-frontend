@@ -15,8 +15,6 @@ export default function AppGrid() {
     const HeaderNav = app.showAppHeader ? HeaderNavBuilder() : <></>;
     const FooterNav = app.showAppFooterNav ? FooterNavBuilder() : <></>
 
-    const {colorMode, toggleColorMode} = useColorMode();
-
     return (
         <Flex direction={'column'}
             w='100%' h='100%'

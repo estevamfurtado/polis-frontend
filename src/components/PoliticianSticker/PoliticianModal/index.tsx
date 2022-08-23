@@ -75,13 +75,13 @@ export default function PoliticianModal({isOpen, onClose, sticker, politicianRec
         const scoreColor = score > 75 ? 'teal' : score > 65 ? 'yellow' : 'red'
 
         return <VStack w='100%' align='start' spacing='1'>
-            <Text color='gray.600' fontSize='sm'>{`${title} (${score ?? '?'}/100)`}</Text>
+            <Text fontSize='sm'>{`${title} (${score ?? '?'}/100)`}</Text>
             <Progress borderRadius='sm' colorScheme={scoreColor} size='lg' value={score} w='100%'/>
         </VStack>
     }
 
     function checkValue (value: boolean | null, title: string) {
-        return <ListItem color='gray.600' fontSize='sm' lineHeight={'2'}>
+        return <ListItem fontSize='sm' lineHeight={'2'}>
             <ListIcon as={value ? CheckCircleIcon : WarningIcon} color={value ? 'teal.500' : 'red.500'} /> 
             {title}
         </ListItem>
@@ -89,14 +89,14 @@ export default function PoliticianModal({isOpen, onClose, sticker, politicianRec
 
     function line (title: string, value: string) {
         return <HStack w='100%'>
-            <Text color='gray.600' fontSize='sm' w='40%'>{title}</Text>
-            <Text color='gray.800' fontSize='sm' w='60%'>{value}</Text>
+            <Text fontSize='sm' w='40%'>{title}</Text>
+            <Text fontSize='sm' w='60%'>{value}</Text>
         </HStack>
     }
 
     function link (title: string, value: string) {
         return <HStack w='100%'>
-            <Link color='blue.600' fontSize='xs' w='100%' href={value} isExternal>
+            <Link fontSize='xs' w='100%' href={value} isExternal>
                 <ExternalLinkIcon mx='2px' />
                 {title}
             </Link>
