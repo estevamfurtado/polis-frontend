@@ -1,6 +1,7 @@
 import { TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { Button, VStack, Flex, Center, HStack, IconButton } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
+import { forEachChild } from "typescript";
 import { DataContext } from "../../contexts/DataContext"
 import Page from "./Page";
 
@@ -9,7 +10,6 @@ export default function AlbumPage () {
     const {content: {pagesByParties, pagesByStates, cards}, hooks: {pasteAllCards}, app: {setShowAppHeader, setSection}} = useContext(DataContext);
 
     const [type, setType] = useState<'party' | 'state'>('party');
-
 
     useEffect(() => {
         setShowAppHeader(false);
@@ -31,12 +31,12 @@ export default function AlbumPage () {
 
     return <Flex direction='column' position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
         {button}
-        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'party'} onScroll={onScroll}>            
-            <Pages pages={pagesByParties}/>
+        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'party'}>            
+            <Pages pages={pagesByParties} type={'party-page'}/>
         </VStack>
 
-        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'state'} onScroll={onScroll}>            
-            <Pages pages={pagesByStates}/>
+        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'state'}>            
+            <Pages pages={pagesByStates} type={'state-page'}/>
         </VStack>
 
         <Footer/>
@@ -51,8 +51,8 @@ export default function AlbumPage () {
                     <Choice title='Estados' choice='state'/>
                 </HStack>
                 <HStack>
-                    <IconButton aria-label="down" icon={<TriangleDownIcon/>}/>
-                    <IconButton aria-label="up" icon={<TriangleUpIcon/>}/>
+                    <IconButton aria-label="up" icon={<TriangleUpIcon/>} onClick={onUpClick}/>
+                    <IconButton aria-label="down" icon={<TriangleDownIcon/>} onClick={onDownClick}/>
                 </HStack>
             </HStack>
         </Center>
@@ -71,9 +71,67 @@ export default function AlbumPage () {
         }
     }
 
-    function onScroll() {
-        
+    function onDownClick() {
+        const element = GetElementInView();
+        if (element && element.next) {
+            element.next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
+
+    function onUpClick() {
+        const element = GetElementInView();
+        if (element && element.previous) {
+            element.previous.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+
+    function GetElementInView() {
+
+        const classType = (type === 'party') ? 'party-page' : 'state-page';
+        const collection = document.getElementsByClassName(classType);
+
+        const array : Element[] = [].slice.call(collection);
+
+        let i = 0;
+
+        for (const el of array) {
+
+            const isInView = isInViewport(el);
+
+            if (isInView) {
+                return {
+                    previous: array[i - 1] ? array[i - 1] : null,
+                    current: el,
+                    next: array[i + 1] ? array[i + 1] : null,
+                }
+            }
+            i++;
+        }
+
+        return null;
+    }
+
+    function isInViewport(element: Element) {
+        const rect = element.getBoundingClientRect();
+        const height = window.innerHeight || document.documentElement.clientHeight;
+        const width = window.innerWidth || document.documentElement.clientWidth
+
+        const top = rect.top < 0 ? 0
+            : rect.top > height ? height : rect.top;
+
+        const bottom = rect.bottom > height ? height
+            : rect.bottom < 0 ? 0 : rect.bottom;
+
+        const spaceInView = (bottom - top);
+        const shareOfView = spaceInView / (height);
+        const shareOfComponent = spaceInView / (rect.bottom - rect.top);
+
+        return (
+            shareOfView >= 0.5 || shareOfComponent >= 0.9
+        );
+    }
+
 }
 
 type FunctionalPage = {
@@ -85,10 +143,10 @@ type FunctionalPage = {
 }
 
 
-function Pages ({pages} : {pages: FunctionalPage[]}) {
+function Pages ({pages, type} : {pages: FunctionalPage[], type: string}) {
     return <>{
         pages.map((pg, index) => {
-            return <Page key={index} page={pg}/>;
+            return <Page key={index} page={pg} classType={type}/>;
         })
     }</>;
 }
