@@ -9,7 +9,6 @@ import { MainButton } from "../Buttons";
 
 export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean}) {
 
-    console.log('myPacks');
 
     const [nowTime, setNowTime] = useState(new Date());
     const {content: {packs}, hooks: {openPacks, realizePacks}} = useContext(DataContext);
@@ -32,13 +31,13 @@ export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean
     }, [nowTime]);
 
 
-    const header = <>{hasPacks ? `Abra seus ${<Box as='span' p='1' borderRadius='sm' bg='purple'>{packs?.new} pacotinhos</Box>}!` 
+    const header = <>{hasPacks ? `Abra seus pacotinhos!` 
         : isAvailable ? 'Pacotinhos liberados'
         : 'Você não tem pacotinhos :('}</>
 
-    const description = hasPacks ? 'Cada pacote tem 5 figurinhas' 
+    const description = hasPacks ? `Você tem ${packs?.new} pacotinhos para abrir 🎉` 
         : (isAvailable ? 'Pegue seus pacotinhos grátis!'
-        : 'Você receberá pacotinhos grátis em');
+        : `Você receberá pacotinhos grátis em ${minutesTo} minutos`);
 
     const onClick = hasPacks ? onClickOpen
         : isAvailable ? realizeAvailable

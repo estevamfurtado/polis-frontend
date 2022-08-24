@@ -1,12 +1,29 @@
 import { Center, VStack, Flex, Circle } from "@chakra-ui/react";
-import { PropsWithChildren, useContext } from "react";
+import { PropsWithChildren, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PolisAlbum, PolisCard, PolisExchange, PolisGames } from "../../../components/Icons";
 import { DataContext } from "../../../contexts/DataContext";
+import variables from "../../../services/variables";
 
 export default function Footer() {
 
+    const [nowTime, setNowTime] = useState(new Date());
+
     const {content: {cards, exchangeRequests, packs}} = useContext(DataContext);
+
+    const nextPackAt = packs ? packs.lastPackAt + 60*60*1000*variables.back.SIGN_IN_FREE_CARDS_HOURS : 0;
+    
+    const minutesTo = Math.ceil((nextPackAt - nowTime.getTime())/(1000*60));
+    console.log(minutesTo);
+
+    const hasPacks = (packs?.new ?? 0) > 0;
+    const isAvailable = minutesTo < 1;
+
+        
+    useEffect(() => {
+        const timer = setInterval(() => setNowTime(new Date()), 60*1000);
+        return () => clearInterval(timer);
+    }, [nowTime]);
 
 
     return (
@@ -20,9 +37,10 @@ export default function Footer() {
                 <PolisAlbum w='30px'/>
             </IconNav>
 
-            <IconNav title="Figurinhas" goTo="/stickers" activeSection="stickers" notifications={
-                packs?.new ?? 0
-            }>
+            <IconNav title="Figurinhas" goTo="/stickers" activeSection="stickers" 
+                notifications={hasPacks ? packs?.new ?? 0 : (!isAvailable ? minutesTo : 0)}
+                notificationColor={(!hasPacks && !isAvailable) ? 'blue.800' : undefined}
+            >
                 <PolisCard h='22px'/>
             </IconNav>
 
@@ -42,8 +60,8 @@ export default function Footer() {
 
 }
 
-function IconNav ({children, title, goTo, activeSection, notifications} : {
-    title: string, goTo: string, activeSection: string, notifications: number
+function IconNav ({children, title, goTo, activeSection, notifications, notificationColor} : {
+    title: string, goTo: string, activeSection: string, notifications: number, notificationColor?: string
 } & PropsWithChildren) {
     
     const {app: {section}} = useContext(DataContext);
@@ -63,7 +81,15 @@ function IconNav ({children, title, goTo, activeSection, notifications} : {
         <VStack align='center'>
             {children}
         </VStack>
-        {!isActive && notifications ? <Circle size='3' bg='red.400' position='absolute' top='0.7' right='0.7'/> : <></>}
+        {notifications ? 
+            <Circle color='white' bg={notificationColor ?? 'red.600'} 
+                size='6' fontSize='10px' fontWeight='bold' 
+                position='absolute' top='-1' right='-1'
+                border='2px solid' borderColor={'gray.850'}
+            >
+                {notifications}
+            </Circle>
+        : <></>}
     </Circle>
 }
 

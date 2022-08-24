@@ -194,7 +194,7 @@ export async function rejectRequest (id: number) {
 
 export async function realizePacks () {
   try {
-    const response = await api.get(`/deck/packs/realize`, {headers: headers()});
+    const response = await api.post(`/deck/packs/realize`, {}, {headers: headers()});
     return {...response}
   }
   catch (error: any) {
