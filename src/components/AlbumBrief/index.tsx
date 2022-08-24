@@ -5,7 +5,7 @@ import { Wrap, Box, Flex, VStack, CircularProgress, CircularProgressLabel, HStac
 
 export default function AlbumBrief() {
 
-    const {content: {album, pages, stickers, politicianRecords}} = useContext(DataContext);
+    const {content: {album, pages, cards, stickers, politicianRecords}} = useContext(DataContext);
 
     if (!album) {return <></>}
 
@@ -13,28 +13,12 @@ export default function AlbumBrief() {
 
     const legenda = <Legenda />
 
-    let total = 0;
-    let pasted = 0;
-
-    for (const pageId of album.pages) {
-        const page = pages?.[pageId] ?? null;
-        if (page) {
-            for (const stickerId of page.stickers) {
-                const sticker = stickers?.[stickerId] ?? null;
-                if (sticker) {
-                    total++;
-                    if (sticker.cards.pasted.length > 0) {
-                        pasted++;
-                    }
-                }
-            }
-        }
-    }
-
+    const total = stickers ? Object.keys(stickers).length : 0;
+    const pasted = cards ? cards.deck.pasted.length : 0;
     const progressValue = pasted/total;
     const progress = <AlbumProgress value={progressValue} />
 
-    return <VStack align='start' spacing='5' w='100%' maxW='700px'>
+    return <VStack align='start' spacing='5' w='100%' maxW='700px' p='5'>
         {progress}
         {legenda}
         <VStack align='start' spacing='1'>
@@ -98,7 +82,7 @@ export default function AlbumBrief() {
 
     function AlbumProgress ({value} : {value: number}) {
         return <HStack justify={'center'} align='center' w='100%'>
-            <CircularProgress value={value*100} color='green.400' size='120px' trackColor='gray.700' capIsRound={true}>
+            <CircularProgress value={value*100} color='blue.400' size='120px' trackColor='gray.700' capIsRound={true}>
                 <CircularProgressLabel>{
                     `${Math.round(value*100)}%`
                 }</CircularProgressLabel>
@@ -119,7 +103,7 @@ export default function AlbumBrief() {
             return <Flex 
                 align='center' justify='center' 
                 h='25px'
-                fontSize='xs' fontWeight='bold' 
+                fontSize='12px' fontWeight='bold' 
                 borderRadius='sm'
                 bg={props.bg} color={props.color} 
                 px='2'
@@ -140,17 +124,17 @@ const stickerStatus = {
     good: {
         bg: 'green.400',
         color: 'white',
-        title: 'Bem colocado'
+        title: 'Político Top 50'
     },
     neutral: {
         bg: 'yellow.400',
         color: 'black',
-        title: 'Neutro'
+        title: 'Boa metade'
     },
     bad: {
         bg: 'red.400',
         color: 'white',
-        title: 'Mau colocado'
+        title: 'Metade ruim'
     },
     empty: {
         bg: 'gray.700',

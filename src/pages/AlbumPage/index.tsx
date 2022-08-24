@@ -1,7 +1,6 @@
 import { TriangleUpIcon, TriangleDownIcon, ArrowLeftIcon, ArrowRightIcon, HamburgerIcon, CloseIcon, CopyIcon } from "@chakra-ui/icons";
-import { Button, VStack, Flex, Center, HStack, IconButton, Square } from "@chakra-ui/react";
+import { Button, VStack, Flex, Center, HStack, IconButton, Square, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 import { PropsWithChildren, useContext, useEffect, useRef, useState } from "react"
-import { forEachChild } from "typescript";
 import AlbumBrief from "../../components/AlbumBrief";
 import { GrayButton, MainButton } from "../../components/Buttons";
 import { DataContext } from "../../contexts/DataContext"
@@ -9,7 +8,7 @@ import Page from "./Page";
 
 export default function AlbumPage () {
 
-    const {content: {pagesByParties, pagesByStates, cards}, hooks: {pasteAllCards}, app: {setShowAppHeader, setSection}} = useContext(DataContext);
+    const {content: {pagesByParties, pagesByStates, cards, stickers}, hooks: {pasteAllCards}, app: {setShowAppHeader, setSection}} = useContext(DataContext);
 
     const [type, setType] = useState<'party' | 'state' | 'stats'>('party');
 
@@ -26,6 +25,11 @@ export default function AlbumPage () {
     },[])
 
     const manyCardsToPaste = (cards?.deck.notPasted.new.length ?? 0) > 30;
+
+    const total = stickers ? Object.keys(stickers).length : 0;
+    const pasted = cards ? cards.deck.pasted.length : 0;
+    const progressValue = pasted/total;
+
 
     return <Flex direction='column' position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
 
@@ -47,7 +51,7 @@ export default function AlbumPage () {
             
             <HStack h='100%' bottom='2' left='2' spacing='0' bg='gray.800' borderRadius={'md'} boxShadow='sxl' flex='0 0 auto'>
                 <Choice choice='stats'>
-                    Meu álbum
+                    <AlbumProgress value={progressValue} />
                 </Choice>
                 <Choice choice='party'>
                     Partidos
@@ -76,7 +80,7 @@ export default function AlbumPage () {
 
             <HStack h='100%'>
 
-                {!manyCardsToPaste ?
+                {manyCardsToPaste ?
                     <MainButton
                         onClick={pasteAllCards}
                         w='100%'
@@ -85,12 +89,6 @@ export default function AlbumPage () {
                     </MainButton>
                 : <></>}
 
-                {/* <GrayButton
-                    onClick={onDownClick}
-                    h='100%'
-                >
-                    <CloseIcon w={5} h={5}/>
-                </GrayButton> */}
             </HStack>
 
         </HStack>
@@ -110,6 +108,9 @@ export default function AlbumPage () {
             borderRadius='md'
             fontSize={'12px'}
             fontWeight={'semibold'}
+            onClick={onClick}
+            cursor='pointer'
+            _hover={{bg:'rgba(255, 255, 255, 0.1)'}}
         >
             {children}
         </Center>
@@ -197,4 +198,16 @@ function Pages ({pages, type} : {pages: FunctionalPage[], type: string}) {
             return <Page key={index} page={pg} classType={type}/>;
         })
     }</>;
+}
+
+
+
+function AlbumProgress ({value} : {value: number}) {
+    return <HStack justify={'center'} align='center' h='100%'>
+        <CircularProgress value={value*100} color='blue.400' size='50px' trackColor='gray.700' capIsRound={true}>
+            <CircularProgressLabel fontSize='12px'>{
+                `${Math.round(value*100)}%`
+            }</CircularProgressLabel>
+        </CircularProgress>
+    </HStack>
 }
