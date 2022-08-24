@@ -25,7 +25,6 @@ export default function SignUpPage() {
     }, [user])
 
     return (
-
         <VStack align={'center'} w='100%' spacing='5' p='5'>
             <VStack align={'center'} w='100%' p='5' spacing='5'>
                 <Heading fontSize={'lg'} textAlign={'center'}>
@@ -38,12 +37,8 @@ export default function SignUpPage() {
                 <GrayButton onClick={() => {navigate('/sign-in')}}>
                     Já tem conta? Entre aqui!
                 </GrayButton>
-
             </VStack>
-
             <Forms/>
-
         </VStack>
-
     );
 }

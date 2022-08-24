@@ -3,7 +3,6 @@ import joi from 'joi';
 import { useState } from 'react';
 import Password from '../../../components/Form/Password';
 import TextInput from '../../../components/Form/TextInput';
-import SliderInput from '../../../components/Form/SliderInput';
 import SelectInput from '../../../components/Form/SelectInput';
 import { signUp } from '../../../services/reqs';
 import { useNavigate } from 'react-router-dom';
@@ -18,13 +17,16 @@ export const SkinColor = [
     {value: 'Other', label: 'Outro'},
 ]
 
-export const EconomicClass = [
-    'A', 'B', 'C', 'D', 'E'
-];
+enum PoliticalPosition {
+    None,
+    Left,
+    Right,
+    Center
+}
 
 // email regex
 const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-const phoneRegex = /^\d{2} \d{4,5}-\d{4}$/;
+// const phoneRegex = /^\d{2} \d{4,5}-\d{4}$/;
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const validator = {
@@ -33,16 +35,7 @@ const validator = {
     password: joi.string().min(4).required(),
     cpf: joi.string().regex(cpfRegex).required(),
     voteStateAbbreviation: joi.string().length(2).required(),
-
-    phone: joi.string().regex(phoneRegex).allow(null),
     birthDate: joi.date().optional().allow(null),
-    skinColor: joi.string().valid(...SkinColor.map(({value}) => value)).allow(null),
-    economicClass: joi.string().valid(...EconomicClass).allow(null),
-
-    diplomaticAxis: joi.number().min(0).max(100).allow(null),
-    economicAxis: joi.number().min(0).max(100).allow(null),
-    civilAxis: joi.number().min(0).max(100).allow(null),
-    socialAxis: joi.number().min(0).max(100).allow(null),
 };
 
 const validatorSchema = joi.object().keys(validator);
@@ -59,15 +52,7 @@ export default function Forms () {
     const [password, setPassword] = useState<string | null>('');
     const [cpf, setCpf] = useState<string | null>('');
     const [voteStateAbbreviation, setVoteStateAbbreviation] = useState<string | null>('');
-    const [phone, setPhone] = useState<string | null>('');
     const [birthDate, setBirthDate] = useState<string | null>(null);
-    const [skinColor, setSkinColor] = useState<string | null>(null);
-    const [economicClass, setEconomicClass] = useState<string | null>(null);
-
-    const [diplomaticAxis, setDiplomaticAxis] = useState<number | null>(50);
-    const [economicAxis, setEconomicAxis] = useState<number | null>(50);
-    const [civilAxis, setCivilAxis] = useState<number | null>(50);
-    const [socialAxis, setSocialAxis] = useState<number | null>(50);
     
     const [loading, setLoading] = useState(false);
 
@@ -75,8 +60,7 @@ export default function Forms () {
 
 
     const validation = validatorSchema.validate({
-        name, email, password, cpf, voteStateAbbreviation, phone, birthDate, skinColor, economicClass,
-        diplomaticAxis, economicAxis, civilAxis, socialAxis
+        name, email, password, cpf, voteStateAbbreviation, birthDate
     })
     const isValid = validation.error? false : true;
 
@@ -87,14 +71,7 @@ export default function Forms () {
         password,
         cpf,
         voteStateAbbreviation,
-        phone,
         birthDate,
-        skinColor,
-        economicClass,
-        diplomaticAxis,
-        economicAxis,
-        civilAxis,
-        socialAxis,
     }
 
     const props = {
@@ -157,23 +134,6 @@ export default function Forms () {
             errorMessage: 'Deve ser uma UF válida.',
             options: ufs,
         },
-        phone: {
-            value: phone,
-            label: 'Telefone',
-            helperText: 'Digite seu telefone',
-            isRequired: false,
-            validator: validator.phone,
-            state: phone,
-            setState: setPhone,
-            errorMessage: 'Deve ser um telefone válido no formato xx xxxxx-xxxx.',
-            inputProcessor: (value: string) => {
-                const clean = value.replace(/\D/g, '');
-                const p1 = clean.slice(0, 2);
-                const p2 = clean.length > 2 ? ' ' + clean.slice(2, 7) : '';
-                const p3 = clean.length > 7 ? '-' + clean.slice(7, 11) : '';
-                return p1 + p2 + p3;
-            }
-        },
         birthDate: {
             value: birthDate,
             label: 'Data de nascimento',
@@ -185,76 +145,6 @@ export default function Forms () {
             errorMessage: 'Deve ser uma data válida.',
             type: 'date',
         },
-        skinColor: {
-            value: skinColor,
-            label: 'Cor de pele',
-            helperText: 'Digite sua cor de pele',
-            isRequired: false,
-            validator: validator.skinColor,
-            state: skinColor,
-            setState: setSkinColor,
-        },
-        economicClass: {
-            value: economicClass,
-            label: 'Classe econômica',
-            helperText: 'Digite sua classe econômica',
-            isRequired: false,
-            validator: validator.economicClass,
-            state: economicClass,
-            setState: setEconomicClass,
-        },
-        diplomaticAxis: {
-            value: diplomaticAxis,
-            label: 'Diplomática',
-            helperText: 'Digite sua nota de Diplomática',
-            isRequired: false,
-            validator: validator.diplomaticAxis,
-            state: diplomaticAxis,
-            setState: setDiplomaticAxis,
-            axisLabel: {
-                left: 'Globalista',
-                right: 'Nacionalista',
-            }
-        },
-        economicAxis: {
-            value: economicAxis,
-            label: 'Econômica',
-            helperText: 'Digite sua nota de Econômica',
-            isRequired: false,
-            validator: validator.economicAxis,
-            state: economicAxis,
-            setState: setEconomicAxis,
-            axisLabel: {
-                left: 'Igualdade',
-                right: 'Liberdade',
-            }
-        },
-        civilAxis: {
-            value: civilAxis,
-            label: 'Civil',
-            helperText: 'Digite sua nota de Civil',
-            isRequired: false,
-            validator: validator.civilAxis,
-            state: civilAxis,
-            setState: setCivilAxis,
-            axisLabel: {
-                left: 'Autoritarismo',
-                right: 'Democracia',
-            }
-        },
-        socialAxis: {
-            value: socialAxis,
-            label: 'Social',
-            helperText: 'Digite sua nota de Social',
-            isRequired: false,
-            validator: validator.socialAxis,
-            state: socialAxis,
-            setState: setSocialAxis,
-            axisLabel: {
-                left: 'Progressista',
-                right: 'Conservador',
-            }
-        }
     }
 
 
@@ -266,19 +156,11 @@ export default function Forms () {
                 <TextInput {...props.email} />
                 <Password {...props.password} />
                 <TextInput {...props.cpf} />
-                <TextInput {...props.phone} />
             </VStack>
 
             <VStack gap={1} w={'100%'}>
                 <SelectInput {...props.voteStateAbbreviation} />
                 <TextInput {...props.birthDate} />
-            </VStack>
-
-            <VStack gap={1} w={'100%'}>
-                <SliderInput {...props.diplomaticAxis} />
-                <SliderInput {...props.economicAxis} />
-                <SliderInput {...props.civilAxis} />
-                <SliderInput {...props.socialAxis} />
             </VStack>
 
             <VStack gap={1} w={'100%'}>
