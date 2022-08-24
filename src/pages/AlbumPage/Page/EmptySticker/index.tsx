@@ -11,8 +11,7 @@ export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: Ca
 
     const canBePasted = sticker.cards.notPasted.new.length > 0;
     const pasteButton = canBePasted ? 
-        !isLoading ? <Button colorScheme='alphaWhite' onClick={handlePaste}>Colar!</Button>
-        : <Button colorScheme='alphaWhite' isDisabled>Colando...</Button> 
+        <Button bg='rgba(255,255,255,0.2)' color='white' isDisabled={isLoading} onClick={handlePaste}>{isLoading ? 'Colando...' : `Colar!`}</Button>
     : <></>;
 
     const bg = canBePasted ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';

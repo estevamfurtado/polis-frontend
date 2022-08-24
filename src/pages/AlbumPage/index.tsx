@@ -9,7 +9,7 @@ export default function AlbumPage () {
 
     const {content: {pagesByParties, pagesByStates, cards}, hooks: {pasteAllCards}, app: {setShowAppHeader, setSection}} = useContext(DataContext);
 
-    const [type, setType] = useState<'party' | 'state'>('party');
+    const [type, setType] = useState<'party' | 'state' | 'stats'>('party');
 
     useEffect(() => {
         setShowAppHeader(false);
@@ -21,16 +21,16 @@ export default function AlbumPage () {
         }
     },[])
 
-    const manyCardsToPaste = cards?.deck.notPasted.new.length ?? 0 > 30;
+    const manyCardsToPaste = (cards?.deck.notPasted.new.length ?? 0) > 30;
 
     const button = manyCardsToPaste ? <Button
-        size='sm' colorScheme='blackAlpha'
+        size='sm' bg='rgba(0,0,0,0.5)' color={'white'}
         position='absolute' top='3' right='5' zIndex={10}
         onClick={pasteAllCards}>Colar todas as cartas
     </Button> : <></>;
 
     return <Flex direction='column' position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
-        {button}
+
         <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'party'}>            
             <Pages pages={pagesByParties} type={'party-page'}/>
         </VStack>
@@ -39,30 +39,38 @@ export default function AlbumPage () {
             <Pages pages={pagesByStates} type={'state-page'}/>
         </VStack>
 
-        <Footer/>
+        <HStack position='absolute' bottom='2' left='2' spacing='0' bg='gray.800' borderRadius={'md'} boxShadow='sxl'>
+            <Choice title='Meu álbum' choice='stats'/>
+            <Choice title='Partidos' choice='party'/>
+            <Choice title='Estados' choice='state'/>
+        </HStack>
+
+        <VStack position='absolute' bottom='25vh' right='2'>
+            <IconButton aria-label="up" bg='rgba(0,0,0,0.5)' icon={<TriangleUpIcon/>} onClick={onUpClick}/>
+            <IconButton aria-label="down" bg='rgba(0,0,0,0.5)' icon={<TriangleDownIcon/>} onClick={onDownClick}/>
+        </VStack>
+
+        <VStack position='absolute' top='1' right='2'>
+            {button}
+        </VStack>
+
     </Flex>
 
 
     function Footer() {
         return <Center w='100%' h='50px' bg='gray.700' flex='0 0 auto' p='3'>
             <HStack justify={'space-between'} w='100%' h='100%'>
-                <HStack>
-                    <Choice title='Partidos' choice='party'/>
-                    <Choice title='Estados' choice='state'/>
-                </HStack>
-                <HStack>
-                    <IconButton aria-label="up" icon={<TriangleUpIcon/>} onClick={onUpClick}/>
-                    <IconButton aria-label="down" icon={<TriangleDownIcon/>} onClick={onDownClick}/>
-                </HStack>
+                
+                
             </HStack>
         </Center>
     }
     
-    function Choice({title, choice} : {title: string, choice: 'state' | 'party'}) {
+    function Choice({title, choice} : {title: string, choice: 'state' | 'party' | 'stats'}) {
 
         const isSelected = type === choice;
 
-        return <Button variant={isSelected ? 'solid' : 'ghost'} size='sm' onClick={onClick}>
+        return <Button h='10' variant={isSelected ? 'solid' : 'ghost'} size='sm' onClick={onClick}>
             {title}
         </Button>
 
