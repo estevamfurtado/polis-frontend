@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GrayButton } from '../../components/Buttons';
 import { DataContext } from '../../contexts/DataContext';
 import Forms from './Forms';
 
@@ -34,18 +35,9 @@ export default function SignUpPage() {
                     e ganhe o álbum de figurinhas do Congresso Nacional ✌️
                 </Text>
 
-                <Box 
-                    as='button'
-                    fontSize='sm'
-                    fontWeight='bold'
-                    color='white' 
-                    bg='gray.700'
-                    boxShadow={'0 3px 0 #222'}
-                    px='4' py='2' borderRadius='lg'
-                    onClick={() => {navigate('/sign-in')}}
-                >
-                        Já tem conta? Entre aqui!
-                </Box>
+                <GrayButton onClick={() => {navigate('/sign-in')}}>
+                    Já tem conta? Entre aqui!
+                </GrayButton>
 
             </VStack>
 

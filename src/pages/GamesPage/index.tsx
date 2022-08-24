@@ -1,5 +1,6 @@
 import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, useToast, Center} from "@chakra-ui/react";
 import { useContext, useEffect } from "react"
+import { GrayButton, MainButton } from "../../components/Buttons";
 import MyPacks from "../../components/MyPacks";
 import { DataContext } from "../../contexts/DataContext"
 
@@ -29,16 +30,9 @@ export default function PacksPage() {
                 <GameThumb game={{title: 'Tinder dos Candidatos', description: 'Veja vídeos curtos dos candidatos do seu Estado à Câmara. A cada 2 vídeos, você ganha 1 pacote.'}}/>
             </VStack>
 
-            <Box 
-                as='button'
-                fontSize='sm'
-                fontWeight='bold'
-                color='white' 
-                bg='#165967'
-                boxShadow={'0 3px 0 #13424B'}
-                px='4' py='2' borderRadius='lg'
-                onClick={copyAndSendLink}
-            >Quero enviar meu link!</Box>
+            <MainButton onClick={copyAndSendLink}>
+                Quero enviar meu link!
+            </MainButton>
 
     </VStack>
 
@@ -60,11 +54,16 @@ export default function PacksPage() {
 }
 
 function GameThumb ({game} : {game: {title: string, description: string}}) {
-    return <HStack w='100%' h='120px' bg='gray.700' borderRadius='lg' cursor='pointer' boxShadow={'0 3px 0 #222'}>
-        <Center w='120px'></Center>
-        <VStack flex='1 1 auto' align='start'>
-            <Heading fontWeight='black' fontSize='xl'>{game.title}</Heading>
-            <Text fontSize='xs' opacity='60%'>{game.description}</Text>
-        </VStack>
-    </HStack>
+    
+    
+    
+    return <GrayButton w='100%' h='120px' >
+        <HStack w='100%' h='100%'>
+            <Center w='120px'></Center>
+            <VStack flex='1 1 auto' align='start'>
+                <Heading fontWeight='black' fontSize='xl'>{game.title}</Heading>
+                <Text fontSize='xs' textAlign='start' fontWeight='normal' opacity='60%'>{game.description}</Text>
+            </VStack>
+        </HStack>
+    </GrayButton>
 }

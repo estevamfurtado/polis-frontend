@@ -65,9 +65,7 @@ export function Liked() {
 
 
 function StickerInSection({cardId, sticker, q, hasFavorite} : {hasFavorite:boolean, cardId: number, q: number, sticker: (Sticker & {cards: CardsCatalog}) | null}) {
-    
-    // const {hooks: {toggleCard}} = useContext(DataContext);
-    
+        
     if (!sticker || q===0) {return <></>}
     return <Box flex='0 0 auto' position='relative'>
         <StickerComponent stickerId={sticker.id} h={120} w={90} />
@@ -77,14 +75,7 @@ function StickerInSection({cardId, sticker, q, hasFavorite} : {hasFavorite:boole
                 ? <Center bg='teal' w='20px' h='20px' fontSize='xs' fontWeight='bold' color='white' borderRadius='3'>
                 {'x'+q}
             </Center> : <></>}
-            {/* <Center 
-                bg={hasFavorite ? 'purple.600' : 'gray'} color='white'
-                w='20px' h='20px' fontSize='xs' fontWeight='bold'  borderRadius='3'
-                onClick={()=>{toggleCard(cardId)}}
-                cursor='pointer'
-            >
-                <StarIcon/>
-            </Center> */}
+
         </HStack>
         
     </Box>

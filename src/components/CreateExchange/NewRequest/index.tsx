@@ -2,6 +2,7 @@ import { Button, VStack, HStack, Heading, Box, useToast } from "@chakra-ui/react
 import { useContext } from "react";
 import { DataContext } from "../../../contexts/DataContext";
 import { NewRequestContext } from "../../../contexts/NewRequestContext";
+import { MainButton } from "../../Buttons";
 import CompareAlbum from "./CompareAlbum";
 
 
@@ -36,7 +37,12 @@ export default function NewRequest () {
         <HStack w='100%' spacing='3'>
             <CompareAlbum />
         </HStack>
-        <Button colorScheme='green' onClick={sendRequestClick} isDisabled={offer.length + request.length  === 0} >Enviar proposta</Button>
+        <MainButton 
+            onClick={sendRequestClick}
+            disabled={(offer.length + request.length  === 0)}
+        >
+            Enviar proposta
+        </MainButton>
     </VStack>
     
     async function sendRequestClick () {

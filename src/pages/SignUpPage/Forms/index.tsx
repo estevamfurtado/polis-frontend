@@ -7,6 +7,7 @@ import SliderInput from '../../../components/Form/SliderInput';
 import SelectInput from '../../../components/Form/SelectInput';
 import { signUp } from '../../../services/reqs';
 import { useNavigate } from 'react-router-dom';
+import { MainButton } from '../../../components/Buttons';
 
 
 export const SkinColor = [
@@ -282,19 +283,10 @@ export default function Forms () {
 
             <VStack gap={1} w={'100%'}>
 
-                <Box 
-                    as='button'
-                    fontSize='md'
-                    fontWeight='bold'
-                    color='white' 
-                    bg='#165967'
-                    boxShadow={'0 3px 0 #13424B'}
-                    px='4' py='2' borderRadius='lg'
+                <MainButton 
                     disabled={!isValid}
                     onClick={submitHandler}
-                >
-                    Criar conta
-                </Box>
+                >Criar conta</MainButton>
 
             </VStack>
 

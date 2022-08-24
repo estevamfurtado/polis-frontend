@@ -1,5 +1,5 @@
 import { TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
-import { Button, VStack, Flex, Center, HStack, IconButton } from "@chakra-ui/react";
+import { Button, VStack, Flex, Center, HStack, IconButton, Square } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react"
 import { forEachChild } from "typescript";
 import AlbumBrief from "../../components/AlbumBrief";
@@ -32,27 +32,41 @@ export default function AlbumPage () {
 
     return <Flex direction='column' position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
 
-        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'party'}>            
-            <Pages pages={pagesByParties} type={'party-page'}/>
-        </VStack>
+        <Flex direction='column' w='100%' h='100%' gap='0' overflowY={'hidden'} flex={'1 1 auto'}>
+            <VStack w='100%' gap='0' overflowY={'scroll'} py='3' hidden={type !== 'party'}>            
+                <Pages pages={pagesByParties} type={'party-page'}/>
+            </VStack>
 
-        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'state'}>            
-            <Pages pages={pagesByStates} type={'state-page'}/>
-        </VStack>
+            <VStack w='100%' gap='0' overflowY={'scroll'} py='3' hidden={type !== 'state'}>            
+                <Pages pages={pagesByStates} type={'state-page'}/>
+            </VStack>
 
-        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'stats'}>            
-            <AlbumBrief/>
-        </VStack>
+            <VStack w='100%' gap='0' overflowY={'scroll'} py='3' hidden={type !== 'stats'}>            
+                <AlbumBrief/>
+            </VStack>
+        </Flex>
 
-        <HStack position='absolute' bottom='2' left='2' spacing='0' bg='gray.800' borderRadius={'md'} boxShadow='sxl'>
+        <HStack bottom='2' left='2' spacing='0' bg='gray.800' borderRadius={'md'} boxShadow='sxl' flex='0 0 auto'>
             <Choice title='Meu álbum' choice='stats'/>
             <Choice title='Partidos' choice='party'/>
             <Choice title='Estados' choice='state'/>
         </HStack>
 
-        <VStack position='absolute' bottom='25vh' right='2'>
-            <IconButton aria-label="up" bg='rgba(0,0,0,0.5)' icon={<TriangleUpIcon/>} onClick={onUpClick}/>
-            <IconButton aria-label="down" bg='rgba(0,0,0,0.5)' icon={<TriangleDownIcon/>} onClick={onDownClick}/>
+        <VStack position='absolute' bottom='35vh' right='2'>
+            <Square 
+                size='60px' borderRadius='lg' cursor='pointer'
+                bg='rgba(0,0,0,0.25)' _hover={{bg: 'rgba(0,0,0,0.5)'}}
+                onClick={onUpClick}
+            >
+                <TriangleUpIcon w={5} h={5}/>
+            </Square>
+            <Square
+                size='60px' borderRadius='lg' cursor='pointer'
+                bg='rgba(0,0,0,0.25)' _hover={{bg: 'rgba(0,0,0,0.5)'}}
+                onClick={onDownClick}
+            >
+                <TriangleDownIcon w={5} h={5}/>
+            </Square>
         </VStack>
 
         <VStack position='absolute' top='1' right='2'>
