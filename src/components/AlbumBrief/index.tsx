@@ -34,9 +34,9 @@ export default function AlbumBrief() {
     const progressValue = pasted/total;
     const progress = <AlbumProgress value={progressValue} />
 
-    return <VStack align='start' spacing='5'>
-        {legenda}
+    return <VStack align='start' spacing='5' w='100%' maxW='700px'>
         {progress}
+        {legenda}
         <VStack align='start' spacing='1'>
             {items}
         </VStack>
@@ -48,7 +48,7 @@ export default function AlbumBrief() {
         if (!page) {return <></>}
         if (page.stickers.length === 0) {return <></>}
         
-        return <VStack align='start' bg='gray.200' p='2' w='100%' borderRadius='sm'>
+        return <VStack align='start' bg='gray.900' p='2' w='100%' borderRadius='sm'>
             <Box fontSize='xs' fontWeight='bold'>{page.title}</Box>
             <Wrap spacing='0'>
                 {page.stickers.map(sId => <StickerItem key={sId} stickerId={sId}/>)}
@@ -71,7 +71,6 @@ export default function AlbumBrief() {
             key={sticker.id}    
             align='center' justify='center' 
             w='25px' h='25px'
-            border='1px solid' borderColor='gray.100' 
             fontSize='xs' fontWeight='bold' 
             bg={status.bg} color={status.color} 
         >{num}</Flex>
@@ -94,22 +93,12 @@ export default function AlbumBrief() {
                 if (value <= 250) {return stickerStatus.neutral}
                 return stickerStatus.bad;
             }
-
-            // const hasNotPastedCards = sticker.cards.notPasted.all.length > 0;
-            // const toPaste = sticker.cards.notPasted.new.length > 0;
-            // return doesntHave
-            //     ? stickerStatus.empty 
-            //         : (toPaste
-            //             ? stickerStatus.available
-            //             : (hasNotPastedCards
-            //                 ? stickerStatus.repeated
-            //                 : stickerStatus.pasted));
         }
     }
 
     function AlbumProgress ({value} : {value: number}) {
         return <HStack justify={'center'} align='center' w='100%'>
-            <CircularProgress value={value*100} color='green.400' size='120px'>
+            <CircularProgress value={value*100} color='green.400' size='120px' trackColor='gray.700' capIsRound={true}>
                 <CircularProgressLabel>{
                     `${Math.round(value*100)}%`
                 }</CircularProgressLabel>
@@ -120,17 +109,18 @@ export default function AlbumBrief() {
     function Legenda () {
         return <Wrap align='center' justify='center' w='100%'>
             {statusLegendaItem(stickerStatus.empty)}
-            {statusLegendaItem(stickerStatus.available)}
-            {statusLegendaItem(stickerStatus.pasted)}
-            {statusLegendaItem(stickerStatus.repeated)}
+            {statusLegendaItem(stickerStatus.special)}
+            {statusLegendaItem(stickerStatus.good)}
+            {statusLegendaItem(stickerStatus.neutral)}
+            {statusLegendaItem(stickerStatus.bad)}
         </Wrap>
     
         function statusLegendaItem (props: {bg: string, color: string, title: string}) {
             return <Flex 
                 align='center' justify='center' 
                 h='25px'
-                border='1px solid' borderColor='gray.100' 
                 fontSize='xs' fontWeight='bold' 
+                borderRadius='sm'
                 bg={props.bg} color={props.color} 
                 px='2'
             >
@@ -145,41 +135,26 @@ const stickerStatus = {
     special: {
         bg: 'purple.500',
         color: 'white',
-        title: 'Special'
+        title: 'Figurinha especial'
     },
     good: {
         bg: 'green.400',
         color: 'white',
-        title: 'OK'
+        title: 'Bem colocado'
     },
     neutral: {
         bg: 'yellow.400',
         color: 'black',
-        title: 'OK'
+        title: 'Neutro'
     },
     bad: {
         bg: 'red.400',
         color: 'white',
-        title: 'OK'
+        title: 'Mau colocado'
     },
     empty: {
-        bg: 'white',
-        color: 'gray.500',
-        title: 'Você não tem ainda'
-    },  
-    pasted: {
-        bg: 'green.400',
+        bg: 'gray.700',
         color: 'white',
-        title: 'Colada'
-    },
-    available: {
-        bg: 'blue.400',
-        color: 'white',
-        title: 'Pronto para colar'
-    },
-    repeated: {
-        bg: 'green.500',
-        color: 'white',
-        title: 'Repetida'
+        title: 'Vazio'
     },
 }

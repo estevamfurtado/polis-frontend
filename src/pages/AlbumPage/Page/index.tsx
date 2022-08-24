@@ -17,13 +17,13 @@ export default function Page ({page, classType} : {page: FunctionalPage, classTy
     })
 
 
-    return <VStack w='100%' bg={page.color || 'gray'} p='3' align='start' 
+    return <VStack w='100%' bg={page.color || 'gray'} p='3' align='center' borderRadius='md'
         id={`${page.title.replaceAll(' ', '')}`} 
         className={classType}
     >
-        <Wrap w='100%' spacing='2'>
+        <Wrap w='100%' spacing='2' maxW='700px'>
             <WrapItem w='100%' >
-                    <VStack mb='5' align='start' maxW='450px' borderRadius='md' bg={'rgba(0,0,0,0.1)'} p='3'>
+                    <VStack align='start' maxW='450px' borderRadius='md' bg={'rgba(0,0,0,0.1)'} p='3'>
                         {page.badge ? <Box 
                             bg={'rgba(255,255,255,0.1)'} color='white' 
                             borderRadius='sm' py='1' px='3'

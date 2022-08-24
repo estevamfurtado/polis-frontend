@@ -2,6 +2,7 @@ import { TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
 import { Button, VStack, Flex, Center, HStack, IconButton } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react"
 import { forEachChild } from "typescript";
+import AlbumBrief from "../../components/AlbumBrief";
 import { DataContext } from "../../contexts/DataContext"
 import Page from "./Page";
 
@@ -37,6 +38,10 @@ export default function AlbumPage () {
 
         <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'state'}>            
             <Pages pages={pagesByStates} type={'state-page'}/>
+        </VStack>
+
+        <VStack w='100%' gap='0' overflowY={'scroll'} flex='1 1 auto' py='3' hidden={type !== 'stats'}>            
+            <AlbumBrief/>
         </VStack>
 
         <HStack position='absolute' bottom='2' left='2' spacing='0' bg='gray.800' borderRadius={'md'} boxShadow='sxl'>
