@@ -24,9 +24,9 @@ export default function ExchangeThumb ({request} : {request: CompleteExchangeReq
 
     const note = <Badge>Esperando</Badge>
 
-    return <VStack h='100%' w='100px' flex='0 0 auto' borderRadius='md' bg={color} p='2' spacing='1' justify='space-between' onClick={()=>{navigate(`/exchange/${request.id}`)}}>
+    return <VStack h='100%' w='100px' flex='0 0 auto' borderRadius='md' bg={color} p='2' spacing='1' justify='space-between' onClick={()=>{navigate(`/exchange/${request.id}`)}} cursor='pointer'>
         <Heading as='h4' fontSize={'sm'}>{title}</Heading>
-        <Flex direction='column' flex='1 1 auto' justify='center'>
+        <Flex direction='column' flex='1 1 auto' justify='end'>
             {isAuthor ? note : buttons}
         </Flex>
     </VStack>

@@ -39,9 +39,9 @@ type NewRequestContextValues = {
     toggleOfferedCardId: (id: number) => void;
     toggleRequestedCardId: (id: number) => void;
 
-    searchUsers: (email: string) => void;
-    clickUser: (user: UserInfo) => void;
-    sendRequest: () => void;
+    searchUsers: (email: string) => Promise<void>;
+    clickUser: (user: UserInfo) => Promise<void>;
+    sendRequest: () => Promise<void>;
 }
 
 export const NewRequestContext = createContext<NewRequestContextValues>({
@@ -60,9 +60,9 @@ export const NewRequestContext = createContext<NewRequestContextValues>({
     toggleOfferedCardId: () => {},
     toggleRequestedCardId: () => {},
 
-    searchUsers: (email: string) => {},
-    clickUser: (user: UserInfo) => {},
-    sendRequest: () => {},
+    searchUsers: async (email: string) => {},
+    clickUser: async (user: UserInfo) => {},
+    sendRequest: async () => {},
 })
 
 

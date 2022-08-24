@@ -5,12 +5,13 @@ import { DataContext } from "../../../../contexts/DataContext"
 import { NewRequestContext } from "../../../../contexts/NewRequestContext"
 import { CardsWrap } from "../../../CardsWrap";
 
+
 export default function CompareAlbum() {
 
     const {content: {cards, stickers}} = useContext(DataContext);
     const {
-        cardsYouHaveHeNeeds, offeredCards, toggleOfferedCardId, 
-        cardsHeHasYouNeed, requestedCards, toggleRequestedCardId, 
+        cardsYouHaveHeNeeds, offeredCards, setOfferedCards, toggleOfferedCardId, 
+        cardsHeHasYouNeed, requestedCards, setRequestedCards, toggleRequestedCardId, 
         requestedUser} = useContext(NewRequestContext);
 
     if (!cards || !requestedUser || !offeredCards || !requestedCards || !stickers) {
@@ -20,7 +21,7 @@ export default function CompareAlbum() {
     const nome = requestedUser.info.name.split(' ')[0];
 
     return <VStack w='100%' align='start' spacing='5'>
-        <CardsWrap title={`Você tem, ${nome} precisa`} height='150px'>
+        <CardsWrap title={`Você tem, ${nome} precisa (${cardsYouHaveHeNeeds.length})`} height='150px' button={{title: 'Oferecer o máximo', onClick: selectAllCardsYouHave}}>
             {
                 cardsYouHaveHeNeeds.map(c => {
                     const isSelected = offeredCards[c.id] ?? false;
@@ -37,7 +38,7 @@ export default function CompareAlbum() {
                 })
             }
         </CardsWrap>
-        <CardsWrap title={`Você precisa, ${nome} tem`} height='150px'>
+        <CardsWrap title={`Você precisa, ${nome} tem (${cardsHeHasYouNeed.length})`} height='150px' button={{title: 'Pedir o máximo', onClick: selectAllCardsHeHas}}>
             {
                 cardsHeHasYouNeed.map(c => {
                     const isSelected = requestedCards[c.id] ?? false;
@@ -55,4 +56,23 @@ export default function CompareAlbum() {
             }
         </CardsWrap>
     </VStack>
+
+    function selectAllCardsYouHave() {
+        const off = {...offeredCards};
+        cardsYouHaveHeNeeds.forEach(c => {
+            off[c.id] = true;
+        });
+        setOfferedCards({...off});
+    }
+
+    function selectAllCardsHeHas() {
+        const req = {...requestedCards};
+        cardsHeHasYouNeed.forEach((c, i) => {
+            if (i < cardsHeHasYouNeed.length) {
+                req[c.id] = true;
+            }
+        });
+        setRequestedCards({...req});
+    }
+
 }

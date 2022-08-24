@@ -1,4 +1,4 @@
-import { Center,  VStack, Flex, Circle } from "@chakra-ui/react";
+import { Center, VStack, Flex, Circle } from "@chakra-ui/react";
 import { PropsWithChildren, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PolisAlbum, PolisCard, PolisExchange, PolisGames } from "../../../components/Icons";
@@ -6,11 +6,13 @@ import { DataContext } from "../../../contexts/DataContext";
 
 export default function Footer() {
 
-    const {content: {cards, exchangeRequests}} = useContext(DataContext);
+    const {content: {cards, exchangeRequests, packs}} = useContext(DataContext);
 
 
     return (
-        <Flex justify='space-around' align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
+        <Flex 
+            justifyContent='center'
+            gap={5} align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
 
             <IconNav title="Album" goTo="/album" activeSection="album" notifications={
                 cards?.deck.notPasted.new.length ?? 0
@@ -19,7 +21,7 @@ export default function Footer() {
             </IconNav>
 
             <IconNav title="Figurinhas" goTo="/stickers" activeSection="stickers" notifications={
-                cards?.deck.notPasted.new.length ?? 0
+                packs?.new ?? 0
             }>
                 <PolisCard h='22px'/>
             </IconNav>
@@ -47,17 +49,21 @@ function IconNav ({children, title, goTo, activeSection, notifications} : {
     const {app: {section}} = useContext(DataContext);
     const navigate = useNavigate();
 
-    return <Center
-        w='100%' 
+    const isActive = section === activeSection;
+
+    return <Circle
+        size='12'
         onClick={() => {navigate(goTo)}}
-        color={section === activeSection ? 'white' : 'whiteAlpha.400'}
-        _hover={{color: activeSection? 'white' : 'whiteAlpha.500'}}
+        color={'white'}
+        bg={isActive ? 'green.700' : 'whiteAlpha.100'}
+        _hover={{background: isActive ? 'green.700' : 'whiteAlpha.400', animation: 'none'}}
         cursor='pointer'
+        position='relative'
     >
         <VStack align='center'>
             {children}
-            {notifications ? <Circle size='5px' bg='green.300' /> : <></>}
         </VStack>
-    </Center>
+        {!isActive && notifications ? <Circle size='3' bg='red.400' position='absolute' top='0.7' right='0.7'/> : <></>}
+    </Circle>
 }
 

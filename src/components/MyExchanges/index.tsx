@@ -12,7 +12,7 @@ export default function MyExchanges() {
     const navigate = useNavigate();
 
     return <InStackSection title='Minhas trocas'>
-        <Flex  w='100%' h='80px' pl='5' borderRadius={'lg'} align='center' gap={'3'}>
+        <Flex  w='100%' h='100px' pl='5' borderRadius={'lg'} align='center' gap={'3'} justify='space-between'>
             <Box 
                 as='button'
                 fontSize='sm'
