@@ -15,7 +15,7 @@ export default function ReferralLandingPage () {
         }
     } , [])
 
-    return <VStack align='center' paddingTop={'50px'}>
+    return <VStack align='center' py='5'>
 
         <Text>
             Bem-vindo ao Polis!

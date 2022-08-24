@@ -11,18 +11,16 @@ export default function AppGrid() {
     const {app} = useContext(DataContext);
     const maxW = '700px';
 
-    const Main = MainBuilder();
-    const HeaderNav = app.showAppHeader ? HeaderNavBuilder() : <></>;
-    const FooterNav = app.showAppFooterNav ? FooterNavBuilder() : <></>
-
     return (
         <Flex direction={'column'}
             w='100%' h='100%'
             overflow={'hidden'}
+            bg='gray.850'
+            flex='1 1 auto'
         >
-            {HeaderNav}
-            {Main}
-            {FooterNav}
+            <HeaderNavBuilder/>
+            <MainBuilder/>
+            {app.showAppFooterNav ? <FooterNavBuilder/> : <></>}
         </Flex>
     )
 
@@ -31,13 +29,17 @@ export default function AppGrid() {
         return <Flex 
             direction={'column'} align='center'
             w='100%' h='100%' 
-            flex='1 1 auto' overflowY={'auto'}
+            flex='1 1 auto' overflowY={'hidden'}
         >
-            {app.showAppHeader ?
-                <Box w='100%' flex='0 0 auto' maxW={maxW} py={5}>
-                    <Outlet/>
-                </Box>
-            : <Outlet/>}
+            <Box 
+                flex='0 0 auto'
+                w='100%' maxW={maxW} h='100%'
+                overflowY={'auto'}
+                bg='gray.800'
+                borderRadius={'lg'}
+            >
+                <Outlet/>
+            </Box>
         </Flex>
     }
 
@@ -50,7 +52,7 @@ export default function AppGrid() {
     }
 
     function FooterNavBuilder() {
-        return <Center w='100%' h='60px' bg='gray.850' flex='0 0 auto'>
+        return <Center w='100%' h='80px' bg='gray.850' flex='0 0 auto'>
             <Box h='100%' w='100%' maxW={maxW}>
                 <Footer/>
             </Box>

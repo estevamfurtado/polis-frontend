@@ -16,7 +16,7 @@ export default function StickersPage() {
         };
     },[])
 
-    return <VStack spacing={'12'} w='100%'>
+    return <VStack spacing={'12'} w='100%' py='5'>
         <VStack spacing={'3'} w='100%'>
             <MyPacks />
         </VStack>

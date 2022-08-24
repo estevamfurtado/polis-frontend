@@ -18,7 +18,7 @@ export default function ExchangePage() {
     },[])
 
 
-    return <VStack w='100%' flex='1 1 auto' gap='10'>
+    return <VStack w='100%' flex='1 1 auto' gap='10' py='5'>
         <MyExchanges/>
         <Outlet/>
     </VStack>

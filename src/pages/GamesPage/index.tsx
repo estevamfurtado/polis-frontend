@@ -18,7 +18,7 @@ export default function PacksPage() {
 
     if (!packs) {return <></>}
 
-    return <VStack spacing={10} w='100%' align='center'>
+    return <VStack spacing={10} w='100%' align='center' py='5'>
             <MyPacks showUpdateButton={true}/>
             
 

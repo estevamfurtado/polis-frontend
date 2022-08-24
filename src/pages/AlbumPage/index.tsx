@@ -1,8 +1,9 @@
-import { TriangleUpIcon, TriangleDownIcon } from "@chakra-ui/icons";
+import { TriangleUpIcon, TriangleDownIcon, ArrowLeftIcon, ArrowRightIcon, HamburgerIcon, CloseIcon, CopyIcon } from "@chakra-ui/icons";
 import { Button, VStack, Flex, Center, HStack, IconButton, Square } from "@chakra-ui/react";
-import { useContext, useEffect, useRef, useState } from "react"
+import { PropsWithChildren, useContext, useEffect, useRef, useState } from "react"
 import { forEachChild } from "typescript";
 import AlbumBrief from "../../components/AlbumBrief";
+import { GrayButton, MainButton } from "../../components/Buttons";
 import { DataContext } from "../../contexts/DataContext"
 import Page from "./Page";
 
@@ -11,6 +12,8 @@ export default function AlbumPage () {
     const {content: {pagesByParties, pagesByStates, cards}, hooks: {pasteAllCards}, app: {setShowAppHeader, setSection}} = useContext(DataContext);
 
     const [type, setType] = useState<'party' | 'state' | 'stats'>('party');
+
+    const [show, setShow] = useState(true);
 
     useEffect(() => {
         setShowAppHeader(false);
@@ -24,74 +27,92 @@ export default function AlbumPage () {
 
     const manyCardsToPaste = (cards?.deck.notPasted.new.length ?? 0) > 30;
 
-    const button = manyCardsToPaste ? <Button
-        size='sm' bg='rgba(0,0,0,0.5)' color={'white'}
-        position='absolute' top='3' right='5' zIndex={10}
-        onClick={pasteAllCards}>Colar todas as cartas
-    </Button> : <></>;
-
     return <Flex direction='column' position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
 
-        <Flex direction='column' w='100%' h='100%' gap='0' overflowY={'hidden'} flex={'1 1 auto'}>
-            <VStack w='100%' gap='0' overflowY={'scroll'} py='3' hidden={type !== 'party'}>            
+        <Flex direction='column' w='100%' h='100%' gap='0' overflowY={'hidden'} flex={'1 1 auto'} >
+            <VStack w='100%' gap='0' overflowY={'scroll'} hidden={type !== 'party'}>            
                 <Pages pages={pagesByParties} type={'party-page'}/>
             </VStack>
 
-            <VStack w='100%' gap='0' overflowY={'scroll'} py='3' hidden={type !== 'state'}>            
+            <VStack w='100%' gap='0' overflowY={'scroll'} hidden={type !== 'state'}>            
                 <Pages pages={pagesByStates} type={'state-page'}/>
             </VStack>
 
-            <VStack w='100%' gap='0' overflowY={'scroll'} py='3' hidden={type !== 'stats'}>            
+            <VStack w='100%' gap='0' overflowY={'scroll'} hidden={type !== 'stats'}>            
                 <AlbumBrief/>
             </VStack>
         </Flex>
 
-        <HStack bottom='2' left='2' spacing='0' bg='gray.800' borderRadius={'md'} boxShadow='sxl' flex='0 0 auto'>
-            <Choice title='Meu álbum' choice='stats'/>
-            <Choice title='Partidos' choice='party'/>
-            <Choice title='Estados' choice='state'/>
+        <HStack h='60px' w='100%' align='end' zIndex='10' p='1' justify='space-between'>
+            
+            <HStack h='100%' bottom='2' left='2' spacing='0' bg='gray.800' borderRadius={'md'} boxShadow='sxl' flex='0 0 auto'>
+                <Choice choice='stats'>
+                    Meu álbum
+                </Choice>
+                <Choice choice='party'>
+                    Partidos
+                </Choice>
+                <Choice choice='state'>
+                    Estados
+                </Choice>
+            </HStack>
+
+            <HStack h='100%'>
+                <GrayButton
+                    onClick={onUpClick}
+                    w='100%'
+                    h='50px'
+                >
+                    <TriangleUpIcon w={5} h={5}/>
+                </GrayButton>
+                <GrayButton
+                    onClick={onDownClick}
+                    w='100%'
+                    h='50px'
+                >
+                    <TriangleDownIcon w={5} h={5}/>
+                </GrayButton>
+            </HStack>
+
+            <HStack h='100%'>
+
+                {!manyCardsToPaste ?
+                    <MainButton
+                        onClick={pasteAllCards}
+                        w='100%'
+                    >
+                        <CopyIcon w={5} h={5}/>
+                    </MainButton>
+                : <></>}
+
+                {/* <GrayButton
+                    onClick={onDownClick}
+                    h='100%'
+                >
+                    <CloseIcon w={5} h={5}/>
+                </GrayButton> */}
+            </HStack>
+
         </HStack>
-
-        <VStack position='absolute' bottom='35vh' right='2'>
-            <Square 
-                size='60px' borderRadius='lg' cursor='pointer'
-                bg='rgba(0,0,0,0.25)' _hover={{bg: 'rgba(0,0,0,0.5)'}}
-                onClick={onUpClick}
-            >
-                <TriangleUpIcon w={5} h={5}/>
-            </Square>
-            <Square
-                size='60px' borderRadius='lg' cursor='pointer'
-                bg='rgba(0,0,0,0.25)' _hover={{bg: 'rgba(0,0,0,0.5)'}}
-                onClick={onDownClick}
-            >
-                <TriangleDownIcon w={5} h={5}/>
-            </Square>
-        </VStack>
-
-        <VStack position='absolute' top='1' right='2'>
-            {button}
-        </VStack>
 
     </Flex>
 
 
-    function Footer() {
-        return <Center w='100%' h='50px' bg='gray.700' flex='0 0 auto' p='3'>
-            <HStack justify={'space-between'} w='100%' h='100%'>
-                
-                
-            </HStack>
-        </Center>
-    }
     
-    function Choice({title, choice} : {title: string, choice: 'state' | 'party' | 'stats'}) {
+    function Choice({choice, children} : {choice: 'state' | 'party' | 'stats'} & PropsWithChildren) {
 
         const isSelected = type === choice;
 
-        return <Button h='10' variant={isSelected ? 'solid' : 'ghost'} size='sm' onClick={onClick}>
-            {title}
-        </Button>
+        return <Center
+            h='100%'
+            p='2'
+            bg={isSelected ? 'rgba(255, 255, 255, 0.2)' : ''}
+            borderRadius='md'
+            fontSize={'12px'}
+            fontWeight={'semibold'}
+        >
+            {children}
+        </Center>
 
         function onClick() {
             setType(choice);

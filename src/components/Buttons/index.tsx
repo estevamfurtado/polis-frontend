@@ -1,16 +1,17 @@
 import { Box } from "@chakra-ui/react"
 import { PropsWithChildren } from "react"
 
-export function MainButton ({children, size, onClick, px, py, disabled, borderRadius} : PropsWithChildren & {
+export function MainButton ({children, size, onClick, px, py, disabled, borderRadius, w, h} : PropsWithChildren & {
     size?: string,
-    onClick: (React.MouseEventHandler<HTMLDivElement> & React.MouseEventHandler<HTMLButtonElement>)
+    onClick?: (React.MouseEventHandler<HTMLDivElement> & React.MouseEventHandler<HTMLButtonElement>)
     px?: string,
     py?: string,
     w?: string,
+    h?: string,
     disabled?: boolean
     borderRadius?: string
 }) {
-    return <Box pt='0' pb='3px' _active={{pt: '3px', pb: '0', transition: 'all 0.2s'}}>
+    return <Box pt='0' pb='3px' _active={{pt: '3px', pb: '0', transition: 'all 0.2s'}} w={w ?? ''} h={h ?? ''}>
         <Box 
             as='button'
             
@@ -21,6 +22,9 @@ export function MainButton ({children, size, onClick, px, py, disabled, borderRa
             fontWeight='bold'
             
             px={px ?? '4'} py={py ?? '2'} borderRadius={borderRadius ?? 'lg'}
+            
+            w='100%'
+            h='100%'
             
             color='white' 
             _hover={{bg: 'rgba(82, 158, 155)'}}
@@ -44,7 +48,7 @@ export function GrayButton ({children, size, onClick, px, py, disabled, borderRa
     disabled?: boolean
     borderRadius?: string
 }) {
-    return <Box pt='0' pb='3px' _active={{pt: '3px', pb: '0', transition: 'all 0.2s'}}>
+    return <Box pt='0' pb='3px' _active={{pt: '3px', pb: '0', transition: 'all 0.2s'}} w={w ?? ''} h={h ?? ''}>
         <Box 
             as='button'
             
@@ -55,8 +59,9 @@ export function GrayButton ({children, size, onClick, px, py, disabled, borderRa
             fontWeight='bold'
             
             px={px ?? '4'} py={py ?? '2'} borderRadius={borderRadius ?? 'lg'}
-            w={w ?? ''}
-            h={h ?? ''}
+            
+            w='100%'
+            h='100%'
 
             color='white' 
             _hover={{bg: '#666'}}

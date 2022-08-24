@@ -22,7 +22,7 @@ export default function EditInfoPage() {
 
     return (
         <Flex
-            direction={'column'} align={'center'} my={'20'}
+            direction={'column'} align={'center'} my={'20'} py='5'
         >
             <Stack spacing={8} mx={'auto'} w={'100%'} maxW={'500px'}>
                 <Headline/>
