@@ -1,4 +1,4 @@
-import { Box, VStack, useToast } from '@chakra-ui/react';
+import { Box, VStack, useToast, HStack } from '@chakra-ui/react';
 import joi from 'joi';
 import { useState } from 'react';
 import Password from '../../../components/Form/Password';
@@ -8,165 +8,163 @@ import { signUp } from '../../../services/reqs';
 import { useNavigate } from 'react-router-dom';
 import { MainButton } from '../../../components/Buttons';
 
+import { SkinColor, PoliticalPosition, EconomicClass } from '../../../types';
+import Number from '../../../components/Form/Number';
+import SelectBoxInput from '../../../components/Form/SelectBoxInput';
 
-export const SkinColor = [
-    {value: 'White', label: 'Branco'},
-    {value: 'Black', label: 'Preto'},
-    {value: 'Brown', label: 'Pardo'},
-    {value: 'Yellow', label: 'Amarelo'},
-    {value: 'Other', label: 'Outro'},
-]
-
-enum PoliticalPosition {
-    None,
-    Left,
-    Right,
-    Center
-}
 
 // email regex
-const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-// const phoneRegex = /^\d{2} \d{4,5}-\d{4}$/;
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
+// const phoneRegex = /^\d{2} \d{4,5}-\d{4}$/;
 
-const validator = {
-    name: joi.string().min(5).required(),
-    email: joi.string().regex(emailRegex).required(),
+const validators = {
+    username: joi.string().min(5).required(), 
     password: joi.string().min(4).required(),
-    cpf: joi.string().regex(cpfRegex).required(),
     voteStateAbbreviation: joi.string().length(2).required(),
-    birthDate: joi.date().optional().allow(null),
-};
+    
+    name: joi.string().min(5),
+    email: joi.string(),
+    cpf: joi.string().regex(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/),
+    phone: joi.string().regex(/^\d{2} \d{4,5}-\d{4}$/),
+    
+    skinColor: joi.string().valid(...Object.values(SkinColor)),
+    economicClass: joi.string().valid(...Object.values(EconomicClass)),
+    
+    birthDate: joi.date(),
+    year: joi.number().max(2020).min(1900),
+    month: joi.number().max(12).min(1),
 
-const validatorSchema = joi.object().keys(validator);
+    politicalPosition: joi.string().valid(...Object.values(PoliticalPosition)),
+    diplomaticAxis: joi.number().min(0).max(100),
+    economicAxis: joi.number().min(0).max(100),
+    civilAxis: joi.number().min(0).max(100),
+    socialAxis: joi.number().min(0).max(100),
+}
+export const SignUp = joi.object(validators);
 
 
 export default function Forms () {
 
-    const [referralId, setReferralId] = useState(localStorage.getItem('polis_referralId'));
+    const referralId = localStorage.getItem('polis_referralId');
 
     const toast = useToast();
 
-    const [name, setName] = useState<string | null>('');
-    const [email, setEmail] = useState<string | null>('');
+    const [username, setUsername] = useState<string | null>('');
     const [password, setPassword] = useState<string | null>('');
-    const [cpf, setCpf] = useState<string | null>('');
     const [voteStateAbbreviation, setVoteStateAbbreviation] = useState<string | null>('');
-    const [birthDate, setBirthDate] = useState<string | null>(null);
-    
-    const [loading, setLoading] = useState(false);
+    const [year, setYear] = useState<number | null>(null);
+    const [month, setMonth] = useState<number | null>(null);
+    const [politicalPosition, setPoliticalPosition] = useState<PoliticalPosition |null>(null);
 
     const navigate = useNavigate();
 
-
-    const validation = validatorSchema.validate({
-        name, email, password, cpf, voteStateAbbreviation, birthDate
-    })
-    const isValid = validation.error? false : true;
-
-
-    const data = {
-        name,
-        email,
-        password,
-        cpf,
-        voteStateAbbreviation,
-        birthDate,
-    }
-
     const props = {
-        name: {
-            value: name,
-            label: 'Nome',
-            helperText: 'Digite seu nome completo',
+        username: {
+            label: 'Nome de usuário',
+            helperText: 'meunome',
             isRequired: true,
-            validator: validator.name,
-            state: name,
-            setState: setName,
+            validator: validators.username,
+            state: username,
+            setState: setUsername,
             errorMessage: 'Deve ter pelo menos 5 caracteres.',
-        },
-        email: {
-            value: email,
-            label: 'Email',
-            helperText: 'Digite seu email',
-            isRequired: true,
-            validator: validator.email,
-            state: email,
-            setState: setEmail,
-            errorMessage: 'Deve ser um email válido.',
+            mask: (v: string) => {
+                return v.replace(/[^A-Za-z0-9_]+/g, "");
+            }
         },
         password: {
             value: password,
             label: 'Senha',
             helperText: 'Digite sua senha',
             isRequired: true,
-            validator: validator.password,
+            validator: validators.password,
             state: password,
             setState: setPassword,
             errorMessage: 'Deve ter pelo menos 4 caracteres.',
         },
-        cpf: {
-            value: cpf,
-            label: 'CPF',
-            helperText: 'Digite seu CPF',
-            isRequired: true,
-            validator: validator.cpf,
-            state: cpf,
-            setState: setCpf,
-            errorMessage: 'Deve ser um CPF válido no formato xxx.xxx.xxx-xx.',
-            inputProcessor: (value: string) => {
-                const clean = value.replace(/\D/g, '');
-                const p1 = clean.slice(0, 3);
-                const p2 = clean.length > 3 ? '.' + clean.slice(3, 6) : '';
-                const p3 = clean.length > 6 ? '.' + clean.slice(6, 9) : '';
-                const p4 = clean.length > 9 ? '-' + clean.slice(9, 11) : '';
-                return p1 + p2 + p3 + p4;
-            },
-        },
         voteStateAbbreviation: {
             value: voteStateAbbreviation,
-            label: 'UF',
-            helperText: 'Digite a UF de votação',
+            label: 'Estado',
+            helperText: 'Você vota em qual estado?',
             isRequired: true,
-            validator: validator.voteStateAbbreviation,
+            validator: validators.voteStateAbbreviation,
             state: voteStateAbbreviation,
             setState: setVoteStateAbbreviation,
             errorMessage: 'Deve ser uma UF válida.',
             options: ufs,
         },
-        birthDate: {
-            value: birthDate,
-            label: 'Data de nascimento',
-            helperText: 'Digite sua data de nascimento',
+        year: {
+            value: year,
+            label: 'Do ano',
+            helperText: 'Seu ano de nascimento',
+            isRequired: true,
+            validator: validators.year,
+            state: year,
+            setState: setYear,
+            errorMessage: 'Deve ser um ano válido.',
+            type: 'number',
+        },
+        month: {
+            value: month,
+            label: 'Nasci em...',
+            helperText: 'Nasci no mês...',
+            isRequired: true,
+            validator: validators.month,
+            state: month,
+            setState: setMonth,
+            errorMessage: 'Deve ser um mês válido.',
+            options: months,
+        },
+        politicalPosition: {
+            value: politicalPosition,
+            label: 'Qual a sua posição política?',
+            helperText: 'Me considero de...',
             isRequired: false,
-            validator: validator.birthDate,
-            state: birthDate,
-            setState: setBirthDate,
-            errorMessage: 'Deve ser uma data válida.',
-            type: 'date',
+            validator: validators.politicalPosition,
+            state: politicalPosition,
+            setState: setPoliticalPosition,
+            errorMessage: 'Deve ser uma posição válida.',
+            options: [
+                {value: 'left', label: 'Esquerda'},
+                {value: 'center', label: 'Centro'},
+                {value: 'right', label: 'Direita'},
+            ],
         },
     }
 
+    const data = {
+        username: username,
+        password: password,
+        voteStateAbbreviation: voteStateAbbreviation,
+        month: month,
+        year: year,
+        politicalPosition: politicalPosition
+    }
 
     return <Box w={'100%'} bg={'gray.850'} p={'5'} borderRadius='xl'>
         <VStack gap={5} w={'100%'}>
             
             <VStack gap={1} w={'100%'}>
-                <TextInput {...props.name} />
-                <TextInput {...props.email} />
+                <TextInput {...props.username} />
                 <Password {...props.password} />
-                <TextInput {...props.cpf} />
             </VStack>
 
             <VStack gap={1} w={'100%'}>
-                <SelectInput {...props.voteStateAbbreviation} />
-                <TextInput {...props.birthDate} />
+                <HStack gap={1} w={'100%'} align='start'>
+                    <SelectInput {...props.month} />
+                    <Number {...props.year} />
+                    <SelectInput {...props.voteStateAbbreviation} />
+                </HStack>
+            </VStack>
+
+            <VStack gap={1} w={'100%'}>
+                <SelectBoxInput {...props.politicalPosition} />
             </VStack>
 
             <VStack gap={1} w={'100%'}>
 
                 <MainButton 
-                    disabled={!isValid}
+                    disabled={!SignUp.validate(data).error}
                     onClick={submitHandler}
                 >Criar conta</MainButton>
 
@@ -178,7 +176,7 @@ export default function Forms () {
 
     async function submitHandler() {
 
-        setLoading(true)
+        console.log(data);
 
         const sendData = {} as any;
 
@@ -187,6 +185,8 @@ export default function Forms () {
                 sendData[key] = data[key as keyof typeof data];
             }
         })
+
+        console.log(sendData);
 
         const response = await signUp(sendData, referralId);
         if (response.status === 201) {
@@ -210,21 +210,26 @@ export default function Forms () {
                 isClosable: true,
             })
         }
-        setLoading(false)
     }
 }
 
 
-const arrays = {
-    divi: ["Separatista","Confederalista","Descentralista","Neutro","Devolucionista","Centralista","Unitário"],
-    govt: ["Anarquista","Libertário","Liberal","Moderado","Estatista","Autoritário","Totalitário"],
-    mili: ["Cosmopolitano","Internacionalista","Conformista","Equilibrado","Patriótico","Nacionalista","Chauvinista"],
-    prot: ["Vigilância em massa Global","Vigilância em massa","Vigilância Policial","Neutro","Privacidade do Governo","Privacidade do Governo e Corporações","Privacidade Total"],
-    econ: ["Comunista","Socialista","Social Democrata","Centrista","Apoiante de Livre Mercado","Capitalista","Laissez-Faire"],
-    reli: ["Anticlericalista","Laicista","Secularista","Neutro","Etocrata","Teocrata","Clericalista"],
-    scty: ["Revolucionário","Muito Progressista","Progressista","Neutro","Tradicional","Conservador","Reacionário"],
-    cult: ["Monoculturalista","Multicomunitarista","Interculturalista","Neutro","Assimilacionista","Multiculturalista","Intraculturalista"]
-}
+
+
+const months = [
+    { value: 1, label: 'Janeiro'},
+    { value: 2, label: 'Fevereiro'},
+    { value: 3, label: 'Março'},
+    { value: 4, label: 'Abril'},
+    { value: 5, label: 'Maio'},
+    { value: 6, label: 'Junho'},
+    { value: 7, label: 'Julho'},
+    { value: 8, label: 'Agosto'},
+    { value: 9, label: 'Setembro'},
+    { value: 10, label: 'Outubro'},
+    { value: 11, label: 'Jovembro'},
+    { value: 12, label: 'Dezembro'},
+]
 
 const ufs = [
     { value: 'AC', label: 'Acre' },

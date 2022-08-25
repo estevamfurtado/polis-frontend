@@ -13,7 +13,7 @@ export default function ExchangeThumb ({request} : {request: CompleteExchangeReq
 
     const isAuthor = request.proposerId === user?.id;
 
-    const title = isAuthor ? request.requested.name.split(' ')[0] : request.proposer.name.split(' ')[0]
+    const title = isAuthor ? request.requested.name?.split(' ')[0] : request.proposer.name?.split(' ')[0]
     const color = isAuthor ? 'gray.600' : 'teal';
 
     const buttons = <HStack spacing='1' align='center'>

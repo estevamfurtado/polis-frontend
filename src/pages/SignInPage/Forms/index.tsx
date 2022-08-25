@@ -11,19 +11,19 @@ import { signIn } from '../../../services/reqs';
 
 
 
-const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const validator = {
-    email: joi.string().regex(emailRegex).required(),
+const validators = {
+    username: joi.string().required(),
     password: joi.string().min(4).required(),
 };
 
-const validatorSchema = joi.object().keys(validator);
+const validatorSchema = joi.object(validators)
 
 
 export default function Forms () {
 
-    const [email, setEmail] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
     const { auth: {setToken}} = useContext(DataContext);
 
@@ -32,36 +32,38 @@ export default function Forms () {
     const [loading, setLoading] = useState(false);
 
     const validation = validatorSchema.validate({
-        email, password
+        username, password
     })
     const isValid = validation.error? false : true;
 
 
     const data = {
-        email,
+        username,
         password
     }
 
     const props = {
-        email: {
-            value: email,
-            label: 'Email',
-            helperText: 'Digite seu email',
+        username: {
+            label: 'Nome de usuário',
+            helperText: 'meunome',
             isRequired: true,
-            validator: validator.email,
-            state: email,
-            setState: setEmail,
-            errorMessage: 'Deve ser um email válido.',
+            validator: validators.username,
+            state: username,
+            setState: setUsername,
+            errorMessage: 'Deve ter pelo menos 5 caracteres.',
+            mask: (v: string) => {
+                return v.replace(/[^A-Za-z0-9_]+/g, "");
+            }
         },
         password: {
             value: password,
             label: 'Senha',
             helperText: 'Digite sua senha',
             isRequired: true,
-            validator: validator.password,
+            validator: validators.password,
             state: password,
             setState: setPassword,
-            errorMessage: 'Deve ser uma senha válida.',
+            errorMessage: 'Deve ter pelo menos 4 caracteres.',
         },
     }
 
@@ -70,7 +72,7 @@ export default function Forms () {
         <VStack gap={5} w={'100%'}>
 
             <VStack gap={1} w={'100%'}>
-                <TextInput {...props.email} />
+                <TextInput {...props.username} />
                 <Password {...props.password} />
             </VStack>
 

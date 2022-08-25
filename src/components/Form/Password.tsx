@@ -1,11 +1,10 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Input, InputGroup, InputRightElement, Button } from "@chakra-ui/react"
 import Joi from "joi";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Form from "."
 
-type Password = {
-    value: any;
+type PasswordProps = {
     label: string;
     helperText?: string;
     isRequired?: boolean;
@@ -14,29 +13,56 @@ type Password = {
     setState: (value: string) => void;
     placeholder?: string;
     errorMessage?: string;
+    type?: string;
+
+    mask?: (value: string) => string;
+    checkError?: (value: string) => Promise<string | null>;
 }
 
 
 export default function Password ({
-    value, label, helperText, isRequired, validator, errorMessage,
-    state, setState, placeholder, 
-} : Password) {
+    label, helperText, isRequired, validator, errorMessage,
+    state, setState, placeholder, checkError, mask
+} : PasswordProps) {
     
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
+
+    const ref = useRef<HTMLInputElement>(null);
+    const value = ref ? (ref.current?.value ?? null) : null
     
     const formProps = {
-        value, label, helperText, isRequired, validator, errorMessage
+        value, label, helperText, isRequired, validator, errorMessage: error
     }
     const inputProps = {
-        type: showPassword ? 'text' : 'password',
-        value, placeholder, state,
-        onChange: (e : React.ChangeEvent<HTMLInputElement>) => {setState(e.target.value)}
+        placeholder, state,
+        onChange
+    }
+    
+    async function checkingError(v: string) {
+        if (validator.validate(v).error) {
+            return errorMessage ?? null;
+        }
+        if (checkError) {
+            return await checkError(v);
+        }
+        return null;
     }
 
+    async function onChange () {
+        if (ref.current) {
+            let v = ref.current.value;
+            v = mask ? mask(v) : v;
+            ref.current.value = v;
+            setState(v);
+            const err = await checkingError(v);
+            setError(err);
+        }
+    }
 
     return <Form {...formProps}>
         <InputGroup>
-            <Input {...inputProps} fontSize={'sm'} variant='solid' bg='gray.700'/>
+            <Input ref={ref} type={showPassword ? 'text' : 'password'} {...inputProps} fontSize={'sm'} variant='solid' bg='gray.700'/>
             <InputRightElement width={'auto'}>
                 <Button _hover={{bg: 'transparent'}} _focus={{bg: 'transparent'}} variant={'ghost'} h={'100%'} size={'sm'} onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <ViewIcon/> : <ViewOffIcon/>}

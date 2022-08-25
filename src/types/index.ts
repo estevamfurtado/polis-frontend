@@ -17,31 +17,33 @@ abbreviation: string
  * Model Person
  * 
  */
-export type Person = {
-id: number
-createdAt: Date
-updatedAt: Date
-name: string
-cpf: string | null
-password: string | null
-phone: string | null
-email: string | null
-birthDate: Date | null
-sex: Sex | null
-gender: string | null
-economicClass: EconomicClass | null
-skinColor: SkinColor | null
-voteStateAbbreviation: string | null
-diplomaticAxis: number | null
-economicAxis: number | null
-civilAxis: number | null
-socialAxis: number | null
-packs: number
-lastFreePackAt: Date | null
-lastPackAt: Date | null
-isActive: boolean
+ export type Person = {
+    id: number
+    createdAt: Date
+    updatedAt: Date
+    username: string | null
+    name: string | null
+    cpf: string | null
+    password: string | null
+    phone: string | null
+    email: string | null
+    birthDate: Date | null
+    sex: Sex | null
+    gender: string | null
+    economicClass: EconomicClass | null
+    skinColor: SkinColor | null
+    voteStateAbbreviation: string | null
+    politicalPosition: PoliticalPosition | null
+    diplomaticAxis: number | null
+    economicAxis: number | null
+    civilAxis: number | null
+    socialAxis: number | null
+    packs: number
+    lastFreePackAt: Date | null
+    lastPackAt: Date | null
+    isActive: boolean
 }
-
+  
 /**
  * Model Friendship
  * 
@@ -300,6 +302,15 @@ export const SkinColor = {
 export type SkinColor = (typeof SkinColor)[keyof typeof SkinColor]
 
 
+export const PoliticalPosition = {
+    left: 'left',
+    right: 'right',
+    center: 'center'
+};
+
+export type PoliticalPosition = (typeof PoliticalPosition)[keyof typeof PoliticalPosition]
+
+
 export const FriendshipStatus = {
     pending: 'pending',
     accepted: 'accepted',
@@ -336,6 +347,9 @@ export const ExchangeStatus ={
 };
 
 export type ExchangeStatus = (typeof ExchangeStatus)[keyof typeof ExchangeStatus]
+
+
+
 
 
 

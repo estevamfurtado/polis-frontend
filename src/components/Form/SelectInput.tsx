@@ -8,34 +8,31 @@ type SelectProps = {
     helperText?: string;
     isRequired?: boolean;
     validator: Joi.Schema;
-    state: string | null;
-    setState: (value: string) => void;
+    state: any | null;
+    setState: (value: any) => void;
     placeholder?: string;
     errorMessage?: string;
     options: {
-        value: string;
+        value: any;
         label: string;
     }[]
 }
 
 export default function SelectInput ({
-    value, label, helperText, isRequired, validator,
+    value, label, isRequired, validator,
     state, setState, placeholder, errorMessage,
     options
 } : SelectProps) {
 
+    const erro = value ? (validator.validate(value).error ? errorMessage : null) : null;
+
     const formProps = {
-        value, label, helperText, isRequired, validator, errorMessage
-    }
-    const inputProps = {
-        type: 'number',
-        value, placeholder, state,
-        onChange: (e : React.ChangeEvent<HTMLInputElement>) => {setState(e.target.value)}
+        label, isRequired, errorMessage: erro
     }
 
     return <Form {...formProps} >
-        <Select border='none' bg='gray.700' fontSize='sm' placeholder='Selecione seu estado' onChange={(e)=>{setState(e.target.value)}}>
-            {options.map(({value, label}) => <option key={value} value={value}>{label}</option>)}
+        <Select border='none' bg='gray.700' fontSize='sm' placeholder={placeholder} onChange={(e)=>{setState(e.target.value)}}>
+            {options.map(({value: v, label: l}) => <option key={v} value={v}>{l}</option>)}
         </Select>
     </Form>
 }
