@@ -1,6 +1,6 @@
 import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, useToast, Center} from "@chakra-ui/react";
 import { useContext, useEffect } from "react"
-import { GrayButton, MainButton } from "../../components/Buttons";
+import { MyButton } from "../../components/Buttons";
 import MyPacks from "../../components/MyPacks";
 import { DataContext } from "../../contexts/DataContext"
 
@@ -30,9 +30,9 @@ export default function PacksPage() {
                 <GameThumb game={{title: 'Tinder dos Candidatos', description: 'Veja vídeos curtos dos candidatos do seu Estado à Câmara. A cada 2 vídeos, você ganha 1 pacote.'}}/>
             </VStack>
 
-            <MainButton onClick={copyAndSendLink}>
+            <MyButton type='main' onClick={copyAndSendLink}>
                 Quero enviar meu link!
-            </MainButton>
+            </MyButton>
 
     </VStack>
 
@@ -57,7 +57,7 @@ function GameThumb ({game} : {game: {title: string, description: string}}) {
     
     
     
-    return <GrayButton w='100%' h='120px' >
+    return <MyButton w='100%' h='120px' >
         <HStack w='100%' h='100%'>
             <Center w='120px'></Center>
             <VStack flex='1 1 auto' align='start'>
@@ -65,5 +65,5 @@ function GameThumb ({game} : {game: {title: string, description: string}}) {
                 <Text fontSize='xs' textAlign='start' fontWeight='normal' opacity='60%'>{game.description}</Text>
             </VStack>
         </HStack>
-    </GrayButton>
+    </MyButton>
 }

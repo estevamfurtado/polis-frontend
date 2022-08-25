@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../contexts/DataContext"
 import variables from "../../services/variables";
-import { MainButton } from "../Buttons";
+import { MyButton } from "../Buttons";
 
 
 
@@ -53,10 +53,11 @@ export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean
             {header}
         </Heading>
         <Text opacity='75%'>{description}</Text>
-        <MainButton
+        <MyButton
+            type='main'
             onClick={onClick}
             disabled={isLoading}
-        >{buttonTitle}</MainButton>
+        >{buttonTitle}</MyButton>
     </VStack>
 
     async function onClickOpen () {

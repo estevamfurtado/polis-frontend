@@ -1,4 +1,4 @@
-import { Box, VStack, useToast, HStack } from '@chakra-ui/react';
+import { Box, VStack, useToast, HStack, UseToastOptions } from '@chakra-ui/react';
 import joi from 'joi';
 import { useState } from 'react';
 import Password from '../../../components/Form/Password';
@@ -6,7 +6,7 @@ import TextInput from '../../../components/Form/TextInput';
 import SelectInput from '../../../components/Form/SelectInput';
 import { signUp } from '../../../services/reqs';
 import { useNavigate } from 'react-router-dom';
-import { MainButton } from '../../../components/Buttons';
+import { MyButton } from '../../../components/Buttons';
 
 import { SkinColor, PoliticalPosition, EconomicClass } from '../../../types';
 import Number from '../../../components/Form/Number';
@@ -47,8 +47,6 @@ export const SignUp = joi.object(validators);
 export default function Forms () {
 
     const referralId = localStorage.getItem('polis_referralId');
-
-    const toast = useToast();
 
     const [username, setUsername] = useState<string | null>('');
     const [password, setPassword] = useState<string | null>('');
@@ -163,10 +161,11 @@ export default function Forms () {
 
             <VStack gap={1} w={'100%'}>
 
-                <MainButton 
+                <MyButton 
                     disabled={!SignUp.validate(data).error}
                     onClick={submitHandler}
-                >Criar conta</MainButton>
+                >Criar conta
+                </MyButton>
 
             </VStack>
 
@@ -179,27 +178,30 @@ export default function Forms () {
         console.log(data);
 
         const response = await signUp(data, referralId);
+
+        let toast : UseToastOptions | undefined = undefined;
+
         if (response.status === 201) {
-            toast({
+            toast = {
                 title: 'Contra criada!',
                 description: "Criamos uma conta pra você.",
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
-            })
-
+            }
             localStorage.setItem('polis_referralId', '');
-
             navigate('/sign-in');
         } else {
-            toast({
+            toast = {
                 title: response.response.statusText,
                 description: response.response.data,
                 status: 'error',
                 duration: 2000,
                 isClosable: true,
-            })
+            }
         }
+
+        return toast;
     }
 }
 

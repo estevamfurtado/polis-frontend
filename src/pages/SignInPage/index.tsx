@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { GrayButton } from '../../components/Buttons';
+import { MyButton } from '../../components/Buttons';
 import { DataContext } from '../../contexts/DataContext';
 import Forms from './Forms';
 
@@ -35,9 +35,9 @@ export default function SignInPage() {
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </Text>
 
-                <GrayButton onClick={() => {navigate('/sign-up')}}>
+                <MyButton onClick={() => {navigate('/sign-up')}}>
                     Ainda não tem conta? Crie aqui!
-                </GrayButton>
+                </MyButton>
 
             </VStack>
 

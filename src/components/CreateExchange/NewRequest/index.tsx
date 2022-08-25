@@ -1,8 +1,8 @@
-import { Button, VStack, HStack, Heading, Box, useToast } from "@chakra-ui/react";
+import { Button, VStack, HStack, Heading, Box, useToast, UseToastOptions } from "@chakra-ui/react";
 import { useContext } from "react";
 import { DataContext } from "../../../contexts/DataContext";
 import { NewRequestContext } from "../../../contexts/NewRequestContext";
-import { MainButton } from "../../Buttons";
+import { MyButton } from "../../Buttons";
 import CompareAlbum from "./CompareAlbum";
 import {UserInfo} from "../../../types";
 
@@ -12,8 +12,6 @@ export default function NewRequest () {
 
     const {auth: {user}, content: {cards, stickers}} = useContext(DataContext);
     const {requestedUser, sendRequest, offeredCards, requestedCards} = useContext(NewRequestContext);
-
-    const toast = useToast();
 
     if (!cards || !stickers || !user || !requestedUser) {
         return <></>
@@ -33,31 +31,32 @@ export default function NewRequest () {
         <HStack w='100%' spacing='3'>
             <CompareAlbum />
         </HStack>
-        <MainButton 
+        <MyButton 
+            type='main'
             onClick={sendRequestClick}
             disabled={(offer.length + request.length  === 0)}
         >
             Enviar proposta
-        </MainButton>
+        </MyButton>
     </VStack>
     
-    async function sendRequestClick () {
+    async function sendRequestClick () : Promise<UseToastOptions> {
         try {
             await sendRequest();
-            toast({
+            return {
                 title: 'Pedido de troca enviado!',
                 status: 'success',
                 duration: 4000,
                 isClosable: true,
-            })
+            }
         } catch (e) {
             await sendRequest();
-            toast({
+            return {
                 title: 'Não foi possível :(',
                 status: 'error',
                 duration: 4000,
                 isClosable: true,
-            })
+            }
         }
     }
 }

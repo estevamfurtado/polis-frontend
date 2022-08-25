@@ -2,7 +2,7 @@ import { TriangleUpIcon, TriangleDownIcon, ArrowLeftIcon, ArrowRightIcon, Hambur
 import { Button, VStack, Flex, Center, HStack, IconButton, Square, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 import { PropsWithChildren, useContext, useEffect, useRef, useState } from "react"
 import AlbumBrief from "../../components/AlbumBrief";
-import { GrayButton, MainButton } from "../../components/Buttons";
+import { MyButton } from "../../components/Buttons";
 import { DataContext } from "../../contexts/DataContext"
 import Page from "./Page";
 
@@ -62,31 +62,32 @@ export default function AlbumPage () {
             </HStack>
 
             <HStack h='100%'>
-                <GrayButton
+                <MyButton
                     onClick={onUpClick}
                     w='100%'
                     h='50px'
                 >
                     <TriangleUpIcon w={5} h={5}/>
-                </GrayButton>
-                <GrayButton
+                </MyButton>
+                <MyButton
                     onClick={onDownClick}
                     w='100%'
                     h='50px'
                 >
                     <TriangleDownIcon w={5} h={5}/>
-                </GrayButton>
+                </MyButton>
             </HStack>
 
             <HStack h='100%'>
 
                 {manyCardsToPaste ?
-                    <MainButton
+                    <MyButton
+                        type='main'
                         onClick={pasteAllCards}
                         w='100%'
                     >
                         <CopyIcon w={5} h={5}/>
-                    </MainButton>
+                    </MyButton>
                 : <></>}
 
             </HStack>

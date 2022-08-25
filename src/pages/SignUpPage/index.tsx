@@ -1,6 +1,4 @@
 import {
-    Flex,
-    Stack,
     Heading,
     Text,
     VStack,
@@ -8,7 +6,7 @@ import {
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { GrayButton } from '../../components/Buttons';
+import { MyButton } from '../../components/Buttons';
 import { DataContext } from '../../contexts/DataContext';
 import Forms from './Forms';
 
@@ -34,9 +32,9 @@ export default function SignUpPage() {
                     e ganhe o álbum de figurinhas do Congresso Nacional ✌️
                 </Text>
 
-                <GrayButton onClick={() => {navigate('/sign-in')}}>
+                <MyButton type='main' onClick={() => {navigate('/sign-in')}}>
                     Já tem conta? Entre aqui!
-                </GrayButton>
+                </MyButton>
             </VStack>
             <Forms/>
         </VStack>

@@ -1,8 +1,7 @@
 import { Box, Button, VStack, Text, useToast } from '@chakra-ui/react';
 import joi from 'joi';
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { MainButton } from '../../../components/Buttons';
+import { MyButton } from '../../../components/Buttons';
 import Password from '../../../components/Form/Password';
 import TextInput from '../../../components/Form/TextInput';
 import { DataContext } from '../../../contexts/DataContext';
@@ -77,10 +76,10 @@ export default function Forms () {
             </VStack>
 
             <VStack gap={1} w={'100%'}>
-                <MainButton 
+                <MyButton type='main'
                     disabled={!isValid}
                     onClick={submitHandler}
-                >Entrar</MainButton>
+                >Entrar</MyButton>
             </VStack>
 
         </VStack>

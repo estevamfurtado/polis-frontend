@@ -1,13 +1,13 @@
 import { Box, HStack, VStack , Heading} from "@chakra-ui/react";
 import { PropsWithChildren } from "react"
-import { MainButton } from "../Buttons";
+import { MyButton } from "../Buttons";
 
 
 export default function InStackSection ({title, button, children} : PropsWithChildren & {
     title: string,
     button?: {
         title: string,
-        onClick: (p: any) => void
+        onClick: () => void
     } 
 }) {
 
@@ -15,9 +15,10 @@ export default function InStackSection ({title, button, children} : PropsWithChi
         <HStack justify={'space-between'} align='end' w='100%'>
             <Heading as='h3' fontSize={'md'} opacity='70%'>{title}</Heading>
             {button ? 
-                <MainButton
+                <MyButton
+                    type='main'
                     onClick={button.onClick}
-                >{button.title}</MainButton>
+                >{button.title}</MyButton>
                 
             : <></>}
         </HStack>
