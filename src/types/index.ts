@@ -486,3 +486,11 @@ export type FunctionalPage = {
     color?: string,
     stickers: number[],
 }
+
+
+export type UserInfo = {
+    id: number;
+    email?: string;
+    name?: string;
+    username?: string;
+}

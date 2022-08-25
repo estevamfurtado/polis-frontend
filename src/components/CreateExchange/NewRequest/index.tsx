@@ -4,13 +4,9 @@ import { DataContext } from "../../../contexts/DataContext";
 import { NewRequestContext } from "../../../contexts/NewRequestContext";
 import { MainButton } from "../../Buttons";
 import CompareAlbum from "./CompareAlbum";
+import {UserInfo} from "../../../types";
 
 
-type UserInfo = {
-    id: number;
-    email: string;
-    name: string;
-}
 
 export default function NewRequest () {
 
@@ -26,7 +22,7 @@ export default function NewRequest () {
     const offer = Object.values(offeredCards).filter(v => v);
     const request = Object.values(requestedCards).filter(v => v);
 
-    const nome = requestedUser.info.name.split(' ')[0];
+    const nome = requestedUser.info.username ?? requestedUser.info.email?.split('@')[0] ?? '';
 
     return <VStack spacing={8} w='100%' align='center' bg='gray.700' py='5' borderRadius='10'>
         <Heading fontSize='md'>{

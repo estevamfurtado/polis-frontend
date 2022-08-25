@@ -6,16 +6,10 @@ import NewRequest from "./NewRequest";
 import { NewRequestContextProvider } from "../../contexts/NewRequestContext";
 
 
-type UserInfo = {
-    id: number;
-    email: string;
-    name: string;
-}
-
 
 export default function CreateExchange() {
 
-    const {content: {cards, stickers, pages}, hooks: {openPack, openPacks, pasteAllCards}} = useContext(DataContext);
+    const {content: {cards, stickers, pages}} = useContext(DataContext);
 
     if (!cards || !stickers || !pages) {
         return <></>

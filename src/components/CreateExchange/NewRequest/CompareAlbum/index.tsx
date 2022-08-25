@@ -18,7 +18,7 @@ export default function CompareAlbum() {
         return <></>
     }
 
-    const nome = requestedUser.info.name.split(' ')[0];
+    const nome = requestedUser.info.username ?? requestedUser.info.email?.split('@')[0] ?? ''; 
 
     return <VStack w='100%' align='start' spacing='5'>
         <CardsWrap title={`Você tem, ${nome} precisa (${cardsYouHaveHeNeeds.length})`} height='150px' button={{title: 'Oferecer o máximo', onClick: selectAllCardsYouHave}}>

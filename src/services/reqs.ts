@@ -107,12 +107,12 @@ export async function openAllPacks() {
 }
 
 
-export async function searchUsers (email: string) {
+export async function searchUsers (username: string) {
 
-  const search = new URLSearchParams({email}).toString();
+  const search = new URLSearchParams({username}).toString();
 
   try {
-    const response = await api.get(`/user/search/email?${search}`, {headers: headers()});
+    const response = await api.get(`/user/search/username?${search}`, {headers: headers()});
     return {...response}
   }
   catch (error: any) {

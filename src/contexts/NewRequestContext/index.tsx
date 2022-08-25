@@ -1,13 +1,8 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react"
 import { DataContext } from "../DataContext"
-import {GetDeckResponse} from "../../types"
+import {GetDeckResponse, UserInfo} from "../../types"
 import * as api from '../../services/reqs'
 
-type UserInfo = {
-    id: number;
-    email: string;
-    name: string;
-}
 
 
 type NewRequestContextValues = {
@@ -177,6 +172,7 @@ export function NewRequestContextProvider ({ children }: PropsWithChildren) {
     async function searchUsers (email: string) {
         if (email) {
             const response = await api.searchUsers(email);
+            console.log(response);
             setUsers(response.data);
         }
         else {
