@@ -1,7 +1,7 @@
 import { Flex, Text, Button } from "@chakra-ui/react"
 import { useContext, useState } from "react"
-import { DataContext } from "../../../../contexts/DataContext"
-import { Sticker, CardsCatalog } from "../../../../types"
+import { DataContext } from "../../../../../../contexts/DataContext"
+import { Sticker, CardsCatalog } from "../../../../../../types"
 
 export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: CardsCatalog }}) {
 

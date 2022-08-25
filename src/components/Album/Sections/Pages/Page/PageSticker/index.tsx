@@ -1,11 +1,10 @@
 import { WrapItem } from "@chakra-ui/react"
 import { useContext } from "react";
-import Sticker from "../../../../components/Sticker"
-import { DataContext } from "../../../../contexts/DataContext";
+import Sticker from "../../../../../Sticker"
+import { DataContext } from "../../../../../../contexts/DataContext";
 import EmptySticker from "../EmptySticker"
 
 export default function PageSticker ({stickerId} : {stickerId: number}) {
-
 
     const {content: {stickers}} = useContext(DataContext);
 

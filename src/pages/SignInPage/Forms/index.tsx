@@ -1,4 +1,4 @@
-import { Box, Button, VStack, Text, useToast } from '@chakra-ui/react';
+import { Box, Button, VStack, Text, useToast, UseToastOptions } from '@chakra-ui/react';
 import joi from 'joi';
 import { useContext, useState } from 'react';
 import { MyButton } from '../../../components/Buttons';
@@ -28,13 +28,12 @@ export default function Forms () {
 
     const toast = useToast();
     
-    const [loading, setLoading] = useState(false);
-
     const validation = validatorSchema.validate({
         username, password
     })
     const isValid = validation.error? false : true;
 
+    console.log('tá válido?', isValid);
 
     const data = {
         username,
@@ -85,30 +84,28 @@ export default function Forms () {
         </VStack>
     </Box>
 
-    async function submitHandler() {
+    async function submitHandler() : Promise<UseToastOptions> {
             
-        setLoading(true)
         const response = await signIn({...data});
 
         if (response.status === 200) {
             setToken(response.data.token);
-            toast({
+            return {
                 title: 'Bem-vindo!',
                 description: "Você está logado.",
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
-            })
+            }
 
         } else {
-            toast({
+            return {
                 title: response.response.statusText,
                 description: response.response.data,
                 status: 'error',
                 duration: 2000,
                 isClosable: true,
-            })
+            }
         }
-        setLoading(false)
     }
 }

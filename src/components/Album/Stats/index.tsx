@@ -1,11 +1,11 @@
 import {useContext} from 'react';
-import {DataContext} from '../../contexts/DataContext';
-import { Wrap, Box, Flex, VStack, CircularProgress, CircularProgressLabel, HStack} from '@chakra-ui/react';
+import {DataContext} from '../../../contexts/DataContext';
+import { Wrap, Box, Flex, VStack} from '@chakra-ui/react';
+import Progress from '../Progress';
 
+export default function Stats() {
 
-export default function AlbumBrief() {
-
-    const {content: {album, pages, cards, stickers, politicianRecords}} = useContext(DataContext);
+    const {content: {album, pages, stickers, politicianRecords}} = useContext(DataContext);
 
     if (!album) {return <></>}
 
@@ -13,13 +13,8 @@ export default function AlbumBrief() {
 
     const legenda = <Legenda />
 
-    const total = stickers ? Object.keys(stickers).length : 0;
-    const pasted = cards ? cards.deck.pasted.length : 0;
-    const progressValue = pasted/total;
-    const progress = <AlbumProgress value={progressValue} />
-
-    return <VStack align='start' spacing='5' w='100%' maxW='700px' p='5'>
-        {progress}
+    return <VStack align='center' spacing='5' w='100%' maxW='700px' p='5'>
+        <Progress size='120px' fontSize='lg'/>
         {legenda}
         <VStack align='start' spacing='1'>
             {items}
@@ -80,18 +75,8 @@ export default function AlbumBrief() {
         }
     }
 
-    function AlbumProgress ({value} : {value: number}) {
-        return <HStack justify={'center'} align='center' w='100%'>
-            <CircularProgress value={value*100} color='blue.400' size='120px' trackColor='gray.700' capIsRound={true}>
-                <CircularProgressLabel>{
-                    `${Math.round(value*100)}%`
-                }</CircularProgressLabel>
-            </CircularProgress>
-        </HStack>
-    }
-
     function Legenda () {
-        return <Wrap align='center' justify='center' w='100%'>
+        return <Wrap align='center' justify='center' w='100%' flex='0 0 auto'>
             {statusLegendaItem(stickerStatus.empty)}
             {statusLegendaItem(stickerStatus.special)}
             {statusLegendaItem(stickerStatus.good)}

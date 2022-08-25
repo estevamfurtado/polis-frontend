@@ -1,4 +1,4 @@
-import { Box, ToastProps, useToast, UseToastOptions } from "@chakra-ui/react"
+import { Box, Spinner, ToastProps, useToast, UseToastOptions } from "@chakra-ui/react"
 import { PropsWithChildren, ReactNode, useState } from "react"
 
 type ButtonColors = {
@@ -33,7 +33,7 @@ export function MyButton (
     }
 ) {
 
-    const [isDisabled, setIsDisabled] = useState((disabled === undefined) ? false : disabled);
+    const isDisabled = (disabled === undefined) ? false : disabled;
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
@@ -55,12 +55,12 @@ export function MyButton (
             bg={btnStyles.bg}
             boxShadow={`0 3px 0 ${btnStyles.shadow}`}
             _active={{boxShadow: `0 0 0 ${btnStyles.shadow}`, transition: 'all 0.2s'}}
-            _disabled={{opacity: '80%'}}
+            _disabled={{opacity: '50%'}}
         >
             {
                 !isLoading ? children
                     : loading ? loading
-                        : <>Carregando</>
+                        : <Spinner size='sm'/>
             }
         </Box>
     </Box>

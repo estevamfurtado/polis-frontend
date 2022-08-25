@@ -25,6 +25,11 @@ import CreateExchange from "./components/CreateExchange";
 import ViewExchange from "./components/ViewExchange";
 
 import theme from './theme';
+import AlbumHome from "./components/Album/Home";
+import Stats from "./components/Album/Stats";
+import Sections from "./components/Album/Sections";
+import PartiesSection from "./components/Album/Sections/PartiesSection";
+import StatesSection from "./components/Album/Sections/StatesSection";
 
 console.log(theme);
 
@@ -37,7 +42,14 @@ export default function App() {
                 <Route path="/" element={<AppGrid />}>
                     <Route index element={<Home/>}/>
                     <Route element={<Wall/>}>
-                      <Route path="album" element={<Album/>}/>
+                      <Route path="album" element={<Album/>}>
+                        <Route path="stats" element={<Stats/>}/>
+                        <Route path="sections" element={<Sections/>}>
+                          <Route path="parties" element={<PartiesSection/>}/>
+                          <Route path="states" element={<StatesSection/>}/>
+                        </Route>
+                        <Route path="*" element={<AlbumHome/>}/>
+                      </Route>
                       <Route path="stickers" element={<Stickers/>}/>
                       <Route path="exchange" element={<Exchange/>}>
                         <Route index element={<></>}/>

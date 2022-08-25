@@ -1,5 +1,5 @@
 import { VStack, Input, HStack, Text, Heading} from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { DataContext } from "../../../contexts/DataContext";
 import { NewRequestContext } from "../../../contexts/NewRequestContext";
 import * as api from "../../../services/reqs";
@@ -9,12 +9,13 @@ import {UserInfo} from "../../../types";
 
 export default function Search () {
     
-    const {users, text, searchUsers, setUsers, setText, clickUser} = useContext(NewRequestContext);
+    const {users, searchUsers, setUsers} = useContext(NewRequestContext);
+    const ref = useRef<HTMLInputElement | null>(null)
 
     return <VStack w='100%' align='center' bg='gray.700' py='5' px='5' borderRadius='10' spacing='5'>
         <Heading size='sm'>Selecione um usuário</Heading>
         <VStack w='100%' spacing='0'>
-            <Input bg='rgba(255, 255, 255, 0.1)' textAlign={'center'} border='none' placeholder='Procurar usuário...' value={text} onChange={handleInput}/>
+            <Input ref={ref} bg='rgba(255, 255, 255, 0.1)' textAlign={'center'} border='none' placeholder='Procurar usuário...' onChange={handleInput}/>
             <VStack bg='rgba(0, 0, 0, 0.1)' w='100%' spacing='0'>
                 {users.map(user => {
                     return <UsersSearchItem key={user.id}  user={user}/>
@@ -24,12 +25,13 @@ export default function Search () {
     </VStack>
 
     async function handleInput (e: React.ChangeEvent<HTMLInputElement>) {
-        const email = e.target.value;
-        setText(email);
-        if (email.length > 2) {
-            searchUsers(email)
-        } else {
-            setUsers([]);
+        if (ref.current) {
+            const email = ref.current.value;
+            if (email.length > 2) {
+                searchUsers(email)
+            } else {
+                setUsers([]);
+            }
         }
     }
 }
@@ -40,6 +42,6 @@ function UsersSearchItem ({user}: {user: UserInfo}) {
     return <HStack onClick={()=>{clickUser(user)}} 
         cursor='pointer' w='100%' px='3' py='2'
         >
-        <Text fontSize='sm' fontWeight='semibold'>{user.username}</Text>
+        <Text fontSize='sm' fontWeight='semibold'>{user.username ?? (user.email?.split('@')[0] ?? '')}</Text>
     </HStack>
 }
