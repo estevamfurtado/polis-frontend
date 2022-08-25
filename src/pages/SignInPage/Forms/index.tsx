@@ -52,7 +52,7 @@ export default function Forms () {
             setState: setUsername,
             errorMessage: 'Deve ter pelo menos 5 caracteres.',
             mask: (v: string) => {
-                return v.replace(/[^A-Za-z0-9_]+/g, "");
+                return v.replace(/[^A-Za-z0-9_@.]+/g, "");
             }
         },
         password: {

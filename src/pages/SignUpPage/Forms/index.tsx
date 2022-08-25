@@ -178,17 +178,7 @@ export default function Forms () {
 
         console.log(data);
 
-        const sendData = {} as any;
-
-        Object.keys(data).forEach(key => {
-            if (data[key as keyof typeof data]) {
-                sendData[key] = data[key as keyof typeof data];
-            }
-        })
-
-        console.log(sendData);
-
-        const response = await signUp(sendData, referralId);
+        const response = await signUp(data, referralId);
         if (response.status === 201) {
             toast({
                 title: 'Contra criada!',
