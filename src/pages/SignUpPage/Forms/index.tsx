@@ -148,10 +148,10 @@ export default function Forms () {
             </VStack>
 
             <VStack gap={1} w={'100%'}>
+                <SelectInput {...props.voteStateAbbreviation} />
                 <HStack gap={1} w={'100%'} align='start'>
                     <SelectInput {...props.month} />
                     <Number {...props.year} />
-                    <SelectInput {...props.voteStateAbbreviation} />
                 </HStack>
             </VStack>
 
@@ -174,8 +174,6 @@ export default function Forms () {
 
 
     async function submitHandler() {
-
-        console.log(data);
 
         const response = await signUp(data, referralId);
 

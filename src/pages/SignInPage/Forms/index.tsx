@@ -33,8 +33,6 @@ export default function Forms () {
     })
     const isValid = validation.error? false : true;
 
-    console.log('tá válido?', isValid);
-
     const data = {
         username,
         password

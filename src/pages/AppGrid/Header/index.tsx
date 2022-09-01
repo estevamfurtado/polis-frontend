@@ -72,7 +72,6 @@ export default function Header() {
 
         function confirmLogOut() {
             onClose();
-            console.log('saindo');
             logOut();
         }
 

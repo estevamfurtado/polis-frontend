@@ -303,9 +303,6 @@ export function DataProvider ({ children }: PropsWithChildren) {
     }
 
     function setDeckData(deckResponse: GetDeckResponse) {
-
-        console.log(deckResponse);
-
         setAlbum(deckResponse.album);
         setPages(deckResponse.pages);
         setStickers(deckResponse.stickers);

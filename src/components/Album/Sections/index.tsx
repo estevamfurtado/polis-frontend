@@ -6,6 +6,8 @@ import { AlbumContext, Mode } from "../../../contexts/AlbumContext";
 
 export default function Sections () {
 
+    console.log('rendering sections')
+
     const {setMode} = useContext(AlbumContext)    
 
     useEffect(()=>{

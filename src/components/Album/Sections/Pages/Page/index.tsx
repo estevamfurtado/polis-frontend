@@ -12,11 +12,6 @@ type FunctionalPage = {
 
 export default function Page ({page, classType} : {page: FunctionalPage, classType: string}) {
 
-    const stickers = page.stickers.map(id => {
-        return <PageSticker stickerId={id} key={id}/>
-    })
-
-
     return <VStack w='100%' bg={page.color || 'gray'} p='3' align='center' borderRadius='md'
         id={`${page.title.replaceAll(' ', '')}`} 
         className={classType}
@@ -41,7 +36,11 @@ export default function Page ({page, classType} : {page: FunctionalPage, classTy
                     </VStack>
             </WrapItem>
 
-            {stickers}
+            {
+                page.stickers.map(id => {
+                    return <PageSticker stickerId={id} key={id}/>
+                })            
+            }
         </Wrap>
     </VStack>
 

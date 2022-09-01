@@ -19,7 +19,6 @@ export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean
     const nextPackAt = packs ? packs.lastPackAt + 60*60*1000*variables.back.SIGN_IN_FREE_CARDS_HOURS : 0;
     
     const minutesTo = Math.ceil((nextPackAt - nowTime.getTime())/(1000*60));
-    console.log(minutesTo);
 
     const hasPacks = (packs?.new ?? 0) > 0;
     const isAvailable = minutesTo < 1;
@@ -71,7 +70,6 @@ export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean
     }
 
     async function realizeAvailable () {
-        console.log('pegar');
         try {
             setIsLoading(true);
             await realizePacks();

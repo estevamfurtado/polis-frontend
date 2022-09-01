@@ -1,5 +1,9 @@
 import { TriangleUpIcon } from "@chakra-ui/icons";
-import { Button, Input, useNumberInput } from "@chakra-ui/react"
+import { Button, HStack, Input,
+    useNumberInput, NumberInput, NumberInputField,
+    NumberIncrementStepper, NumberDecrementStepper,
+    NumberInputStepper
+} from "@chakra-ui/react"
 import Joi from "joi";
 import { useRef, useState } from "react";
 import Form from "."
@@ -18,60 +22,60 @@ type NumberProps = {
     checkError?: (value: number) => Promise<string | null>;
 }
 
-export default function NumberInput ({
+export default function YearInput ({
     label, helperText, isRequired, validator,
-    state, setState, placeholder, errorMessage, checkError
+    setState, errorMessage, checkError
 } : NumberProps) {
-
-    const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-    useNumberInput({
-        step: 1,
-        defaultValue: 1990,
-        min: 1920,
-        max: 2020,
-        allowMouseWheel: true
-    });
-
-    const inc = getIncrementButtonProps()
-    const dec = getDecrementButtonProps()
-    const input = getInputProps()
-
 
     const [error, setError] = useState<string | null>(null)
 
     const ref = useRef<HTMLInputElement>(null);
     const value = ref ? (ref.current?.value ?? null) : null
-    
+
+    const styles = {
+        fontSize: 'sm',
+        variant: 'solid',
+        bg: 'gray.700'
+    }
+
+    const inputProps = {
+        step: 1,
+        defaultValue: 1990,
+        min: 1920,
+        max: 2020,
+        allowMouseWheel: true,
+        onChange,
+    }
+
     const formProps = {
         value, label, helperText, isRequired, validator, errorMessage: error
     }
-    const inputProps = {
-        placeholder, state,
-        onChange
+
+    return <Form {...formProps}>
+        <NumberInput {...inputProps}>
+            <NumberInputField ref={ref} {...styles} border={'none'}/>
+            <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+            </NumberInputStepper>
+        </NumberInput>
+    </Form>
+
+    function onChange(v: string) {
+        const val = Number(v);
+        if (val > 0) {
+            setState(val)
+            checkingError(val)
+        }
     }
-    
+
     async function checkingError(v: number) {
         if (validator.validate(v).error) {
             return errorMessage ?? null;
         }
         if (checkError) {
-            return await checkError(v);
+            setError(await checkError(v));
         }
         return null;
     }
-
-    async function onChange () {
-        if (ref.current) {
-            const v = Number(ref.current.value);
-            setState(v);
-            const err = await checkingError(v);
-            setError(err);
-        }
-    }
-
-    return <Form {...formProps} >
-        <Input ref={ref} {...input} {...inputProps} fontSize={'sm'} variant='solid' bg='gray.700'/>
-        <Button {...dec}>-</Button>
-        <Button {...inc}>+</Button>
-    </Form>
 }

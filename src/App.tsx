@@ -31,8 +31,6 @@ import Sections from "./components/Album/Sections";
 import PartiesSection from "./components/Album/Sections/PartiesSection";
 import StatesSection from "./components/Album/Sections/StatesSection";
 
-console.log(theme);
-
 export default function App() {
   return (
     <DataProvider>
