@@ -12,8 +12,12 @@ export default function ExchangeThumb ({request} : {request: CompleteExchangeReq
     const navigate = useNavigate();
 
     const isAuthor = request.proposerId === user?.id;
+    const proposer = request.proposer.username ? request.proposer.username
+        : (request.proposer.email ? request.proposer.email : 'Alguém');
+    const requested = request.requested.username ? request.requested.username.split('@')[0]
+        : (request.requested.email ? request.requested.email.split('@')[0] : 'Alguém');
 
-    const title = isAuthor ? request.requested.name?.split(' ')[0] : request.proposer.name?.split(' ')[0]
+    const title = isAuthor ? requested : proposer;
     const color = isAuthor ? 'gray.600' : 'teal';
 
     const buttons = <HStack spacing='1' align='center'>
