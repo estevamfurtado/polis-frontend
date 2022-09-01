@@ -123,9 +123,9 @@ export default function Forms () {
             setState: setPoliticalPosition,
             errorMessage: 'Deve ser uma posição válida.',
             options: [
-                {value: 'left', label: 'Esquerda'},
+                {value: 'left', label: '⬅️ Esquerda'},
                 {value: 'center', label: 'Centro'},
-                {value: 'right', label: 'Direita'},
+                {value: 'right', label: 'Direita ➡️'},
             ],
         },
     }

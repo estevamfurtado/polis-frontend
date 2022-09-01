@@ -41,17 +41,17 @@ function Option({value, label, selected, setSelected}: {value: any, label: strin
 
     const isSelected = value === selected;
 
-    return <Square size='20' flex='1 1 auto'
+    return <Square size='40' flex='1 1 auto'
         onClick={()=>{
             isSelected ? setSelected(null) : setSelected(value)
         }}
         borderRadius='lg' 
-        bg={isSelected ? 'rgba(74,129,127, 0.5)' : 'rgba(74,129,127, 0.1)'}
+        bg={isSelected ? '#4a817f' : 'rgba(100,100,100, 0.1)'}
         _hover={
-            {bg: isSelected ? 'rgba(74,129,127, 0.5)' : 'rgba(74,129,127, 0.3)'}
+            {bg: isSelected ? '#4a817f' : 'rgba(100,100,100, 0.5)'}
         }
         cursor='pointer'
-
+        fontWeight={'semibold'}
     >
         {label}
     </Square>
