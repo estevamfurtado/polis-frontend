@@ -86,6 +86,7 @@ export type DataContextValues = {
         reject: (exchangeRequestId: number) => Promise<void>
         cancel: (exchangeRequestId: number) => Promise<void>
         updateDeck: () => Promise<void>
+        updateAlbum: () => Promise<void>
         realizePacks: () => Promise<void>
     }
 }
@@ -155,7 +156,8 @@ export const DataContext = createContext<DataContextValues>({
         reject: async (requestId: number) => {},
         cancel: async (requestId: number) => {},
         updateDeck: async () => {},
-        realizePacks: async () => {}
+        realizePacks: async () => {},
+        updateAlbum: async () => {},
     }
 })
 
@@ -211,8 +213,10 @@ export function DataProvider ({ children }: PropsWithChildren) {
     // if ranking or user changes, if there is both, get album data
     useEffect(()=>{
         if (rankings && user) {
+            updateAlbum();
             getDeckData();
         } else {
+            clearAlbumData();
             clearDeckData();
         }
     }, [rankings, user])
@@ -257,6 +261,7 @@ export function DataProvider ({ children }: PropsWithChildren) {
         reject,
         cancel,
         updateDeck,
+        updateAlbum,
         realizePacks
     }
     
@@ -293,6 +298,15 @@ export function DataProvider ({ children }: PropsWithChildren) {
         }
     }
 
+    async function getAlbumData() {
+        try {
+            const res = await api.getDeck();
+            setAlbumData(res);
+        } catch (error) {
+            clearAlbumData();
+        }
+    }
+
     function setRankingData(rankingResponse: GetRankingResponse) {
         setRankings(rankingResponse.rankings);
         setPoliticians(rankingResponse.politicians);
@@ -303,14 +317,19 @@ export function DataProvider ({ children }: PropsWithChildren) {
     }
 
     function setDeckData(deckResponse: GetDeckResponse) {
-        setAlbum(deckResponse.album);
-        setPages(deckResponse.pages);
-        setStickers(deckResponse.stickers);
         setCards(deckResponse.cards);
         setPacks(deckResponse.packs);
         setExchangeRequests(deckResponse.exchangeRequests);
+    }
+
+    function setAlbumData(deckResponse: GetDeckResponse) {
+        setAlbum(deckResponse.album);
+        setPages(deckResponse.pages);
+        setStickers(deckResponse.stickers);
         setPagesByParties(deckResponse.pagesByParties)
         setPagesByStates(deckResponse.pagesByStates)
+
+        console.log('setting album data');
     }
 
     function clearRankingData() {
@@ -323,14 +342,19 @@ export function DataProvider ({ children }: PropsWithChildren) {
     }
 
     function clearDeckData() {
-        setAlbum(null);
-        setPages(null);
-        setStickers(null);
         setCards(null);
         setPacks(null);
         setExchangeRequests(null);
+    }
+    function clearAlbumData() {
+        setAlbum(null);
+        setPages(null);
+        setStickers(null);
         setPagesByParties([])
         setPagesByStates([])
+
+        console.log('clearing album data');
+
     }
 
     function clearAuth() {
@@ -385,6 +409,10 @@ export function DataProvider ({ children }: PropsWithChildren) {
 
     async function updateDeck() {
         await getDeckData();
+    }
+
+    async function updateAlbum() {
+        await getAlbumData();
     }
 
     async function realizePacks() {

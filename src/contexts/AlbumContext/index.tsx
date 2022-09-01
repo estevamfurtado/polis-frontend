@@ -40,11 +40,9 @@ export function AlbumContextProvider ({ children }: PropsWithChildren) {
     const [pagesSection, setPagesSection] = useState<PagesSection | null>(null);
 
     useEffect(() => {
-        setShowAppHeader(false);
         setSection('album');
 
         return () => {
-            setShowAppHeader(true);
             setSection(null);
         }
     },[])

@@ -7,6 +7,5 @@ import About from "../HomePage"
 export default function Wall () {
     
     const {auth: {user}} = useContext(DataContext)
-    
     return user ? <Outlet/> : <About/>
 }

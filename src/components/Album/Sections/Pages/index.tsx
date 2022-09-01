@@ -16,12 +16,6 @@ type FunctionalPage = {
 
 export default function Pages ({pages, type} : {pages: FunctionalPage[], type: PagesSection}) {
 
-    const {setPagesSection} = useContext(AlbumContext);
-
-    useEffect(()=>{
-        setPagesSection(type)
-    })
-
     return <VStack w='100%' gap='0' overflowY={'scroll'}>            
         {
             pages.map((pg, index) => {
