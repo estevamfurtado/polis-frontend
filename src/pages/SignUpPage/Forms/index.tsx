@@ -139,6 +139,8 @@ export default function Forms () {
         politicalPosition: politicalPosition
     }
 
+    const validation = SignUp.validate(data);
+
     return <Box w={'100%'} bg={'gray.850'} p={'5'} borderRadius='xl'>
         <VStack gap={5} w={'100%'}>
             
@@ -162,7 +164,7 @@ export default function Forms () {
             <VStack gap={1} w={'100%'}>
 
                 <MyButton 
-                    disabled={!SignUp.validate(data).error}
+                    disabled={!(!(validation.error)) ?? false}
                     onClick={submitHandler}
                 >Criar conta
                 </MyButton>
