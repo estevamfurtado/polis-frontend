@@ -33,7 +33,7 @@ export function New() {
 
     const stickersRow = Object.keys(stickers ?? {});
 
-    return <CardsWrap height='130px' title='Novas' button={{title: 'Colar no álbum!', onClick: () => {navigate('/album')}}}>
+    return <CardsWrap height='130px' title='Novas' button={{title: 'Colar no álbum!', onClick: () => {navigate('/album/sections/parties')}}}>
             {stickersRow.map((sId, index) => {
                 const sticker = stickers?.[Number(sId)] ?? null;
                 if (!sticker) {return <></>}

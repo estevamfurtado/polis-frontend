@@ -7,11 +7,12 @@ type ButtonColors = {
     shadow: string
 }
 
-type buttonTypes = 'main' | 'gray';
+type buttonTypes = 'main' | 'gray' | 'red';
 
 const buttonTypeStyles : {[key in buttonTypes]: ButtonColors} = {
     gray: {bgHover: '#666', bg: '#555', shadow: '#222'},
     main: {bgHover: 'rgba(82, 158, 155)', bg: 'rgb(74,129,127)', shadow: 'rgb(47, 74, 73)'},
+    red: {bgHover: '#fc5154', bg: '#cc5250', shadow: '#802425'},
 }
 
 

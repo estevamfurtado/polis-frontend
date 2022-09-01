@@ -4,7 +4,7 @@ import { DataContext } from "../../contexts/DataContext"
 import StickerComponent from "../Sticker";
 import { useParams } from 'react-router-dom';
 import { CardsWrap } from "../CardsWrap";
-
+import { MyButton } from "../Buttons";
 
 
 export default function ViewExchanges () {
@@ -50,10 +50,10 @@ export default function ViewExchanges () {
             {
                 request.proposerId !== user?.id 
                 ? <>
-                    <Button onClick={()=>{reject(request.id)}} variant='solid' colorScheme='red' size='md'>Recusar</Button>
-                    <Button onClick={()=>{accept(request.id)}} variant='solid' colorScheme='green' size='lg'>Aceitar</Button>
+                    <MyButton type='red' onClick={()=>{reject(request.id)}}>Recusar</MyButton>
+                    <MyButton type='main' onClick={()=>{accept(request.id)}}>Aceitar</MyButton>
                 </>
-                : <Button onClick={()=>{cancel(request.id)}} variant='solid' colorScheme='red' size='sm'>Cancelar proposta</Button>
+                : <MyButton type='red' onClick={()=>{cancel(request.id)}}>Cancelar</MyButton>
             }
         </HStack>
 

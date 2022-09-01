@@ -30,7 +30,7 @@ export default function Footer() {
             justifyContent='center'
             gap={5} align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
 
-            <IconNav title="Album" goTo="/album" activeSection="album" notifications={
+            <IconNav title="Album" goTo="/album/sections/parties" activeSection="album" notifications={
                 cards?.deck.notPasted.new.length ?? 0
             }>
                 <PolisAlbum w='30px'/>

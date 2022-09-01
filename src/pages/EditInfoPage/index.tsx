@@ -41,6 +41,6 @@ function Headline () {
         <Text fontSize={'lg'} color={'gray.600'} textAlign={'center'}>
             Daqui a pouco você vai poder editar o seu cadastro.
         </Text>
-        <Link to={'/album'}>Quer tal ver seu álbum?</Link>
+        <Link to={'/album/sections/parties'}>Quer tal ver seu álbum?</Link>
     </Stack>
 }

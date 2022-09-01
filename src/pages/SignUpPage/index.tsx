@@ -18,7 +18,7 @@ export default function SignUpPage() {
 
     useEffect(()=>{
         if (user) {
-            navigate('/album')
+            navigate('/album/sections/parties')
         }
     }, [user])
 

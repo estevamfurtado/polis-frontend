@@ -21,7 +21,7 @@ export default function SignInPage() {
 
     useEffect(()=>{
         if (user) {
-            navigate('/album')
+            navigate('/album/sections/parties')
         }
     }, [user])
 
