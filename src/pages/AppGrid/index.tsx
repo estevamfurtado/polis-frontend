@@ -3,12 +3,12 @@ import { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import {DataContext} from "../../contexts/DataContext";
+import { AppContext } from "../../contexts/AppContext";
 
 
 export default function AppGrid() {
 
-    const {app} = useContext(DataContext);
+    const {app} = useContext(AppContext);
     const maxW = '700px';
 
     return (

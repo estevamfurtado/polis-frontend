@@ -1,13 +1,13 @@
 import { VStack } from "@chakra-ui/react";
 import { useContext, useEffect } from "react"
-import { DataContext } from "../../contexts/DataContext"
 import {Repeated, New } from "../../components/MyCards";
 import MyPacks from "../../components/MyPacks";
+import { AppContext } from "../../contexts/AppContext";
 
 
 export default function StickersPage() {
 
-    const {app: {setSection}} = useContext(DataContext);
+    const {app: {setSection}} = useContext(AppContext);
 
     useEffect(() => {
         setSection('stickers')

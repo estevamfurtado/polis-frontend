@@ -1,14 +1,13 @@
 import { Box, Button, VStack, Text, useToast } from '@chakra-ui/react';
 import joi from 'joi';
 import { useContext, useEffect, useState } from 'react';
-import Number from '../../../components/Form/Number';
 import Password from '../../../components/Form/Password';
 import TextInput from '../../../components/Form/TextInput';
 import SliderInput from '../../../components/Form/SliderInput';
 import SelectInput from '../../../components/Form/SelectInput';
-import { DataContext } from '../../../contexts/DataContext';
 import { signUp } from '../../../services/reqs';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 
 export const SkinColor = [
@@ -52,7 +51,7 @@ const validatorSchema = joi.object().keys(validator);
 export default function Forms () {
 
     const toast = useToast();
-    const {auth: {user, token}} = useContext(DataContext);
+    const {authData: {data: {user, token}}} = useContext(AuthContext);
 
     const [name, setName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);

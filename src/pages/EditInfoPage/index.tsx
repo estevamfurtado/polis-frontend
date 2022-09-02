@@ -6,12 +6,12 @@ import {
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { DataContext } from '../../contexts/DataContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 
 export default function EditInfoPage() {
 
-    const {auth: {token}} = useContext(DataContext);
+    const {authData:{data:{token}}} = useContext(AuthContext);
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -26,7 +26,6 @@ export default function EditInfoPage() {
         >
             <Stack spacing={8} mx={'auto'} w={'100%'} maxW={'500px'}>
                 <Headline/>
-                {/* <Forms/> */}
             </Stack>
         </Flex>
     );

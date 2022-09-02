@@ -1,7 +1,6 @@
 import Sticker from "../Sticker";
 import { useContext } from "react";
-import { DataContext } from "../../contexts/DataContext";
-import { Card } from "../../types";
+import { DeckContext } from "../../contexts/DeckContext";
 
 export default function CardComponent ({cardId, w, h} : {
     cardId: number,
@@ -9,7 +8,7 @@ export default function CardComponent ({cardId, w, h} : {
     h?: number
 }) {
 
-    const {content: {cards}} = useContext(DataContext);
+    const {deckData: {data: {cards}}} = useContext(DeckContext);
     const card = cards?.cards[cardId] ?? null;
     if (!card) {
         return <></>

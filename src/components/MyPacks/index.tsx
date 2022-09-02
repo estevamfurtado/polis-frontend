@@ -1,7 +1,7 @@
-import { Box, VStack , Text, Heading, useToast} from "@chakra-ui/react";
+import { VStack , Text, Heading, useToast} from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { DataContext } from "../../contexts/DataContext"
+import { DeckContext } from "../../contexts/DeckContext";
 import variables from "../../services/variables";
 import { MyButton } from "../Buttons";
 
@@ -9,9 +9,9 @@ import { MyButton } from "../Buttons";
 
 export default function MyPacks({showUpdateButton} : {showUpdateButton?: boolean}) {
 
+    const {deckData: {data: {packs}, actions: {openPacks, realizePacks}}} = useContext(DeckContext);
 
     const [nowTime, setNowTime] = useState(new Date());
-    const {content: {packs}, hooks: {openPacks, realizePacks}} = useContext(DataContext);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const toast = useToast();

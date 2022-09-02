@@ -1,15 +1,19 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, Badge, IconButton} from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react"
+import { HStack, VStack , Heading, Flex, Badge, IconButton} from "@chakra-ui/react";
+import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { DataContext } from "../../../contexts/DataContext"
+import { AuthContext } from "../../../contexts/AuthContext";
+import { DeckContext } from "../../../contexts/DeckContext";
 import { CompleteExchangeRequest } from "../../../types";
 
 
 export default function ExchangeThumb ({request} : {request: CompleteExchangeRequest}) {
 
-    const {auth: {user}, hooks: {accept, reject}} = useContext(DataContext);
     const navigate = useNavigate();
+
+    const {authData: {data:{user}}} = useContext(AuthContext);
+    const {deckData: {actions: {accept, reject}}} = useContext(DeckContext);
+
 
     const isAuthor = request.proposerId === user?.id;
     const proposer = request.proposer.username ? request.proposer.username

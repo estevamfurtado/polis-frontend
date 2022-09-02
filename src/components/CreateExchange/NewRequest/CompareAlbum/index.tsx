@@ -1,20 +1,21 @@
 import { VStack, Box } from "@chakra-ui/react"
 import { useContext } from "react"
 import StickerComponent from "../../../Sticker";
-import { DataContext } from "../../../../contexts/DataContext"
 import { NewRequestContext } from "../../../../contexts/NewRequestContext"
 import { CardsWrap } from "../../../CardsWrap";
+import { DeckContext } from "../../../../contexts/DeckContext";
 
 
 export default function CompareAlbum() {
 
-    const {content: {cards, stickers}} = useContext(DataContext);
+    const {deckData: {data: {cards}}} = useContext(DeckContext);
+
     const {
         cardsYouHaveHeNeeds, offeredCards, setOfferedCards, toggleOfferedCardId, 
         cardsHeHasYouNeed, requestedCards, setRequestedCards, toggleRequestedCardId, 
         requestedUser} = useContext(NewRequestContext);
 
-    if (!cards || !requestedUser || !offeredCards || !requestedCards || !stickers) {
+    if (!cards || !requestedUser || !offeredCards || !requestedCards) {
         return <></>
     }
 

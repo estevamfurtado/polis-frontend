@@ -1,11 +1,21 @@
 import {  Flex, HStack } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useContext } from "react";
 import { Outlet } from "react-router-dom";
-import { AlbumContextProvider } from "../../contexts/AlbumContext";
+import { AlbumViewProvider } from "../../contexts/AlbumViewContext";
+import { AppContext } from "../../contexts/AppContext";
 import NavigateAlbum from "./NavigateAlbum";
 
 
 export default function Album () {
-    return <AlbumContextProvider>
+
+    const {app: {setSection}} = useContext(AppContext);
+
+    useEffect(()=>{
+        setSection('album')
+    },[])
+
+    return <AlbumViewProvider>
         <Flex direction='column' position='relative' w='100%' h='100%' gap='0' overflowY={'hidden'}>
             <Flex direction='column' w='100%' h='100%' gap='0' overflowY={'auto'} flex={'1 1 auto'} >
                 <Outlet/>
@@ -14,5 +24,5 @@ export default function Album () {
                 <NavigateAlbum/>
             </HStack>
         </Flex>
-    </AlbumContextProvider>
+    </AlbumViewProvider>
 }

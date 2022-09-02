@@ -1,15 +1,16 @@
-import { Center, VStack, Flex, Circle } from "@chakra-ui/react";
+import { VStack, Flex, Circle } from "@chakra-ui/react";
 import { PropsWithChildren, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PolisAlbum, PolisCard, PolisExchange, PolisGames } from "../../../components/Icons";
-import { DataContext } from "../../../contexts/DataContext";
+import { AppContext } from "../../../contexts/AppContext";
+import { DeckContext } from "../../../contexts/DeckContext";
 import variables from "../../../services/variables";
 
 export default function Footer() {
 
     const [nowTime, setNowTime] = useState(new Date());
 
-    const {content: {cards, exchangeRequests, packs}} = useContext(DataContext);
+    const {deckData: {data: {cards, exchangeRequests, packs}}} = useContext(DeckContext);
 
     const nextPackAt = packs ? packs.lastPackAt + 60*60*1000*variables.back.SIGN_IN_FREE_CARDS_HOURS : 0;
     
@@ -24,6 +25,8 @@ export default function Footer() {
         return () => clearInterval(timer);
     }, [nowTime]);
 
+    console.log(cards?.deck)
+
 
     return (
         <Flex 
@@ -37,7 +40,7 @@ export default function Footer() {
             </IconNav>
 
             <IconNav title="Figurinhas" goTo="/stickers" activeSection="stickers" 
-                notifications={hasPacks ? packs?.new ?? 0 : (!isAvailable ? minutesTo : 0)}
+                notifications={hasPacks ? packs?.new ?? 0 : (!isAvailable ? minutesTo : '!')}
                 notificationColor={(!hasPacks && !isAvailable) ? 'blue.800' : undefined}
             >
                 <PolisCard h='22px'/>
@@ -60,10 +63,10 @@ export default function Footer() {
 }
 
 function IconNav ({children, title, goTo, activeSection, notifications, notificationColor} : {
-    title: string, goTo: string, activeSection: string, notifications: number, notificationColor?: string
+    title: string, goTo: string, activeSection: string, notifications: number | string, notificationColor?: string
 } & PropsWithChildren) {
     
-    const {app: {section}} = useContext(DataContext);
+    const {app: {section}} = useContext(AppContext);
     const navigate = useNavigate();
 
     const isActive = section === activeSection;

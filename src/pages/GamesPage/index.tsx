@@ -2,11 +2,14 @@ import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, 
 import { useContext, useEffect } from "react"
 import { MyButton } from "../../components/Buttons";
 import MyPacks from "../../components/MyPacks";
-import { DataContext } from "../../contexts/DataContext"
+import { AppContext } from "../../contexts/AppContext";
+import { DeckContext } from "../../contexts/DeckContext";
 
 export default function PacksPage() {
 
-    const {content: {packs}, hooks: {openPack, openPacks}, app: {setSection}} = useContext(DataContext);
+    const {app: {setSection}} = useContext(AppContext);
+    const {deckData: {data: {packs}, actions: {openPack, openPacks}}} = useContext(DeckContext);
+    
     const toast = useToast();
 
     useEffect(() => {

@@ -1,24 +1,27 @@
-import {  Button, Flex, HStack } from "@chakra-ui/react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { HStack } from "@chakra-ui/react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Progress from "../../components/Album/Progress";
-import { AlbumContextProvider, AlbumContext, Mode } from "../../contexts/AlbumContext";
 import {useContext, useRef} from 'react'
 import { MyButton } from "../../components/Buttons";
-import { DataContext } from "../../contexts/DataContext";
-import { CheckIcon, HamburgerIcon, InfoOutlineIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { CheckIcon, InfoOutlineIcon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { DeckContext } from "../../contexts/DeckContext";
+import { AlbumViewContext } from "../../contexts/AlbumViewContext";
 
 
 
 export default function NavigateAlbum () {
 
-    const {mode, showPasteAllCardsButton, pagesSection} = useContext(AlbumContext)
+    const {mode} = useContext(AlbumViewContext)
+    const {deckData: {data: {cards}}} = useContext(DeckContext);
+
+    const showPasteAllCardsButton = (cards?.deck.notPasted.new ?? []).length >= 30;
 
     return <>
         <HStack w='100%' h='100%'>
             <NavigateButtons/>
         </HStack>
         <HStack justify='space-between' w='100%'>
-        {mode === Mode.pagesSection ?
+        {mode.value === 'pages' ?
             <>
                 <HStack w='100%' h='100%' >
                     <WalkButtons />
@@ -67,7 +70,7 @@ function NavigateButtons() {
 
 function PasteButton () {
 
-    const {hooks: {pasteAllCards}} = useContext(DataContext)
+    const {deckData: {actions: {pasteAllCards}}} = useContext(DeckContext)
 
     return <HStack h='100%'>
         <MyButton
@@ -80,24 +83,22 @@ function PasteButton () {
     </HStack>
 }
 
-
-
 function WalkButtons () {
 
-    const {pagesSection} = useContext(AlbumContext)
-    const nextRef = useRef<Element | null>(null)
-    const previousRef = useRef<Element | null>(null)
+    const {pageSection} = useContext(AlbumViewContext)
+
+    if (!pageSection) {return <></>}
 
     return <HStack h='100%'>
         <MyButton
-            onClick={onUpClick}
+            onClick={()=>{intoView(-1)}}
             w='100%'
             h='100%'
         >
             <TriangleUpIcon w={5} h={5}/>
         </MyButton>
         <MyButton
-            onClick={onDownClick}
+            onClick={()=>{intoView(1)}}
             w='100%'
             h='100%'
         >
@@ -105,43 +106,22 @@ function WalkButtons () {
         </MyButton>
     </HStack>
 
-    async function onDownClick() {
-        GetElementInView();
-        if (nextRef.current) {
-            nextRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        return null;
-    }
 
-    async function onUpClick() {
-        GetElementInView();
-        if (previousRef.current) {
-            previousRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        return null;
-    }
+    function intoView(step: number) {
+        if (!pageSection.value) {return null}
 
-    function GetElementInView() {
-        if (!pagesSection) {return null}
-
-        const collection = document.getElementsByClassName(pagesSection);
-        const array : Element[] = [].slice.call(collection);
+        const collection = document.getElementsByClassName(pageSection.value);
+        const size : number = [].slice.call(collection).length;
 
         let i = 0;
-        for (const el of array) {
-            const isInView = isInViewport(el);
+        for (i=0; i<size; i++) {
+            const isInView = isInViewport(collection[i]);
             if (isInView) {
-
-                previousRef.current = array[i - 1] ? array[i - 1] : array[array.length - 1],
-                nextRef.current = array[i + 1] ? array[i + 1] : array[0];
-                return null;
-                // return {
-                //     previous: array[i - 1] ? array[i - 1] : array[array.length - 1],
-                //     current: el,
-                //     next: array[i + 1] ? array[i + 1] : array[0],
-                // }
+                const elIndex = ((i+step) >= size) ? (0)
+                    : ((i+step) < 0) ? (size - 1) : (i+step)
+                collection[elIndex].scrollIntoView({behavior: 'smooth'})
+                return;
             }
-            i++;
         }
         return null;
     }
