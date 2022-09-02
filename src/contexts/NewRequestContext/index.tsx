@@ -1,7 +1,9 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react"
-import { DataContext } from "../DataContext"
 import {GetDeckResponse, UserInfo} from "../../types"
 import * as api from '../../services/reqs'
+import { AuthContext } from "../AuthContext";
+import { DeckContext } from "../DeckContext";
+import { AlbumContext } from "../AlbumContext";
 
 
 
@@ -63,7 +65,9 @@ export const NewRequestContext = createContext<NewRequestContextValues>({
 
 export function NewRequestContextProvider ({ children }: PropsWithChildren) {
 
-    const {auth: {user}, content: {cards, stickers}, hooks: {updateDeck}} = useContext(DataContext);
+    const {authData: {data: {user}} } = useContext(AuthContext);
+    const {deckData: {data: {cards}, actions: {updateDeck}}} = useContext(DeckContext);
+    const {albumData: {data: {stickers}}} = useContext(AlbumContext);
 
     const [text, setText] = useState('');
     const [users, setUsers] = useState<UserInfo[]>([]);
@@ -111,11 +115,11 @@ export function NewRequestContextProvider ({ children }: PropsWithChildren) {
 
         lineStickers.forEach(sId => {
             const id = parseInt(sId);
-            const sticker = stickers[id] ?? null;
-            if (sticker) {
+            
+            const myCards = cards.bySticker[id] ?? null;
+            const hisCards = requestedUser.cards.bySticker[id] ?? null;
 
-                const myCards = sticker.cards;
-                const hisCards = requestedUser.stickers[id]?.cards ?? [];
+            if (myCards && hisCards) {
                 
                 const iNeed = myCards.all.length === 0;
                 const iHave = myCards.notPasted.repeated.length > 0;

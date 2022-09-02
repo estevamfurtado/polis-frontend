@@ -1,19 +1,15 @@
-import { Button, VStack, HStack, Heading, Box, useToast, UseToastOptions } from "@chakra-ui/react";
+import { VStack, HStack, Heading, Box, UseToastOptions } from "@chakra-ui/react";
 import { useContext } from "react";
-import { DataContext } from "../../../contexts/DataContext";
 import { NewRequestContext } from "../../../contexts/NewRequestContext";
 import { MyButton } from "../../Buttons";
 import CompareAlbum from "./CompareAlbum";
-import {UserInfo} from "../../../types";
-
 
 
 export default function NewRequest () {
 
-    const {auth: {user}, content: {cards, stickers}} = useContext(DataContext);
     const {requestedUser, sendRequest, offeredCards, requestedCards} = useContext(NewRequestContext);
 
-    if (!cards || !stickers || !user || !requestedUser) {
+    if (!requestedUser) {
         return <></>
     }
 

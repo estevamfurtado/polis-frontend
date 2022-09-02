@@ -1,10 +1,10 @@
-import { Box, Button, VStack, Text, useToast, UseToastOptions } from '@chakra-ui/react';
+import { Box, VStack, useToast, UseToastOptions } from '@chakra-ui/react';
 import joi from 'joi';
 import { useContext, useState } from 'react';
 import { MyButton } from '../../../components/Buttons';
 import Password from '../../../components/Form/Password';
 import TextInput from '../../../components/Form/TextInput';
-import { DataContext } from '../../../contexts/DataContext';
+import { AuthContext } from '../../../contexts/AuthContext';
 import { signIn } from '../../../services/reqs';
 
 
@@ -24,7 +24,7 @@ export default function Forms () {
 
     const [username, setUsername] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
-    const { auth: {setToken}} = useContext(DataContext);
+    const {authData: {actions: {setToken}}} = useContext(AuthContext);
 
     const toast = useToast();
     

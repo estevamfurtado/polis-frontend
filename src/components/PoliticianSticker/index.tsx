@@ -1,13 +1,13 @@
 
-import { Badge, Box, Center, Flex, HStack, Image, Text, useDisclosure, VStack } from "@chakra-ui/react";
-import { useContext, useState } from "react";
-import { DataContext } from "../../contexts/DataContext";
+import { Box, Center, HStack, Image, useDisclosure, VStack } from "@chakra-ui/react";
+import { useContext } from "react";
+import { RankingContext } from "../../contexts/RankingContext";
 import { Sticker } from "../../types";
 import PoliticianModal from "./PoliticianModal";
 
 export default function PoliticianSticker({sticker, dontOpen} : {sticker: Sticker, dontOpen?: boolean}) {
 
-    const { content: { politicianRecords } } = useContext(DataContext);
+    const { rankingData: {data: { politicianRecords }} } = useContext(RankingContext);
 
     const politicianRecord = politicianRecords?.[sticker.politicianRecordId!] ?? null;
     if (!politicianRecord) {return <></>}

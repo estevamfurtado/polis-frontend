@@ -1,24 +1,28 @@
 import { Flex, Text, Button } from "@chakra-ui/react"
 import { useContext, useState } from "react"
-import { DataContext } from "../../../../../../contexts/DataContext"
-import { Sticker, CardsCatalog } from "../../../../../../types"
+import { DeckContext } from "../../../../../../contexts/DeckContext";
+import { Sticker } from "../../../../../../types"
 
-export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: CardsCatalog }}) {
-
-    const {hooks: {pasteCard}} = useContext(DataContext);
+export default function EmptySticker ({sticker, pasteCardId} : {sticker: Sticker, pasteCardId?: number | null}) {
 
     const [isLoading, setIsLoading] = useState(false);
+    
+    const {deckData: {actions: {pasteCard}}} = useContext(DeckContext);
 
-    const canBePasted = sticker.cards.notPasted.new.length > 0;
-    const pasteButton = canBePasted ? 
-        <Button bg='rgba(255,255,255,0.2)' color='white' isDisabled={isLoading} onClick={handlePaste}>{isLoading ? 'Colando...' : `Colar!`}</Button>
+
+    const pasteButton = pasteCardId ? 
+        <Button bg='rgba(255,255,255,0.2)' 
+            color='white' 
+            isDisabled={isLoading} 
+            onClick={handlePaste}>
+                {isLoading ? 'Colando...' : `Colar!`}
+        </Button>
     : <></>;
 
-    const bg = canBePasted ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
-    const cursor = canBePasted ? 'pointer' : 'default';
-    const border = canBePasted ? 'solid 3px rgba(255,255,255,0.2)' : 'none';
-    const onHover = canBePasted ? {boxShadow: 'md'} : {};
-    const onClick = canBePasted ? () => pasteCard(sticker.cards.notPasted.new[0]) : () => {};
+    const bg = pasteCardId ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
+    const cursor = pasteCardId ? 'pointer' : 'default';
+    const border = pasteCardId ? 'solid 3px rgba(255,255,255,0.2)' : 'none';
+    const onHover = pasteCardId ? {boxShadow: 'md'} : {};
 
     return <Flex 
         gap={1} direction='column' 
@@ -29,7 +33,7 @@ export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: Ca
         cursor={cursor}
         border={border}
         _hover={onHover}
-        onClick={onClick}
+        onClick={handlePaste}
     >
         <Text color='white' fontSize='xs' textAlign={'center'}>{sticker.identifier}</Text>
         <Text color='white' fontSize='xs' textAlign={'center'}>{sticker.title}</Text>
@@ -37,8 +41,10 @@ export default function EmptySticker ({sticker} : {sticker: Sticker & {cards: Ca
     </Flex>
 
     async function handlePaste() {
-        setIsLoading(true);
-        await pasteCard(sticker.cards.notPasted.new[0]);
-        setIsLoading(false);
+        if (pasteCardId && !isLoading) {
+            setIsLoading(true);
+            await pasteCard(pasteCardId);
+            setIsLoading(false);
+        }
     }
 }

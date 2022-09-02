@@ -1,7 +1,7 @@
 import { Box, HStack, Flex} from "@chakra-ui/react";
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { DataContext } from "../../contexts/DataContext"
+import { DeckContext } from "../../contexts/DeckContext";
 import { MyButton } from "../Buttons";
 import InStackSection from "../InStackSection";
 import ExchangeThumb from "./ExchangeThumb";
@@ -9,7 +9,7 @@ import ExchangeThumb from "./ExchangeThumb";
 
 export default function MyExchanges() {
 
-    const {content: {exchangeRequests}} = useContext(DataContext);
+    const {deckData: {data: {exchangeRequests}}} = useContext(DeckContext);
     const navigate = useNavigate();
 
     return <InStackSection title='Minhas trocas'>

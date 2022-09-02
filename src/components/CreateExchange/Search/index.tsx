@@ -1,8 +1,6 @@
 import { VStack, Input, HStack, Text, Heading} from "@chakra-ui/react";
 import { useContext, useRef } from "react";
-import { DataContext } from "../../../contexts/DataContext";
 import { NewRequestContext } from "../../../contexts/NewRequestContext";
-import * as api from "../../../services/reqs";
 import {UserInfo} from "../../../types";
 
 

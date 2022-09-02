@@ -1,11 +1,12 @@
 import { useContext } from "react"
 import { Outlet } from "react-router-dom"
-import { DataContext } from "../../contexts/DataContext"
+import { AuthContext } from "../../contexts/AuthContext"
 import About from "../HomePage"
 
 
 export default function Wall () {
     
-    const {auth: {user}} = useContext(DataContext)
-    return user ? <Outlet/> : <About/>
+    const {authData} = useContext(AuthContext)
+    
+    return authData && authData.data.user ? <Outlet/> : <About/>
 }

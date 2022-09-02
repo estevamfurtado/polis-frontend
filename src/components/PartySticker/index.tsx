@@ -1,7 +1,5 @@
 
-import { Badge, Box, Flex, Image, Text, VStack } from "@chakra-ui/react";
-import { useContext } from "react";
-import { DataContext } from "../../contexts/DataContext";
+import { Flex, Image } from "@chakra-ui/react";
 import { Sticker } from "../../types";
 
 export default function PoliticianSticker({sticker} : {sticker: Sticker}) {

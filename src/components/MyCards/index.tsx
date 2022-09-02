@@ -1,74 +1,75 @@
 import { Box, HStack, Center} from "@chakra-ui/react";
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { DataContext } from "../../contexts/DataContext"
+import { DeckContext } from "../../contexts/DeckContext";
 import { Sticker, CardsCatalog } from "../../types";
 import { CardsWrap } from "../CardsWrap";
 import StickerComponent from "../Sticker";
 
+function GroupedSticker ({stickerId, cards}:{stickerId: number, cards: number[]}) {
+    if (cards.length === 0) {return <></>}
+    return <StickerInSection stickerId={stickerId} q={cards.length}/>
+}
 
 export function Repeated() {
 
-    const {content: {stickers}} = useContext(DataContext);
     const navigate = useNavigate();
+    
+    const {deckData: {data: {cards}}} = useContext(DeckContext);
+    if (!cards) {return <></>}
 
-    const stickersRow = Object.keys(stickers ?? {});
+    const stickersRow = Object.keys(cards.bySticker ?? {});
 
     return <CardsWrap height='450px' title='Repetidas' button={{title: 'Trocar figurinhas', onClick: () => {navigate('/exchange')}}}>
             {stickersRow.map((sId, index) => {
-                const sticker = stickers?.[Number(sId)] ?? null;
-                if (!sticker) {return <></>}
-                const q = sticker?.cards.notPasted.all.length ?? 0;
-                if(!q) {return <></>}
-                const hasFavorite = sticker.cards.notPasted.favorites.length > 0; 
-                return <StickerInSection hasFavorite={hasFavorite} cardId={sticker.cards.notPasted.all[0]} key={index} sticker={sticker} q={q}/>
+                const stickerId = Number(sId);
+                const sCards = cards.bySticker[stickerId]?.notPasted.new ?? [];
+                return <GroupedSticker stickerId={stickerId} key={index} cards={sCards}/>
             })}
     </CardsWrap>
 }
 
 export function New() {
 
-    const {content: {cards, stickers}, hooks: {openPacks}} = useContext(DataContext);
     const navigate = useNavigate();
+    
+    const {deckData: {data: {cards}}} = useContext(DeckContext);
+    if (!cards) {return <></>}
 
-    const stickersRow = Object.keys(stickers ?? {});
+    const stickersRow = Object.keys(cards.bySticker ?? {});
 
     return <CardsWrap height='130px' title='Novas' button={{title: 'Colar no álbum!', onClick: () => {navigate('/album/sections/parties')}}}>
             {stickersRow.map((sId, index) => {
-                const sticker = stickers?.[Number(sId)] ?? null;
-                if (!sticker) {return <></>}
-                const q = sticker?.cards.notPasted.new.length ?? 0;
-                if(!q) {return <></>}
-                const hasFavorite = sticker.cards.notPasted.favorites.length > 0; 
-                return <StickerInSection hasFavorite={hasFavorite} cardId={sticker.cards.notPasted.new[0]} key={index} sticker={sticker} q={q}/>
+                const stickerId = Number(sId);
+                const sCards = cards.bySticker[stickerId]?.notPasted.repeated ?? [];
+                return <GroupedSticker stickerId={stickerId} key={index} cards={sCards}/>
             })}
     </CardsWrap>
 }
 
 export function Liked() {
 
-    const {content: {cards, stickers}, hooks: {openPacks}} = useContext(DataContext);
+    const navigate = useNavigate();
+    
+    const {deckData: {data: {cards}}} = useContext(DeckContext);
+    if (!cards) {return <></>}
 
-    const stickersRow = Object.keys(stickers ?? {});
+    const stickersRow = Object.keys(cards.bySticker ?? {});
 
-    return <CardsWrap height='130px' title='⭐ Favoritas'>
+    return <CardsWrap height='130px' title='Novas' button={{title: 'Colar no álbum!', onClick: () => {navigate('/album/sections/parties')}}}>
             {stickersRow.map((sId, index) => {
-                const sticker = stickers?.[Number(sId)] ?? null;
-                if (!sticker) {return <></>}
-                const q = sticker.cards.notPasted.favorites.length ?? 0;
-                if(!q) {return <></>}
-                const hasFavorite = sticker.cards.notPasted.favorites.length > 0; 
-                return <StickerInSection hasFavorite={hasFavorite} cardId={sticker.cards.notPasted.favorites[0]} key={index} sticker={sticker} q={q}/>
+                const stickerId = Number(sId);
+                const sCards = cards.bySticker[stickerId]?.notPasted.favorites ?? [];
+                return <GroupedSticker stickerId={stickerId} key={index} cards={sCards}/>
             })}
     </CardsWrap>
 }
 
 
-function StickerInSection({cardId, sticker, q, hasFavorite} : {hasFavorite:boolean, cardId: number, q: number, sticker: (Sticker & {cards: CardsCatalog}) | null}) {
+function StickerInSection({stickerId, q, } : {q: number, stickerId: number}) {
         
-    if (!sticker || q===0) {return <></>}
     return <Box flex='0 0 auto' position='relative'>
-        <StickerComponent stickerId={sticker.id} h={120} w={90} />
+        <StickerComponent stickerId={stickerId} h={120} w={90} />
         
         <HStack position='absolute' bottom='-5px' left='-5px' spacing='0.5'>
             { q > 1

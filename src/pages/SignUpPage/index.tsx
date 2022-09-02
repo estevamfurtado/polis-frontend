@@ -2,18 +2,17 @@ import {
     Heading,
     Text,
     VStack,
-    Box,
 } from '@chakra-ui/react';
-import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MyButton } from '../../components/Buttons';
-import { DataContext } from '../../contexts/DataContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import Forms from './Forms';
 
 
 export default function SignUpPage() {
 
-    const {auth: {user}} = useContext(DataContext);
+    const {authData: {data: {user}}} = useContext(AuthContext);
     const navigate = useNavigate()
 
     useEffect(()=>{

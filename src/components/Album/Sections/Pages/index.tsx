@@ -1,6 +1,4 @@
 import {VStack} from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
-import { AlbumContext, PagesSection } from "../../../../contexts/AlbumContext";
 import Page from "./Page";
 
 
@@ -14,7 +12,7 @@ type FunctionalPage = {
 
 
 
-export default function Pages ({pages, type} : {pages: FunctionalPage[], type: PagesSection}) {
+export default function Pages ({pages, type} : {pages: FunctionalPage[], type: 'parties' | 'states'}) {
 
     return <VStack w='100%' gap='0' overflowY={'scroll'}>            
         {

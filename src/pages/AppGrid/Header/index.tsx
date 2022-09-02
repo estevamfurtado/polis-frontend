@@ -16,12 +16,12 @@ import {
 
 import { useContext, useRef } from "react";
 import { PolisPerson } from "../../../components/Icons";
-import { DataContext } from "../../../contexts/DataContext";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 
 export default function Header() {
 
-    const {auth: {token, user}, hooks: {logOut}} = useContext(DataContext);
+    const {authData: {data: {token, user}, actions: {clearAuth}}} = useContext(AuthContext);
 
     const HomeButton = HomeButtonBuilder();
     const SettingsMenu = SettingsMenuBuilder();
@@ -72,7 +72,7 @@ export default function Header() {
 
         function confirmLogOut() {
             onClose();
-            logOut();
+            clearAuth();
         }
 
         function ConfirmLogOut () {

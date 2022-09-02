@@ -1,13 +1,16 @@
 import { VStack } from "@chakra-ui/react";
 import { useContext, useEffect } from "react"
-import { DataContext } from "../../contexts/DataContext"
 import MyExchanges from "../../components/MyExchanges";
 import { Outlet } from "react-router-dom";
+import { AppContext } from "../../contexts/AppContext";
+import { DeckContext } from "../../contexts/DeckContext";
 
 
 export default function ExchangePage() {
 
-    const {content: {cards}, app: {setSection}} = useContext(DataContext);
+    const {app: {setSection}} = useContext(AppContext);
+    const {deckData: {data: {cards}}} = useContext(DeckContext);
+
 
     useEffect(() => {
         setSection('exchange')

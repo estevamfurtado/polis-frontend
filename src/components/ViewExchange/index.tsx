@@ -1,18 +1,20 @@
 import { HStack, VStack , Button, Heading} from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react"
-import { DataContext } from "../../contexts/DataContext"
 import StickerComponent from "../Sticker";
 import { useParams } from 'react-router-dom';
 import { CardsWrap } from "../CardsWrap";
 import { MyButton } from "../Buttons";
 import CenterLoading from "../CenterLoading";
+import { DeckContext } from "../../contexts/DeckContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 
 export default function ViewExchanges () {
 
     const [loading, setLoading] = useState(true);
 
-    const {auth: {user}, content: {exchangeRequests},  hooks: {accept, cancel, reject}} = useContext(DataContext);
+    const {authData: {data: {user}}} = useContext(AuthContext);
+    const {deckData: {data: {exchangeRequests},  actions: {accept, cancel, reject}}} = useContext(DeckContext);
 
     const { requestId } = useParams()
 
