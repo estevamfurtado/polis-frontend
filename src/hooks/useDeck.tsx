@@ -104,3 +104,17 @@ export default function useDeck(immediate = true) {
     }
 
 }
+
+
+export const initialDeck : ReturnType<typeof useDeck> = {
+    status: {isLoading: false, error: null, wasInitiated: false},
+    data: {cards: null, packs: null, exchangeRequests: null},
+    actions: {
+        updateDeck: async ()=>{},
+        pasteCard: async ()=>{}, pasteAllCards: async ()=>{},
+        openPack: async ()=>{}, openPacks: async ()=>{},
+        toggleCard: async ()=>{}, 
+        accept: async ()=>{}, reject: async ()=>{}, cancel: async ()=>{}, 
+        realizePacks: async ()=>{}
+    }
+}

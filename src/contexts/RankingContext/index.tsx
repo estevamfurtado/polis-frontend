@@ -1,12 +1,12 @@
 import { createContext, PropsWithChildren } from "react"
-import useRanking from "../../hooks/useRanking"
+import useRanking, { initialRanking } from "../../hooks/useRanking"
 
 type ContextValues = {
     rankingData: ReturnType<typeof useRanking>
 }
 
 export const RankingContext = createContext<ContextValues>({
-    rankingData: useRanking()
+    rankingData: initialRanking
 })
 
 export function RankingProvider ({ children }: PropsWithChildren) {

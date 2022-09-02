@@ -1,4 +1,4 @@
-import { Box, Flex, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Button, useDisclosure, HStack, Text } from "@chakra-ui/react";
 import {
     Menu,
     MenuButton,
@@ -21,15 +21,24 @@ import { AuthContext } from "../../../contexts/AuthContext";
 
 export default function Header() {
 
-    const {authData: {data: {token, user}, actions: {clearAuth}}} = useContext(AuthContext);
+    const {authData: {data: {user}, actions: {clearAuth}}} = useContext(AuthContext);
 
     const HomeButton = HomeButtonBuilder();
     const SettingsMenu = SettingsMenuBuilder();
 
+    const name = user ? (user.username
+            ? user.username
+            : (user.email ? user.email : 'usuário')) : 'usuário'
+
     return (
         <Flex justify='space-between' align='center' h='100%' px='5' py='3' w='100%' overflow='hidden'>
             {HomeButton}
-            { user ? SettingsMenu : <></>}
+            { user ? 
+                <HStack align='center' spacing='2'>
+                    <Box fontSize='sm' fontWeight='semibold'>{`Olá, ${name}`}</Box>
+                    {SettingsMenu}
+                </HStack>
+            : <></>}
         </Flex>
     )
 

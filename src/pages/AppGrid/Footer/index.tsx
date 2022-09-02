@@ -25,6 +25,8 @@ export default function Footer() {
         return () => clearInterval(timer);
     }, [nowTime]);
 
+    console.log(cards?.deck)
+
 
     return (
         <Flex 
@@ -38,7 +40,7 @@ export default function Footer() {
             </IconNav>
 
             <IconNav title="Figurinhas" goTo="/stickers" activeSection="stickers" 
-                notifications={hasPacks ? packs?.new ?? 0 : (!isAvailable ? minutesTo : 0)}
+                notifications={hasPacks ? packs?.new ?? 0 : (!isAvailable ? minutesTo : '!')}
                 notificationColor={(!hasPacks && !isAvailable) ? 'blue.800' : undefined}
             >
                 <PolisCard h='22px'/>
@@ -61,7 +63,7 @@ export default function Footer() {
 }
 
 function IconNav ({children, title, goTo, activeSection, notifications, notificationColor} : {
-    title: string, goTo: string, activeSection: string, notifications: number, notificationColor?: string
+    title: string, goTo: string, activeSection: string, notifications: number | string, notificationColor?: string
 } & PropsWithChildren) {
     
     const {app: {section}} = useContext(AppContext);

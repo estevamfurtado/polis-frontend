@@ -447,17 +447,11 @@ export type GetRankingResponse = {
     parties: {[key: string]: Party},
 }
 
-export type GetDeckResponse = {
-    album: Album & {pages: number[]},
-    pages: {[key: number]: Page & {stickers: number[]}},
-    stickers: {[key: number]: Sticker},  //CHANGED
-    pagesByStates: FunctionalPage[],
-    pagesByParties: FunctionalPage[],
-    
+export type GetDeckResponse = {    
     cards: {
         cards: {[key: number]: Card},
         deck: CardsCatalog,
-        bySticker: {[key: number]: CardsCatalog} //CHANGED
+        bySticker: {[key: number]: CardsCatalog}
     },
     packs: {
         new: number,
@@ -465,6 +459,15 @@ export type GetDeckResponse = {
         lastPackAt: number,
     },
     exchangeRequests: CompleteExchangeRequest[],
+}
+
+
+export type GetAlbumResponse = {
+    album: Album & {pages: number[]},
+    pages: {[key: number]: Page & {stickers: number[]}},
+    stickers: {[key: number]: Sticker},
+    pagesByStates: FunctionalPage[],
+    pagesByParties: FunctionalPage[],
 }
 
 

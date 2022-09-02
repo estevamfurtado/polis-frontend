@@ -50,3 +50,14 @@ export default function useAuth(immediate = true) {
     }
 
 }
+
+
+export const initialAuth : ReturnType<typeof useAuth> = {
+    status: {isLoading: false, error: null, wasInitiated: false},
+    data: {user: null, token: null},
+    actions: {
+        getUserData: async ()=>{},
+        clearAuth: async ()=>{},
+        setToken: async ()=>{},
+    }
+}

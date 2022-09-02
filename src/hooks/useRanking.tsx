@@ -7,9 +7,9 @@ import {
 
 export default function useRanking(immediate = true) {
     
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [wasInitiated, setWasInitiated] = useState<boolean>(false);
-    const [error, setError] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [wasInitiated, setWasInitiated] = useState(false);
+    const [error, setError] = useState<any | null>(null);
 
     const [rankings, setRankings] = useState<GetRankingResponse['rankings'] | null>(null)
     const [politicians, setPoliticians] = useState<GetRankingResponse['politicians'] | null>(null)
@@ -19,7 +19,7 @@ export default function useRanking(immediate = true) {
     const [parties, setParties] = useState<GetRankingResponse['parties'] | null>(null)
 
     useEffect(()=>{
-        if (immediate) updateRankingData();
+        if (immediate) {updateRankingData()}
     }, [])
 
     return {
@@ -65,4 +65,15 @@ export default function useRanking(immediate = true) {
         setParties(null)
     }
 
+}
+
+
+export const initialRanking : ReturnType<typeof useRanking> = {
+    status: {isLoading: false, error: null, wasInitiated: false},
+    data: {
+        rankings: null, politicians: null, politicianRecords: null, partyRecords: null, states: null, parties: null,
+    },
+    actions: {
+        updateRankingData: async () => {}
+    },
 }

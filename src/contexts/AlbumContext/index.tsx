@@ -1,12 +1,12 @@
 import { createContext, PropsWithChildren } from "react"
-import useAlbum from "../../hooks/useAlbum"
+import useAlbum, { initialAlbum } from "../../hooks/useAlbum"
 
 type ContextValues = {
     albumData: ReturnType<typeof useAlbum>
 }
 
 export const AlbumContext = createContext<ContextValues>({
-    albumData: useAlbum()
+    albumData: initialAlbum
 })
 
 export function AlbumProvider ({ children }: PropsWithChildren) {

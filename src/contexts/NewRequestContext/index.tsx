@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react"
-import {GetDeckResponse, UserInfo} from "../../types"
+import {GetDeckResponse, UserInfo, GetAlbumResponse} from "../../types"
 import * as api from '../../services/reqs'
 import { AuthContext } from "../AuthContext";
 import { DeckContext } from "../DeckContext";
@@ -14,7 +14,7 @@ type NewRequestContextValues = {
     requestedUser: {
         info: UserInfo;
         cards: GetDeckResponse['cards'];
-        stickers: GetDeckResponse['stickers'];
+        stickers: GetAlbumResponse['stickers'];
     } | null;
 
     offeredCards: {[key: number]: boolean};
@@ -25,7 +25,7 @@ type NewRequestContextValues = {
     setRequestedUser: (user: {
         info: UserInfo, 
         cards: GetDeckResponse['cards'], 
-        stickers: GetDeckResponse['stickers'];
+        stickers: GetAlbumResponse['stickers'];
     }) => void;
     setOfferedCards: (offeredCards: {[key: number]: boolean}) => void;
     setRequestedCards: (requestedCards: {[key: number]: boolean}) => void;
@@ -71,7 +71,7 @@ export function NewRequestContextProvider ({ children }: PropsWithChildren) {
 
     const [text, setText] = useState('');
     const [users, setUsers] = useState<UserInfo[]>([]);
-    const [requestedUser, setRequestedUser] = useState<{info: UserInfo, cards: GetDeckResponse['cards'], stickers: GetDeckResponse['stickers']} | null>(null);
+    const [requestedUser, setRequestedUser] = useState<{info: UserInfo, cards: GetDeckResponse['cards'], stickers: GetAlbumResponse['stickers']} | null>(null);
     const [offeredCards, setOfferedCards] = useState<{[key: number]: boolean}>({});
     const [requestedCards, setRequestedCards] = useState<{[key: number]: boolean}>({});
 
@@ -115,35 +115,32 @@ export function NewRequestContextProvider ({ children }: PropsWithChildren) {
 
         lineStickers.forEach(sId => {
             const id = parseInt(sId);
-            
+
             const myCards = cards.bySticker[id] ?? null;
             const hisCards = requestedUser.cards.bySticker[id] ?? null;
 
-            if (myCards && hisCards) {
-                
-                const iNeed = myCards.all.length === 0;
-                const iHave = myCards.notPasted.repeated.length > 0;
-                const myCard = iHave ? myCards.notPasted.repeated[0] : null;
-    
-                const heNeeds = hisCards.all.length === 0;
-                const heHas = hisCards.notPasted.repeated.length > 0;
-                const hisCard = heHas ? hisCards.notPasted.repeated[0] : null;
-    
-                
-                if (iHave && heNeeds && myCard) {
-                    cardsYouHaveHeNeeds.push({
-                        id: myCard,
-                        stickerId: id,
-                    });
-                }
-                if (iNeed && heHas && hisCard) {
-                    cardsHeHasYouNeed.push({
-                        id: hisCard,
-                        stickerId: id,
-                    });
-                }
+            const iNeed = !myCards || (myCards.all.length === 0);
+            const iHave = myCards && myCards.notPasted.repeated.length > 0;
+            const myCard = iHave ? myCards?.notPasted.repeated[0] : null;
+
+            const heNeeds = !hisCards || hisCards.all.length === 0;
+            const heHas = hisCards && hisCards.notPasted.repeated.length > 0;
+            const hisCard = heHas ? hisCards?.notPasted.repeated[0] : null;
+
+            
+            if (iHave && heNeeds && myCard) {
+                cardsYouHaveHeNeeds.push({
+                    id: myCard,
+                    stickerId: id,
+                });
             }
-        });
+            if (iNeed && heHas && hisCard) {
+                cardsHeHasYouNeed.push({
+                    id: hisCard,
+                    stickerId: id,
+                });
+            }
+        })
     }
 
     function toggleOfferedCardId(id: number) {

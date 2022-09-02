@@ -20,10 +20,12 @@ export function Repeated() {
 
     const stickersRow = Object.keys(cards.bySticker ?? {});
 
-    return <CardsWrap height='450px' title='Repetidas' button={{title: 'Trocar figurinhas', onClick: () => {navigate('/exchange')}}}>
+    return <CardsWrap height='450px' 
+        title={`Repetidas (${cards?.deck.notPasted.repeated.length ?? 0})`}
+        button={{title: 'Trocar figurinhas', onClick: () => {navigate('/exchange')}}}>
             {stickersRow.map((sId, index) => {
                 const stickerId = Number(sId);
-                const sCards = cards.bySticker[stickerId]?.notPasted.new ?? [];
+                const sCards = cards.bySticker[stickerId]?.notPasted.repeated ?? [];
                 return <GroupedSticker stickerId={stickerId} key={index} cards={sCards}/>
             })}
     </CardsWrap>
@@ -38,10 +40,12 @@ export function New() {
 
     const stickersRow = Object.keys(cards.bySticker ?? {});
 
-    return <CardsWrap height='130px' title='Novas' button={{title: 'Colar no álbum!', onClick: () => {navigate('/album/sections/parties')}}}>
+    return <CardsWrap height='130px' 
+        title={`Novas (${cards?.deck.notPasted.new.length ?? 0})`}
+        button={{title: 'Colar no álbum!', onClick: () => {navigate('/album/sections/parties')}}}>
             {stickersRow.map((sId, index) => {
                 const stickerId = Number(sId);
-                const sCards = cards.bySticker[stickerId]?.notPasted.repeated ?? [];
+                const sCards = cards.bySticker[stickerId]?.notPasted.new ?? [];
                 return <GroupedSticker stickerId={stickerId} key={index} cards={sCards}/>
             })}
     </CardsWrap>
@@ -56,7 +60,9 @@ export function Liked() {
 
     const stickersRow = Object.keys(cards.bySticker ?? {});
 
-    return <CardsWrap height='130px' title='Novas' button={{title: 'Colar no álbum!', onClick: () => {navigate('/album/sections/parties')}}}>
+    return <CardsWrap height='130px' 
+        title={`Favoritas (${cards?.deck.notPasted.favorites.length ?? 0})`}
+        button={{title: 'Colar no álbum!', onClick: () => {navigate('/album/sections/parties')}}}>
             {stickersRow.map((sId, index) => {
                 const stickerId = Number(sId);
                 const sCards = cards.bySticker[stickerId]?.notPasted.favorites ?? [];

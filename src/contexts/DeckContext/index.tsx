@@ -1,12 +1,12 @@
 import { createContext, PropsWithChildren } from "react"
-import useDeck from "../../hooks/useDeck"
+import useDeck, { initialDeck } from "../../hooks/useDeck"
 
 type ContextValues = {
     deckData: ReturnType<typeof useDeck>
 }
 
 export const DeckContext = createContext<ContextValues>({
-    deckData: useDeck()
+    deckData: initialDeck
 })
 
 export function DeckProvider ({ children }: PropsWithChildren) {

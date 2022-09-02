@@ -92,7 +92,7 @@ function StickerItem ({stickerId}: {stickerId: number}) {
 
     function color() {
 
-        if (!sticker) {return stickerStatus.empty}
+        if (!sticker || !cards?.bySticker[stickerId]) {return stickerStatus.empty}
 
         const doesntHave = cards?.bySticker[stickerId]?.all.length === 0 ?? true;
         if (doesntHave) {return stickerStatus.empty}

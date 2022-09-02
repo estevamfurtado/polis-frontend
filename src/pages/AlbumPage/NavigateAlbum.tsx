@@ -87,21 +87,18 @@ function WalkButtons () {
 
     const {pageSection} = useContext(AlbumViewContext)
 
-    const nextRef = useRef<Element | null>(null)
-    const previousRef = useRef<Element | null>(null)
-
     if (!pageSection) {return <></>}
 
     return <HStack h='100%'>
         <MyButton
-            onClick={onUpClick}
+            onClick={()=>{intoView(-1)}}
             w='100%'
             h='100%'
         >
             <TriangleUpIcon w={5} h={5}/>
         </MyButton>
         <MyButton
-            onClick={onDownClick}
+            onClick={()=>{intoView(1)}}
             w='100%'
             h='100%'
         >
@@ -109,38 +106,22 @@ function WalkButtons () {
         </MyButton>
     </HStack>
 
-    async function onDownClick() {
-        GetElementInView();
-        if (nextRef.current) {
-            nextRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        return null;
-    }
 
-    async function onUpClick() {
-        GetElementInView();
-        if (previousRef.current) {
-            previousRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        return null;
-    }
-
-    function GetElementInView() {
+    function intoView(step: number) {
         if (!pageSection.value) {return null}
 
         const collection = document.getElementsByClassName(pageSection.value);
-        const array : Element[] = [].slice.call(collection);
+        const size : number = [].slice.call(collection).length;
 
         let i = 0;
-        for (const el of array) {
-            const isInView = isInViewport(el);
+        for (i=0; i<size; i++) {
+            const isInView = isInViewport(collection[i]);
             if (isInView) {
-
-                previousRef.current = array[i - 1] ? array[i - 1] : array[array.length - 1],
-                nextRef.current = array[i + 1] ? array[i + 1] : array[0];
-                return null;
+                const elIndex = ((i+step) >= size) ? (0)
+                    : ((i+step) < 0) ? (size - 1) : (i+step)
+                collection[elIndex].scrollIntoView({behavior: 'smooth'})
+                return;
             }
-            i++;
         }
         return null;
     }

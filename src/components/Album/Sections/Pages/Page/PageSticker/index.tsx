@@ -11,9 +11,9 @@ export default function PageSticker ({stickerId} : {stickerId: number}) {
     const {deckData: {data:{cards}}} = useContext(DeckContext);
 
     const sticker = stickers?.[stickerId] ?? null;
-    
+
     if (!sticker) {return <></>}
-    
+
     const pastedCardId = cards ? cards.bySticker[stickerId]?.pasted[0] ?? null : null
     const toPasteCardId = cards ? cards.bySticker[stickerId]?.notPasted.all[0] ?? null : null
     

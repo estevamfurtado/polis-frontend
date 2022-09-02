@@ -13,7 +13,7 @@ export const AlbumViewContext = createContext<ContextValues>({
     pageSection: {value: 'parties', set: ()=>{}},
 })
 
-export function AlbumProvider ({ children }: PropsWithChildren) {
+export function AlbumViewProvider ({ children }: PropsWithChildren) {
 
     const [mode, setMode] = useState<Mode>('other');
     const [pageSection, setPageSection] = useState<PageSection>('parties');

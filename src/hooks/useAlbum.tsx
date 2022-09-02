@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import {GetDeckResponse} from "../types";
+import {GetAlbumResponse, GetDeckResponse} from "../types";
 import * as api from "../services/reqs"
 
 
@@ -9,11 +9,11 @@ export default function useAlbum(immediate = true) {
     const [wasInitiated, setWasInitiated] = useState<boolean>(false);
     const [error, setError] = useState<any>(null);
 
-    const [album, setAlbum] = useState<GetDeckResponse['album'] | null>(null)
-    const [pages, setPages] = useState<GetDeckResponse['pages'] | null>(null)
-    const [stickers, setStickers] = useState<GetDeckResponse['stickers'] | null>(null)
-    const [pagesByParties, setPagesByParties] = useState<GetDeckResponse['pagesByParties']>([])
-    const [pagesByStates, setPagesByStates] = useState<GetDeckResponse['pagesByStates']>([])
+    const [album, setAlbum] = useState<GetAlbumResponse['album'] | null>(null)
+    const [pages, setPages] = useState<GetAlbumResponse['pages'] | null>(null)
+    const [stickers, setStickers] = useState<GetAlbumResponse['stickers'] | null>(null)
+    const [pagesByParties, setPagesByParties] = useState<GetAlbumResponse['pagesByParties']>([])
+    const [pagesByStates, setPagesByStates] = useState<GetAlbumResponse['pagesByStates']>([])
     
     useEffect(()=>{
         if (immediate) updateAlbumData();
@@ -31,7 +31,7 @@ export default function useAlbum(immediate = true) {
         setError(null);
         setIsLoading(true);
         try {
-            const res = await api.getDeck();
+            const res = await api.getAlbum();
             setAlbumData(res);
             if (!wasInitiated) {setWasInitiated(true)}
             setIsLoading(false);
@@ -42,12 +42,13 @@ export default function useAlbum(immediate = true) {
         }
     }
 
-    function setAlbumData(deckResponse: GetDeckResponse) {
-        setAlbum(deckResponse.album);
-        setPages(deckResponse.pages);
-        setStickers(deckResponse.stickers);
-        setPagesByParties(deckResponse.pagesByParties)
-        setPagesByStates(deckResponse.pagesByStates)
+    function setAlbumData(albumResponse: GetAlbumResponse) {
+            
+        setAlbum(albumResponse.album);
+        setPages(albumResponse.pages);
+        setStickers(albumResponse.stickers);
+        setPagesByParties(albumResponse.pagesByParties)
+        setPagesByStates(albumResponse.pagesByStates)
     }
 
     function clearAlbumData() {
@@ -58,4 +59,17 @@ export default function useAlbum(immediate = true) {
         setPagesByStates([])
     }
 
+}
+
+
+
+export const initialAlbum : ReturnType<typeof useAlbum> = {
+    status: {isLoading: false, error: null, wasInitiated: false},
+    data: {
+        album: null, pages: null, stickers: null,
+        pagesByParties: [], pagesByStates: []
+    },
+    actions: {
+        updateAlbumData: async ()=>{},
+    }
 }

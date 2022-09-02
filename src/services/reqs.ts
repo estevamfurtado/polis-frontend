@@ -1,4 +1,4 @@
-import { GetDeckResponse, GetRankingResponse, Person } from "../types/index.js";
+import { GetDeckResponse, GetAlbumResponse, GetRankingResponse, Person } from "../types/index.js";
 import api from "./api.js";
 
 function headers () {
@@ -62,6 +62,15 @@ export async function getDeck() {
   const response = await api.get("/deck/", {headers: headers()});
   if (response.status === 200) {
     return response.data as GetDeckResponse;
+  } else {
+    throw response;
+  }
+}
+
+export async function getAlbum() {
+  const response = await api.get("/album/", {headers: headers()});
+  if (response.status === 200) {
+    return response.data as GetAlbumResponse;
   } else {
     throw response;
   }

@@ -16,7 +16,7 @@ export default function MyExchanges() {
         <Flex  w='100%' h='100px' pl='5' borderRadius={'lg'} align='center' gap={'3'} justify='space-between'>
             <MyButton type='main' onClick={()=>{navigate('/exchange/new')}}>+ Criar troca</MyButton>
             <HStack h='100%' w='3000px' overflow={'scroll'} flex='1 1 auto' pr='5'>
-                {exchangeRequests ? exchangeRequests.map(x => <ExchangeThumb request={x}/>) : <></>}
+                {exchangeRequests ? exchangeRequests.map((x, index) => <ExchangeThumb key={index} request={x}/>) : <></>}
             </HStack>
         </Flex>
     </InStackSection>
