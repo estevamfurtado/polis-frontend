@@ -1,4 +1,4 @@
-import { HStack } from "@chakra-ui/react";
+import { Badge, HStack } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Progress from "../../components/Album/Progress";
 import {useContext, useRef} from 'react'
@@ -15,6 +15,7 @@ export default function NavigateAlbum () {
     const {deckData: {data: {cards}}} = useContext(DeckContext);
 
     const showPasteAllCardsButton = (cards?.deck.notPasted.new ?? []).length >= 30;
+    const cardsToPaste = (cards?.deck.notPasted.new ?? []).length;
 
     return <>
         <HStack w='100%' h='100%'>
@@ -27,6 +28,7 @@ export default function NavigateAlbum () {
                     <WalkButtons />
                 </HStack>
                 <HStack h='100%'>
+                    {cardsToPaste ? <Badge>{`${cardsToPaste} não coladas`}</Badge> : <></>}
                     {showPasteAllCardsButton ? <PasteButton/> : <></>}
                 </HStack> 
             </> : <></>
