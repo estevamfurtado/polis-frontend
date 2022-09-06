@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import * as api from "../services/reqs"
 import useToken from "./useToken";
 import {
-    Person,
+    Person, UserInfo,
 } from "../types"
 
 
@@ -23,22 +23,21 @@ export default function useAuth(immediate = true) {
         status: {isLoading, error, wasInitiated},
         data: {token, user,},
         actions: {
-            getUserData, clearAuth, setToken
+            getUserData, clearAuth, logIn
         }
     }
 
     async function getUserData() {
         setError(null);
         setIsLoading(true);
-
         try {
             const res = await api.getUser();
             setUser(res);
             if (!wasInitiated) {setWasInitiated(true)}
             setIsLoading(false);
-
         } catch (error) {
             clearAuth();
+            if (!wasInitiated) {setWasInitiated(true)}
             setError(error);
             setIsLoading(false);
         }
@@ -47,6 +46,26 @@ export default function useAuth(immediate = true) {
     function clearAuth() {
         setToken(null);
         setUser(null);
+    }
+
+    async function logIn(username: string | null, password: string | null) {
+
+        setError(null);
+        setIsLoading(true);
+        try {
+            const res = await api.signIn({username, password});
+            setToken(res.token);
+            setUser(res.user);
+            if (!wasInitiated) {setWasInitiated(true)}
+            setIsLoading(false);
+            return res;
+        } catch (error) {
+            clearAuth();
+            setError(error);
+            setIsLoading(false);
+            if (!wasInitiated) {setWasInitiated(true)}
+            return null
+        }
     }
 
 }
@@ -58,6 +77,6 @@ export const initialAuth : ReturnType<typeof useAuth> = {
     actions: {
         getUserData: async ()=>{},
         clearAuth: async ()=>{},
-        setToken: async ()=>{},
+        logIn: async (username: string | null, password: string | null)=>{return null},
     }
 }

@@ -5,7 +5,6 @@ import { MyButton } from '../../../components/Buttons';
 import Password from '../../../components/Form/Password';
 import TextInput from '../../../components/Form/TextInput';
 import { AuthContext } from '../../../contexts/AuthContext';
-import { signIn } from '../../../services/reqs';
 
 
 
@@ -24,9 +23,7 @@ export default function Forms () {
 
     const [username, setUsername] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
-    const {authData: {actions: {setToken}}} = useContext(AuthContext);
-
-    const toast = useToast();
+    const {authData: {actions: {logIn}}} = useContext(AuthContext);
     
     const validation = validatorSchema.validate({
         username, password
@@ -83,11 +80,8 @@ export default function Forms () {
     </Box>
 
     async function submitHandler() : Promise<UseToastOptions> {
-            
-        const response = await signIn({...data});
-
-        if (response.status === 200) {
-            setToken(response.data.token);
+        const response = await logIn(data.username, data.password);
+        if (response) {
             return {
                 title: 'Bem-vindo!',
                 description: "Você está logado.",
@@ -95,11 +89,10 @@ export default function Forms () {
                 duration: 3000,
                 isClosable: true,
             }
-
         } else {
             return {
-                title: response.response.statusText,
-                description: response.response.data,
+                title: 'Não foi possível :/',
+                description: 'Verifique seu nome de usuário e senha',
                 status: 'error',
                 duration: 2000,
                 isClosable: true,

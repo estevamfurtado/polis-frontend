@@ -25,8 +25,6 @@ export default function Footer() {
         return () => clearInterval(timer);
     }, [nowTime]);
 
-    console.log(cards?.deck)
-
 
     return (
         <Flex 

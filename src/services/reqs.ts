@@ -1,4 +1,4 @@
-import { GetDeckResponse, GetAlbumResponse, GetRankingResponse, Person } from "../types/index.js";
+import { GetDeckResponse, GetAlbumResponse, GetRankingResponse, Person, UserInfo } from "../types/index.js";
 import api from "./api.js";
 
 function headers () {
@@ -20,13 +20,9 @@ export async function signUp(data: any, referralId: string | null) {
   }
 }
 
-export async function signIn(data: any) {
-  try {
-    const response = await api.post("/auth/sign-in", data);
-    return {...response}
-  } catch (error: any) {
-    return {...error}
-  }
+export async function signIn(data: any) : Promise<{token: string, user: Person}> {
+  const response = await api.post("/auth/sign-in", data);
+  return response.data as {token: string, user: Person}
 }
 
 export async function updateUser(data: any) {

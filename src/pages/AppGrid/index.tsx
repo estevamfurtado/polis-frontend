@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import { AppContext } from "../../contexts/AppContext";
+import CenterLoading from "../../components/CenterLoading";
 
 
 export default function AppGrid() {
@@ -18,9 +19,13 @@ export default function AppGrid() {
             bg='gray.850'
             flex='1 1 auto'
         >
-            <HeaderNavBuilder/>
-            <MainBuilder/>
-            {app.showAppFooterNav ? <FooterNavBuilder/> : <></>}
+            {app.loadApp ? <CenterLoading/>
+                : <>
+                    <HeaderNavBuilder/>
+                    <MainBuilder/>
+                    {app.showAppFooterNav ? <FooterNavBuilder/> : <></>}
+                </>
+            }
         </Flex>
     )
 
