@@ -28,11 +28,14 @@ export default function SignInPage() {
                     Bem-vindo ao Polis!
                 </Heading>
                 <Text textAlign={'center'}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Transformamos os partidos e os deputados federais em um álbum online 100% gratuito para você colecionar.
+                </Text>
+                <Text textAlign={'center'}>
+                    Troque figurinhas repetidas com seus amigos, vença os jogos e complete o seu álbum!
                 </Text>
 
                 <MyButton onClick={() => {navigate('/sign-up')}}>
-                    Ainda não tem conta? Crie aqui!
+                    Ainda não tem o álbum? Ganhe aqui!
                 </MyButton>
 
             </VStack>

@@ -1,9 +1,10 @@
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import { Wrap, Box, Flex, VStack} from '@chakra-ui/react';
 import Progress from '../Progress';
 import { AlbumContext } from '../../../contexts/AlbumContext';
 import { RankingContext } from '../../../contexts/RankingContext';
 import { DeckContext } from '../../../contexts/DeckContext';
+import { AlbumViewContext } from '../../../contexts/AlbumViewContext';
 
 
 const stickerStatus = {
@@ -37,6 +38,11 @@ const stickerStatus = {
 export default function Stats() {
 
     const {albumData: {data: {album}}} = useContext(AlbumContext);
+    const {mode} = useContext(AlbumViewContext);
+
+    useEffect(()=>{
+        mode.set('other');
+    },[])
 
     if (!album) {return <></>}
 

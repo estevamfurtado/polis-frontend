@@ -35,7 +35,6 @@ export default function EmptySticker ({sticker, pasteCardId} : {sticker: Sticker
         _hover={onHover}
         onClick={handlePaste}
     >
-        <Text color='white' fontSize='xs' textAlign={'center'}>{sticker.identifier}</Text>
         <Text color='white' fontSize='xs' textAlign={'center'}>{sticker.title}</Text>
         {pasteButton}
     </Flex>

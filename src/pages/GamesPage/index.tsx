@@ -1,4 +1,4 @@
-import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, useToast, Center} from "@chakra-ui/react";
+import { Box, HStack, VStack , Text, Button, Heading, Flex, Tab, Tabs, TabList, TabPanels, TabPanel, Wrap, useToast, Center, Badge} from "@chakra-ui/react";
 import { useContext, useEffect } from "react"
 import { MyButton } from "../../components/Buttons";
 import MyPacks from "../../components/MyPacks";
@@ -30,7 +30,6 @@ export default function PacksPage() {
 
                 <GameThumb game={{title: 'SuperDeputado', description: 'Use suas melhores cartas para duelar contra outro usuário. O vencedor ganha 10 pacotes!'}}/>
                 <GameThumb game={{title: 'Como vota, deputado?', description: 'Escolha um deputado e acerte como ele votou. Se acertar o suficiente, você ganha 10 pacotes!'}}/>
-                <GameThumb game={{title: 'Tinder dos Candidatos', description: 'Veja vídeos curtos dos candidatos do seu Estado à Câmara. A cada 2 vídeos, você ganha 1 pacote.'}}/>
             </VStack>
 
             <MyButton type='main' onClick={copyAndSendLink}>
@@ -62,8 +61,9 @@ function GameThumb ({game} : {game: {title: string, description: string}}) {
     
     return <MyButton w='100%' h='120px' >
         <HStack w='100%' h='100%'>
-            <Center w='120px'></Center>
+            {/* <Center w='120px'></Center> */}
             <VStack flex='1 1 auto' align='start'>
+                <Badge>EM BREVE</Badge>
                 <Heading fontWeight='black' fontSize='xl'>{game.title}</Heading>
                 <Text fontSize='xs' textAlign='start' fontWeight='normal' opacity='60%'>{game.description}</Text>
             </VStack>

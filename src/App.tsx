@@ -46,20 +46,20 @@ export default function App() {
                     <Route path="/" element={<AppGrid />}>
                       <Route index element={<Home/>}/>
                         <Route element={<Wall/>}>
-                        <Route path="album" element={<Album/>}>
-                          <Route path="stats" element={<Stats/>}/>
-                          <Route path="sections">
-                            <Route path="parties" element={<PartiesSection/>}/>
-                            <Route path="states" element={<StatesSection/>}/>
+                          <Route path="album" element={<Album/>}>
+                            <Route index element={<AlbumHome/>}/>
+                            <Route path="stats" element={<Stats/>}/>
+                            <Route path="sections">
+                              <Route path="parties" element={<PartiesSection/>}/>
+                              <Route path="states" element={<StatesSection/>}/>
+                            </Route>
                           </Route>
-                          <Route path="*" element={<AlbumHome/>}/>
-                        </Route>
-                        <Route path="stickers" element={<Stickers/>}/>
-                        <Route path="exchange" element={<Exchange/>}>
-                          <Route index element={<></>}/>
-                          <Route path="new" element={<CreateExchange/>}/>
-                          <Route path=":requestId" element={<ViewExchange/>}/>
-                        </Route>
+                          <Route path="stickers" element={<Stickers/>}/>
+                          <Route path="exchange" element={<Exchange/>}>
+                            <Route index element={<></>}/>
+                            <Route path="new" element={<CreateExchange/>}/>
+                            <Route path=":requestId" element={<ViewExchange/>}/>
+                          </Route>
                         <Route path="games" element={<Games/>}/>
                       </Route>
                       <Route path="sign-in" element={<SignIn/>}/>

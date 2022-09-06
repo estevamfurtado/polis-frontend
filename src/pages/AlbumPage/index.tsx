@@ -2,7 +2,7 @@ import {  Flex, HStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { Outlet } from "react-router-dom";
-import { AlbumViewProvider } from "../../contexts/AlbumViewContext";
+import { AlbumViewContext, AlbumViewProvider } from "../../contexts/AlbumViewContext";
 import { AppContext } from "../../contexts/AppContext";
 import NavigateAlbum from "./NavigateAlbum";
 
@@ -10,9 +10,11 @@ import NavigateAlbum from "./NavigateAlbum";
 export default function Album () {
 
     const {app: {setSection}} = useContext(AppContext);
+    const {mode} = useContext(AlbumViewContext);
 
     useEffect(()=>{
         setSection('album')
+        mode.set('other')
     },[])
 
     return <AlbumViewProvider>
