@@ -2,7 +2,6 @@ import { Box, HStack, Center} from "@chakra-ui/react";
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { DeckContext } from "../../contexts/DeckContext";
-import { Sticker, CardsCatalog } from "../../types";
 import { CardsWrap } from "../CardsWrap";
 import StickerComponent from "../Sticker";
 

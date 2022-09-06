@@ -24,7 +24,8 @@ export default function Search () {
 
     async function handleInput (e: React.ChangeEvent<HTMLInputElement>) {
         if (ref.current) {
-            const email = ref.current.value;
+            const email = ref.current.value.toLowerCase().replaceAll(' ', '');
+            ref.current.value = email;
             if (email.length > 2) {
                 searchUsers(email)
             } else {
