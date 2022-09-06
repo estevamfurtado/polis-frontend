@@ -19,7 +19,7 @@ export default function NewRequest () {
     const nome = requestedUser.info.username ?? requestedUser.info.email?.split('@')[0] ?? '';
 
     return <VStack spacing={8} w='100%' align='center' bg='gray.700' py='5' borderRadius='10'>
-        <Heading fontSize='md'>{
+        <Heading fontSize='md' alignContent={'center'} textAlign='center'>{
             <><>{'Escolha figurinhas para trocar com '}</>
             <Box as='span' p='1' bg='teal' borderRadius='sm'>{nome}</Box>
             </>
@@ -32,7 +32,7 @@ export default function NewRequest () {
             onClick={sendRequestClick}
             disabled={(offer.length + request.length  === 0)}
         >
-            Enviar proposta
+            {`Oferecer ${offer.length} por ${request.length}`}
         </MyButton>
     </VStack>
     
