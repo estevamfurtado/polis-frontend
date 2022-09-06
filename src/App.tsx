@@ -35,44 +35,44 @@ import StatesSection from "./components/Album/Sections/StatesSection";
 export default function App() {
 
   return (
-    <AppProvider>
+    <ChakraProvider theme={theme}>
       <RankingProvider>
         <AlbumProvider>
           <AuthProvider>
             <DeckProvider>
-                <ChakraProvider theme={theme}>
-                  <Router>
-                    <Routes>
-                      <Route path="/" element={<AppGrid />}>
-                          <Route index element={<Home/>}/>
-                          <Route element={<Wall/>}>
-                            <Route path="album" element={<Album/>}>
-                              <Route path="stats" element={<Stats/>}/>
-                              <Route path="sections">
-                                <Route path="parties" element={<PartiesSection/>}/>
-                                <Route path="states" element={<StatesSection/>}/>
-                              </Route>
-                              <Route path="*" element={<AlbumHome/>}/>
-                            </Route>
-                            <Route path="stickers" element={<Stickers/>}/>
-                            <Route path="exchange" element={<Exchange/>}>
-                              <Route index element={<></>}/>
-                              <Route path="new" element={<CreateExchange/>}/>
-                              <Route path=":requestId" element={<ViewExchange/>}/>
-                            </Route>
-                            <Route path="games" element={<Games/>}/>
+              <AppProvider>
+                <Router>
+                  <Routes>
+                    <Route path="/" element={<AppGrid />}>
+                      <Route index element={<Home/>}/>
+                        <Route element={<Wall/>}>
+                        <Route path="album" element={<Album/>}>
+                          <Route path="stats" element={<Stats/>}/>
+                          <Route path="sections">
+                            <Route path="parties" element={<PartiesSection/>}/>
+                            <Route path="states" element={<StatesSection/>}/>
                           </Route>
-                          <Route path="sign-in" element={<SignIn/>}/>
-                          <Route path="sign-up" element={<SignUp/>}/>              
-                          <Route path="referral" element={<Referral/>}/>
+                          <Route path="*" element={<AlbumHome/>}/>
+                        </Route>
+                        <Route path="stickers" element={<Stickers/>}/>
+                        <Route path="exchange" element={<Exchange/>}>
+                          <Route index element={<></>}/>
+                          <Route path="new" element={<CreateExchange/>}/>
+                          <Route path=":requestId" element={<ViewExchange/>}/>
+                        </Route>
+                        <Route path="games" element={<Games/>}/>
                       </Route>
-                    </Routes>
-                  </Router>
-                </ChakraProvider>
+                      <Route path="sign-in" element={<SignIn/>}/>
+                      <Route path="sign-up" element={<SignUp/>}/>              
+                      <Route path="referral" element={<Referral/>}/>
+                    </Route>
+                  </Routes>
+                </Router>
+              </AppProvider>
             </DeckProvider>
           </AuthProvider>
         </AlbumProvider>
       </RankingProvider>
-    </AppProvider>
+    </ChakraProvider>
   )
 }
