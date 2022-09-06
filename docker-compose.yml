@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  polis-client:
+    container_name: polis-client
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - client-data:/var/www/html
+    networks:
+      - polis-network
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - .env
+    depends_on:
+      - polis-client
+    volumes:
+      - client-data:/var/www/html
+    networks:
+      - polis-network
+volumes:
+  client-data:
+networks:
+  polis-network:
+    external:
+      name: polis-network
