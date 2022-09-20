@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# 🏛️ Polis
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Links
+- [App](http://polis.cf/)
+- [Composer Repo](https://github.com/estevamfurtado/polis)
+- [Front End Repo](https://github.com/estevamfurtado/polis-frontend)
+- [Back End Repo](https://github.com/estevamfurtado/polis-backend)
 
-## Available Scripts
+## Overview
+- Context: Brazil has over +500 congresspeople and +25 political parties. Corruption is a huge problem and the system is known for its bad incentives. There already are civil initiatives to evaluate political performance (Ranking dos Políticos), but it lacks people engagement.
+- Goal: Leverage Brazilian people politics knowledge and help to improve marginally the system accountability.
+- Idea: a 100% digital stickers album where the stickers are Brazilian politicians.
 
-In the project directory, you can run:
+## How does it work (features)
+- Album: each user has an album copy with +500 empty stickers. Your goal is to find it all.
+- Stickers: Stickers come in packs of 5 random stickers. When you sign up you earn 40 free packs. Each 20 minutes you can take 2 free packs. It is harder to get stickers of good politicians.
+- Exchange Stickers: You can exchange repeated stickers with friends and other users.
+- Knowledge: Cards have basic info and you can see more stats by clicking on it. Stats source are Ranking dos Políticos.
+- Play (not implemented): You can play games to test your cards strengths and your political knowledge to earn new packs.
 
-### `npm start`
+## Stack
+- Back end: TypeScript, PostgreSQL, Prisma.
+- Front end: TypeScript, React, StyledComponents, ChakraUI.
+- Others: Docker, AWS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How to Run in Development
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Start by cloning the Composer Repo. Then, clone the Back and Front end repos inside the composer repo.
 
-### `npm test`
+```
+| polis
+|- polis-backend
+|- polis-frontend
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Create env files in the backend and frontend according to .env.example.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In your Composer Repo folder, run the following command:
+```
+docker-compose up -d
+```
+And it should build the entire app.
